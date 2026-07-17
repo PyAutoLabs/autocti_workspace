@@ -18,6 +18,7 @@ Whereas previous tutorials loaded a single charge injection dataset, this tutori
 each with a different injection normalizations. This is necessary for us to be able to calibrate the CTI model's
 CCD volume filling.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -161,21 +162,26 @@ analysis_list = [
 ]
 
 """
-By summing this list of analysis objects, we create an overall `Analysis` which we can use to fit the CTI model, where:
+We wrap each analysis in an `AnalysisFactor`, which pairs it with the model, and combine them into a
+`FactorGraphModel`, which we can use to fit the CTI model, where:
 
- - The log likelihood function of this summed analysis class is the sum of the log likelihood functions of each 
+ - The log likelihood function of the factor graph is the sum of the log likelihood functions of each
  individual analysis object.
 
- - The summing process ensures that tasks such as outputting results to hard-disk, visualization, etc use a 
+ - The factor graph ensures that tasks such as outputting results to hard-disk, visualization, etc use a
  structure that separates each analysis and therefore each dataset.
 """
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
+
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
 
 """
 We can parallelize the likelihood function of these analysis classes, whereby each evaluation is performed on a 
-different CPU.
+different CPU, via the non-linear search settings.
 """
-analysis.n_cores = 1
 
 """
 __Model-Fit__
@@ -187,7 +193,7 @@ All results are written to hard disk, including on-the-fly results and visualiza
 
 Checkout the folder `autocti_workspace/output/imaging_ci/parallel[x2]` for live outputs of the results of the fit!
 """
-result_list = search.fit(model=model, analysis=analysis)
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Result__
@@ -199,8 +205,7 @@ The `info` attribute shows the result in a readable format.
 print(result_list.info)
 
 for result, norm in zip(result_list, norm_list):
-    fit_plotter = aplt.FitImagingCIPlotter(fit=result.max_log_likelihood_fit)
-    fit_plotter.subplot_fit()
+    aplt.subplot_fit_ci(fit=result.max_log_likelihood_fit)
 
 """
 It also contains the maximum likelihood CTI model, which allows us to print the maximum likelihood values of the 
@@ -299,15 +304,18 @@ __Analysis__
 We next create a list of `AnalysisDataset1D` objects, which each contain a `log_likelihood_function` that the 
 non-linear search calls to fit the CIT model to the data.
 
-We again sum these analyses objects into a single analysis.
+We again wrap these analyses objects into a single factor graph.
 """
 analysis_list = [
     ac.AnalysisDataset1D(dataset=dataset, clocker=clocker) for dataset in dataset_list
 ]
 
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-analysis.n_cores = 1
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
 
 """
 __Model-Fit__
@@ -315,7 +323,7 @@ __Model-Fit__
 We can now begin the model-fit by passing the model and analysis object to the search, which performs a non-linear
 search to find which models fit the data with the highest likelihood.
 """
-result_list = search.fit(model=model, analysis=analysis)
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Result__
@@ -334,8 +342,7 @@ print(result_list[0].max_log_likelihood_instance.cti.trap_list[0].density)
 print(result_list[0].max_log_likelihood_instance.cti.ccd.well_fill_power)
 
 for result, norm in zip(result_list, norm_list):
-    fit_plotter = aplt.FitDataset1DPlotter(fit=result.max_log_likelihood_fit)
-    fit_plotter.subplot_fit()
+    aplt.subplot_fit_dataset_1d(fit=result.max_log_likelihood_fit)
 
 """
 A full overview of the CTI results is given at `autocti_workspace/*/results`.

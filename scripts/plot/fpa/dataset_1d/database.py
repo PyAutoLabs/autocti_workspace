@@ -58,52 +58,55 @@ agg = af.Aggregator.from_database(
     filename=f"{database_name}.sqlite", completed_only=False
 )
 
-agg.add_directory(directory=path.join("output", database_name))
+# `conf.instance.output_path` is used (rather than a literal "output") so the
+# scraped directory matches the fits, including under PYAUTO_TEST_MODE's
+# `output/test_mode` namespace.
+from pathlib import Path
+
+from autoconf import conf
+from autoconf.test_mode import with_test_mode_segment
+
+agg.add_directory(
+    directory=path.join(
+        with_test_mode_segment(Path(conf.instance.output_path)),
+        database_name,
+        "dataset_1d",
+    )
+)
 
 """
 __Output__
 
-The image of each fit are output to the directory below, and we update their filenames before making each plot.
+The image of each fit are output to the directory below, with a filename set individually for each plot.
 """
-mat_plot = aplt.MatPlot1D(
-    output=aplt.Output(
-        path=path.join("scripts", "plot", "images", "fpa"),
-        format="png",
-    )
-)
+images_path = path.join("scripts", "plot", "images", "fpa")
+output_format = "png"
 
 """
 __Dataset__
 
 The model-fit was performed to 36 1D datasets consisting of 1 charge injection level across the 6x6 FPA.
 
-We first seek to plot these 36 datasets, on an 6 x 6 matplotlib figure, so we can cleanly see all datasets across
+We first seek to plot these 36 datasets, on a single matplotlib figure, so we can cleanly see all datasets across
 the FPA on at once.
 
-We use the `Dataset1DAgg` object to create a generator of every dataset, which we iterate over to create a 
-figure of all 36 datasets via the `Dataset1DPlotter` object.
+We use the `Dataset1DAgg` object to create a generator of every dataset, which we iterate over to build a list
+of all 36 datasets and pass to the plotting functions, which plot one panel per dataset.
 """
 dataset_1d_agg = ac.agg.Dataset1DAgg(aggregator=agg)
 dataset_gen = dataset_1d_agg.dataset_list_gen_from()
 
-dataset_plotter_list = []
+dataset_list = []
 
+for dataset_sublist in dataset_gen:
+    for dataset in dataset_sublist:
+        dataset_list.append(dataset)
 
-for dataset_list in dataset_gen:
-    for dataset in dataset_list:
-        dataset_plotter_list.append(
-            aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-        )
-
-dataset_plotter_list[0].set_filename(filename="dataset_via_database")
-
-multi_plotter = aplt.MultiFigurePlotter(
-    plotter_list=dataset_plotter_list, subplot_shape=(6, 6)
-)
-
-multi_plotter.subplot_of_figure(
-    func_name="figures_1d",
-    figure_name="data",
+aplt.subplot_dataset_1d_list(
+    dataset_list=dataset_list,
+    output_path=images_path,
+    output_filename="dataset_via_database",
+    output_format=output_format,
 )
 
 
@@ -118,23 +121,17 @@ input. This can also be loaded from the database and plotted, by passing the `Da
 dataset_1d_agg = ac.agg.Dataset1DAgg(aggregator=agg, use_dataset_full=True)
 dataset_gen = dataset_1d_agg.dataset_list_gen_from()
 
-dataset_plotter_list = []
+dataset_list = []
 
-for dataset_list in dataset_gen:
-    for dataset in dataset_list:
-        dataset_plotter_list.append(
-            aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-        )
+for dataset_sublist in dataset_gen:
+    for dataset in dataset_sublist:
+        dataset_list.append(dataset)
 
-dataset_plotter_list[0].set_filename(filename="dataset_full_via_database")
-
-multi_plotter = aplt.MultiFigurePlotter(
-    plotter_list=dataset_plotter_list, subplot_shape=(6, 6)
-)
-
-multi_plotter.subplot_of_figure(
-    func_name="figures_1d",
-    figure_name="data",
+aplt.subplot_dataset_1d_list(
+    dataset_list=dataset_list,
+    output_path=images_path,
+    output_filename="dataset_full_via_database",
+    output_format=output_format,
 )
 
 """
@@ -145,22 +142,18 @@ We again use the full dataset, to ensure the FPR is plotted and not masked.
 for region in ["fpr", "eper"]:
     dataset_gen = dataset_1d_agg.dataset_list_gen_from()
 
-    dataset_plotter_list = []
+    dataset_list = []
 
-    for dataset_list in dataset_gen:
-        for dataset in dataset_list:
-            dataset_plotter_list.append(
-                aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-            )
+    for dataset_sublist in dataset_gen:
+        for dataset in dataset_sublist:
+            dataset_list.append(dataset)
 
-    dataset_plotter_list[0].set_filename(filename=f"dataset_{region}_via_database")
-
-    multi_plotter = aplt.MultiFigurePlotter(
-        plotter_list=dataset_plotter_list, subplot_shape=(6, 6)
-    )
-
-    multi_plotter.subplot_of_figure(
-        func_name="figures_1d", figure_name="data", region=region
+    aplt.subplot_dataset_1d_list(
+        dataset_list=dataset_list,
+        region=region,
+        output_path=images_path,
+        output_filename=f"dataset_{region}_via_database",
+        output_format=output_format,
     )
 
 
@@ -177,22 +170,19 @@ fit_agg = ac.agg.FitDataset1DAgg(aggregator=agg, use_dataset_full=True)
 for region in ["fpr", "eper"]:
     fit_gen = fit_agg.max_log_likelihood_gen_from()
 
-    fit_plotter_list = []
+    fit_list = []
 
-    for fit_list in fit_gen:
-        for fit in fit_list:
-            fit_plotter_list.append(
-                aplt.FitDataset1DPlotter(fit=fit, mat_plot_1d=mat_plot)
-            )
+    for fit_sublist in fit_gen:
+        for fit in fit_sublist:
+            fit_list.append(fit)
 
-    fit_plotter_list[0].set_filename(filename=f"fit_{region}_via_database")
-
-    multi_plotter = aplt.MultiFigurePlotter(
-        plotter_list=fit_plotter_list, subplot_shape=(6, 6)
-    )
-
-    multi_plotter.subplot_of_figure(
-        func_name="figures_1d", figure_name="data", region=region
+    aplt.subplot_fit_dataset_1d_list(
+        fit_list=fit_list,
+        quantity="data",
+        region=region,
+        output_path=images_path,
+        output_filename=f"fit_{region}_via_database",
+        output_format=output_format,
     )
 
 """
@@ -207,29 +197,30 @@ The code below is purely for testing / legacy purposes and probably not of inter
 """
 from autofit.aggregator import Aggregator as ClassicAggregator
 
-aggregator = ClassicAggregator(directory=path.join("output", "plot_fpa"))
+aggregator = ClassicAggregator.from_directory(
+    directory=path.join(
+        with_test_mode_segment(Path(conf.instance.output_path)), "plot_fpa"
+    )
+)
 
 fit_agg = ac.agg.FitDataset1DAgg(aggregator=agg, use_dataset_full=True)
 
 for region in ["fpr", "eper"]:
     fit_gen = fit_agg.max_log_likelihood_gen_from()
 
-    fit_plotter_list = []
+    fit_list = []
 
-    for fit_list in fit_gen:
-        for fit in fit_list:
-            fit_plotter_list.append(
-                aplt.FitDataset1DPlotter(fit=fit, mat_plot_1d=mat_plot)
-            )
+    for fit_sublist in fit_gen:
+        for fit in fit_sublist:
+            fit_list.append(fit)
 
-    fit_plotter_list[0].set_filename(filename=f"fit_{region}_via_classic_aggregator")
-
-    multi_plotter = aplt.MultiFigurePlotter(
-        plotter_list=fit_plotter_list, subplot_shape=(6, 6)
-    )
-
-    multi_plotter.subplot_of_figure(
-        func_name="figures_1d", figure_name="data", region=region
+    aplt.subplot_fit_dataset_1d_list(
+        fit_list=fit_list,
+        quantity="data",
+        region=region,
+        output_path=images_path,
+        output_filename=f"fit_{region}_via_classic_aggregator",
+        output_format=output_format,
     )
 
 # """

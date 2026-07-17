@@ -23,6 +23,7 @@ My conclusion was that the that ratio of pixels impacted by cosmic rays to the n
 estimate each FPR was to low to require the iterative approach. Nevertheless, it is conceivable that there
 are datasets where this approach is necessary, in which case this tutorial may prove useful.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -95,8 +96,7 @@ dataset = ac.ImagingCI.from_fits(
 """
 A plot of the data shows it has non-uniform charge injection lines and cosmic rays.
 """
-array_2d_plotter = aplt.Array2DPlotter(array=dataset.data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=dataset.data)
 
 """
 __CTI Correction__
@@ -174,19 +174,16 @@ pre_cti_data = layout.pre_cti_data_non_uniform_from(
 If we plot the original data and this pre-CTI estimate we can see they are similar, but that the `pre_cti_data`
 does not include cosmic rays.
 """
-array_2d_plotter = aplt.Array2DPlotter(array=data_corrected)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_corrected)
 
-array_2d_plotter = aplt.Array2DPlotter(array=pre_cti_data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=pre_cti_data)
 
 """
 If we subtract the two images, we find that the large residuals are left due to cosmic rays.
 """
 residual_map = data_corrected - pre_cti_data.native
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 """
 We are specifically interested in whether the presence of cosmic rays lead to some charge injection estimates
@@ -218,8 +215,7 @@ mask = ac.Mask2D.from_cosmic_ray_map_buffed(
 
 residual_map = residual_map.apply_mask(mask=mask)
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 """
 Had the interplay between pre-CTI estimation and cosmic rays been important I would expect a 
@@ -244,16 +240,14 @@ We now create and plot a cosmic ray map.
 """
 cosmic_ray_map = data_charge_subtracted * cosmic_ray_flag_mask
 
-array_2d_plotter = aplt.Array2DPlotter(array=cosmic_ray_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=cosmic_ray_map)
 
 """
 We subtract this from the original data to visualize how many cosmic rays were flagged.
 """
 image_cosmic_ray_cleaned = data_corrected - cosmic_ray_map
 
-array_2d_plotter = aplt.Array2DPlotter(array=image_cosmic_ray_cleaned)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=image_cosmic_ray_cleaned)
 
 """
 We now reperform pre-CTI image estimation and create the same visuals as above, to see if the residuals seen
@@ -287,14 +281,12 @@ are not impacting pre-CTI estimation.
 """
 residual_map = data_corrected - pre_cti_data.native
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 
 residual_map = residual_map.apply_mask(mask=mask)
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 """
 __Iterative Approach__
@@ -336,8 +328,7 @@ We plot the final residual map, which has had the pre-CTI estimate and all cosmi
 """
 residual_map = data - pre_cti_data.native
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 """
 __Wrap Up__

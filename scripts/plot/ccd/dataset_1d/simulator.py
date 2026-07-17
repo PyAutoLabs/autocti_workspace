@@ -28,6 +28,7 @@ This script simulates a 1D dataset with CTI, where:
  - CTI is added to the image using a 1 `Trap` species model.
  - The volume filling behaviour in the direction uses the `CCD` class.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -97,8 +98,7 @@ for quadrant_id in range(4):
         for layout, simulator in zip(layout_list, simulator_list)
     ]
 
-    dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0])
-    dataset_plotter.subplot_dataset()
+    aplt.subplot_dataset_1d(dataset=dataset_list[0])
 
     [
         dataset.output_to_fits(
@@ -115,27 +115,29 @@ for quadrant_id in range(4):
     ]
 
     for dataset, norm in zip(dataset_list, norm_list):
-        output = aplt.Output(
-            path=path.join(dataset_path, f"norm_{int(norm)}"),
-            filename="dataset_1d",
-            format="png",
+        aplt.subplot_dataset_1d(
+            dataset=dataset,
+            output_path=path.join(dataset_path, f"norm_{int(norm)}"),
+            output_format="png",
         )
-
-        mat_plot = aplt.MatPlot1D(output=output)
-
-        dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-        dataset_plotter.subplot_dataset()
 
     for dataset, norm in zip(dataset_list, norm_list):
-        output = aplt.Output(
-            path=path.join(dataset_path, f"norm_{int(norm)}", "binned_1d"), format="png"
+        output_path = path.join(dataset_path, f"norm_{int(norm)}", "binned_1d")
+
+        aplt.figure_dataset_1d_data(
+            dataset=dataset,
+            region="fpr",
+            logy=True,
+            output_path=output_path,
+            output_format="png",
         )
-
-        mat_plot = aplt.MatPlot1D(output=output)
-
-        dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-        dataset_plotter.figures_1d(region="fpr", data=True, data_logy=True)
-        dataset_plotter.figures_1d(region="eper", data=True, data_logy=True)
+        aplt.figure_dataset_1d_data(
+            dataset=dataset,
+            region="eper",
+            logy=True,
+            output_path=output_path,
+            output_format="png",
+        )
 
     40
     ac.output_to_json(

@@ -3,7 +3,7 @@ Results: Samples
 ================
 
 After a non-linear search has completed, it returns a `Result` object that contains information on samples of
-the non-linear search, such as the maximum likelihood model instance, the errors on each parameter and the 
+the non-linear search, such as the maximum likelihood model instance, the errors on each parameter and the
 Bayesian evidence.
 
 This script illustrates how to use the result to inspect the non-linear search samples.
@@ -13,6 +13,7 @@ __Units__
 In this example, all quantities are **PyAutoCTI**'s internal unit coordinates, with spatial coordinates in pixels and
 pixel values in electrons.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -115,9 +116,14 @@ analysis_list = [
     ac.AnalysisDataset1D(dataset=dataset, clocker=clocker) for dataset in dataset_list
 ]
 
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-result_list = search.fit(model=model, analysis=analysis)
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
+
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Info__
@@ -138,8 +144,7 @@ print(result_list[0].max_log_likelihood_instance.cti.trap_list[0].density)
 print(result_list[0].max_log_likelihood_instance.cti.ccd.well_fill_power)
 
 for result in result_list:
-    fit_plotter = aplt.FitDataset1DPlotter(fit=result.max_log_likelihood_fit)
-    fit_plotter.subplot_fit()
+    aplt.subplot_fit_dataset_1d(fit=result.max_log_likelihood_fit)
 
 """
 Results tutorials `cti.py` and `fits.py` expand on the `max_log_likelihood_instance` and `max_log_likelihood_fit`, 
@@ -297,14 +302,13 @@ __Search Plots__
 The Probability Density Functions (PDF's) of the results can be plotted using the non-linear search in-built 
 visualization tools.
 
-This fit used `nautilus` therefore we use the `NestPlotter` for visualization, which wraps `nautilus`'s in-built
-visualization tools.
+This fit used `nautilus` therefore we use the `aplt.corner_cornerpy` function for visualization, which wraps
+`nautilus`'s in-built visualization tools.
 
 The `autofit_workspace/*/plots` folder illustrates other packages that can be used to make these plots using
 the standard output results formats (e.g. `GetDist.py`).
 """
-plotter = aplt.NestPlotter(samples=result.samples)
-plotter.corner_cornerpy()
+aplt.corner_cornerpy(samples=result.samples)
 
 """
 __Instances__

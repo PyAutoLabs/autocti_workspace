@@ -21,8 +21,8 @@ outputs visuals which summarize the results of the fit concise in a single matpl
 
  - The same figure above but for the FPRs and EPERs only.
 
-These images are both output to hard-disk as .png files during the model-fit and shown how to output via a
-`Plotter` object at the end of the script.
+These images are both output to hard-disk as .png files during the model-fit and shown how to output via the
+plotting functions at the end of the script.
 
 __Database__
 
@@ -150,11 +150,14 @@ analysis_list = [
     for dataset, dataset_1d_full in zip(dataset_list, dataset_full_list)
 ]
 
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-analysis.n_cores = 1
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
 
-result_list = search.fit(model=model, analysis=analysis)
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Plotting__
@@ -165,26 +168,17 @@ This includes fits of all 32 images, residuals and zoom ins on the FPR and EPERs
 The results above return a result_list, which consists of the model-fit to the 32 (8 charge injection regions x 4
 quadrants) individual datasets. This can be used to separately reproduce these visuals.
 
-The example below shows how we can create a plot of the EPER trails of all 32 datasets, using the `FitDataset1DPlotter`
-and a `MultiFigurePlotter`.
+The example below shows how we can create a plot of the EPER trails of all 32 datasets, using the
+`aplt.subplot_fit_dataset_1d_list` function.
 """
 fit_list = [result.max_log_likelihood_fit for result in result_list]
 
-mat_plot = aplt.MatPlot1D(
-    output=aplt.Output(path=path.join("scripts", "plot", "images"), format="png")
-)
-
-fit_plotter_list = [
-    aplt.FitDataset1DPlotter(
-        fit=fit,
-        mat_plot_1d=mat_plot,
-    )
-    for fit in fit_list
-]
-multi_plotter = aplt.MultiFigurePlotter(plotter_list=fit_plotter_list)
-
-multi_plotter.subplot_of_figure(
-    func_name="figures_1d", figure_name="data", region="eper"
+aplt.subplot_fit_dataset_1d_list(
+    fit_list=fit_list,
+    quantity="data",
+    region="eper",
+    output_path=path.join("scripts", "plot", "images"),
+    output_format="png",
 )
 
 """

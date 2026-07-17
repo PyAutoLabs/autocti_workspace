@@ -9,6 +9,7 @@ This script illustrates all the available options.
 This script assumes familiaring with the **PyAutoCTI** API, if anything is unclear check out other scripts throughout
 the workspace.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -90,8 +91,7 @@ data_1d_eper_list = layout_1d.extract.eper.array_1d_list_from(
     array=data_1d, settings=ac.SettingsExtract(pixels=(0, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=data_1d_eper_list[0])
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=data_1d_eper_list[0])
 
 """
 A stacked 2D array of the list of 2D arrays returned above can be extracted.
@@ -102,8 +102,7 @@ data_1d_eper = layout_1d.extract.eper.stacked_array_1d_from(
     array=data_1d, settings=ac.SettingsExtract(pixels=(0, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=data_1d_eper)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=data_1d_eper)
 
 """
 Negative inputs to the `pixels` tuple are supported in all of the above methods, which extract additional pixels in 
@@ -113,8 +112,7 @@ data_1d_eper = layout_1d.extract.eper.stacked_array_1d_from(
     array=data_1d, settings=ac.SettingsExtract(pixels=(-10, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=data_1d_eper)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=data_1d_eper)
 
 """
 __FPRs__
@@ -130,22 +128,19 @@ data_1d_fpr_list = layout_1d.extract.fpr.array_1d_list_from(
     array=data_1d, settings=ac.SettingsExtract(pixels=(0, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=data_1d_fpr_list[0])
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=data_1d_fpr_list[0])
 
 data_1d_fpr = layout_1d.extract.fpr.stacked_array_1d_from(
     array=data_1d, settings=ac.SettingsExtract(pixels=(0, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=data_1d_fpr)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=data_1d_fpr)
 
 data_1d_fpr = layout_1d.extract.fpr.stacked_array_1d_from(
     array=data_1d, settings=ac.SettingsExtract(pixels=(0, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=data_1d_fpr)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=data_1d_fpr)
 
 """
 __Overscans__
@@ -164,22 +159,19 @@ data_1d_overscan_list = layout_1d.extract.overscan.array_1d_list_from(
     array=data_1d, settings=ac.SettingsExtract(pixels=(0, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=data_1d_overscan_list[0])
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=data_1d_overscan_list[0])
 
 data_1d_overscan = layout_1d.extract.overscan.stacked_array_1d_from(
     array=data_1d, settings=ac.SettingsExtract(pixels=(0, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=data_1d_overscan)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=data_1d_overscan)
 
 data_1d_overscan = layout_1d.extract.overscan.stacked_array_1d_from(
     array=data_1d, settings=ac.SettingsExtract(pixels=(0, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=data_1d_overscan)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=data_1d_overscan)
 
 """
 Finish.

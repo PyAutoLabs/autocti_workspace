@@ -9,6 +9,7 @@ We then show how the database also allows us to load many `CTI` objects correspo
 search. This allows us to compute the errors on quantities that the `CTI` object contains, but were not sampled
 directly by the non-linear search.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())

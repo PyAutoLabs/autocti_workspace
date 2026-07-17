@@ -13,6 +13,7 @@ Numba Warning: This is the first overview example which will run a lot slower (a
 numba not being installed. Now is a good time to install numba using pip, if you have not done so already. More
 information can be found at the following link: https://pyautocti.readthedocs.io/en/latest/installation/numba.html
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -136,13 +137,7 @@ dataset = ac.ImagingCI.from_fits(
 """
 We can plot the charge injection imaging using a `ImagingCI` object.
 """
-dataset_plotter = aplt.ImagingCIPlotter(
-    dataset=dataset,
-    mat_plot_2d=aplt.MatPlot2D(
-        title=aplt.Title(label=r"2D Charge Injection Image", fontsize=20)
-    ),
-)
-dataset_plotter.figures_2d(data=True)
+aplt.plot_array(array=dataset.data, title="2D Charge Injection Image")
 
 """
 The figure shows the charge injection regions as rectangular blocks interspersed with regions of zero change,
@@ -153,29 +148,31 @@ corresponding to the parallel and serial FPRs and EPERs.
 
 We can zoom in on one of these regions and change the color scheme to properly highlight the FPRs.
 
-(**PyAutoCTI** has a built-in visualization library which wraps matplotlib, which is documented in the 
-`autocti_workspace/*/plots` package).
+(**PyAutoCTI**'s plotting functions accept an `ax` input, so zooming and other axis-level customization
+uses standard matplotlib, as documented in the `autocti_workspace/*/plot` package).
 """
-mat_plot = aplt.MatPlot2D(
-    axis=aplt.Axis(extent=[-106.0, -96.0, 88.0, 98.0]),
-    cmap=aplt.Cmap(vmin=0.0, vmax=5.0),
-    title=aplt.Title(label=r"2D Charge Injection FPRs"),
-)
+import matplotlib.pyplot as plt
 
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset, mat_plot_2d=mat_plot)
-dataset_plotter.figures_2d(data=True)
+fig, ax = plt.subplots()
+aplt.plot_array(
+    array=dataset.data, ax=ax, title="2D Charge Injection FPRs", vmin=0.0, vmax=5.0
+)
+ax.set_xlim(-106.0, -96.0)
+ax.set_ylim(88.0, 98.0)
+plt.show()
+plt.close(fig)
 
 """
 We can do the same to highlight the EPERs.
 """
-mat_plot = aplt.MatPlot2D(
-    axis=aplt.Axis(extent=[96.0, 106.0, 68.0, 78.0]),
-    cmap=aplt.Cmap(vmin=0.0, vmax=10.0),
-    title=aplt.Title(label=r"2D Charge Injection EPERs"),
+fig, ax = plt.subplots()
+aplt.plot_array(
+    array=dataset.data, ax=ax, title="2D Charge Injection EPERs", vmin=0.0, vmax=10.0
 )
-
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset, mat_plot_2d=mat_plot)
-dataset_plotter.figures_2d(data=True)
+ax.set_xlim(96.0, 106.0)
+ax.set_ylim(68.0, 78.0)
+plt.show()
+plt.close(fig)
 
 """
 The `LayoutCI` object we defined above is contained in the `ImagingCI` object. 
@@ -187,14 +184,7 @@ parallel_eper_1d = layout.extract.parallel_eper.binned_array_1d_from(
     array=dataset.data, settings=ac.SettingsExtract(pixels=(0, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(
-    y=parallel_eper_1d,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D Binned Parallel EPERs"),
-    ),
-)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=parallel_eper_1d, title=r"1D Binned Parallel EPERs", ylabel="e-")
 
 """
 The layout can extract all the regions of interest of the data.
@@ -202,38 +192,17 @@ The layout can extract all the regions of interest of the data.
 parallel_fpr_1d = layout.extract.parallel_fpr.binned_array_1d_from(
     array=dataset.data, settings=ac.SettingsExtract(pixels=(0, 10))
 )
-array_1d_plotter = aplt.Array1DPlotter(
-    y=parallel_fpr_1d,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D Binned Parallel FPRs"),
-    ),
-)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=parallel_fpr_1d, title=r"1D Binned Parallel FPRs", ylabel="e-")
 
 serial_eper_1d = layout.extract.serial_eper.binned_array_1d_from(
     array=dataset.data, settings=ac.SettingsExtract(pixels=(0, 10))
 )
-array_1d_plotter = aplt.Array1DPlotter(
-    y=serial_eper_1d,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D Binned Serial EPERs"),
-    ),
-)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=serial_eper_1d, title=r"1D Binned Serial EPERs", ylabel="e-")
 
 serial_fpr_1d = layout.extract.serial_fpr.binned_array_1d_from(
     array=dataset.data, settings=ac.SettingsExtract(pixels=(0, 10))
 )
-array_1d_plotter = aplt.Array1DPlotter(
-    y=serial_fpr_1d,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D Binned Serial FPRs"),
-    ),
-)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=serial_fpr_1d, title=r"1D Binned Serial FPRs", ylabel="e-")
 
 """
 We can now appreciate that charge injection imaging has all the information we need to calibrate CTI -- distinct FPR 
@@ -242,13 +211,7 @@ and EPERs.
 The other key piece of information is an understanding of what the data looked like before clocking and CTI, which is
 contained in the `pre_cti_data`.
 """
-dataset_plotter = aplt.ImagingCIPlotter(
-    dataset=dataset,
-    mat_plot_2d=aplt.MatPlot2D(
-        title=aplt.Title(label=r"2D Charge Injection Pre-CTI Image")
-    ),
-)
-dataset_plotter.figures_2d(pre_cti_data=True)
+aplt.plot_array(array=dataset.pre_cti_data, title="2D Charge Injection Pre-CTI Image")
 
 """
 __Realistic Charge Injection Imaging__
@@ -284,14 +247,9 @@ dataset = ac.ImagingCI.from_fits(
     pixel_scales=0.1,
 )
 
-dataset_plotter = aplt.ImagingCIPlotter(
-    dataset=dataset,
-    mat_plot_2d=aplt.MatPlot2D(
-        cmap=aplt.Cmap(vmin=0.0, vmax=110.0),
-        title=aplt.Title(label=r"2D Charge Injection Image"),
-    ),
+aplt.plot_array(
+    array=dataset.data, title="2D Charge Injection Image", vmin=0.0, vmax=110.0
 )
-dataset_plotter.figures_2d(data=True)
 
 """
 __Wrap Up__

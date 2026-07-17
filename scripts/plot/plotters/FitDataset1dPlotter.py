@@ -1,9 +1,11 @@
 """
-Plots: FitDataset1DPlotter
-===================
+Plots: FitDataset1D
+====================
 
-This example illustrates how to plot a `Dataset1D` dataset using an `Dataset1DPlotter`.
+This example illustrates how to plot a `FitDataset1D` fit using the plotting functions in
+`autocti.plot`.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -98,33 +100,28 @@ fit_1d_list = [
 ]
 
 """
-We now pass the `FitDataset1D` and call various `figure_*` methods to plot different attributes.
+We now pass the `FitDataset1D` to the `aplt.figure_fit_dataset_1d` function and call it once per
+quantity to plot different attributes.
 """
-fit_1d_plotter = aplt.FitDataset1DPlotter(fit=fit_1d_list[0])
-fit_1d_plotter.figures_1d(
-    data=True,
-    noise_map=True,
-    pre_cti_data=True,
-    residual_map=True,
-    normalized_residual_map=True,
-    chi_squared_map=True,
-)
+aplt.figure_fit_dataset_1d(fit=fit_1d_list[0], quantity="data")
+aplt.figure_fit_dataset_1d(fit=fit_1d_list[0], quantity="noise_map")
+aplt.figure_fit_dataset_1d(fit=fit_1d_list[0], quantity="pre_cti_data")
+aplt.figure_fit_dataset_1d(fit=fit_1d_list[0], quantity="residual_map")
+aplt.figure_fit_dataset_1d(fit=fit_1d_list[0], quantity="normalized_residual_map")
+aplt.figure_fit_dataset_1d(fit=fit_1d_list[0], quantity="chi_squared_map")
 
 """
-The `FitDataset1DPlotter` may also plot a subplot of these attributes.
+The `aplt.subplot_fit_dataset_1d` function may also plot a subplot of these attributes.
 """
-fit_1d_plotter.subplot_fit()
+aplt.subplot_fit_dataset_1d(fit=fit_1d_list[0])
 
 """
 Our `FitDataset1D` is performed over multiple lines taken at different charge injection levels. We may wish to plot
-the results of the fit on each line on the same subplot, which can be performed using the 
-method `subplot_of_figure`.
+the results of the fit on each line on the same subplot, which can be performed using the
+`aplt.subplot_fit_dataset_1d_list` function.
 """
-fit_1d_plotter_list = [aplt.FitDataset1DPlotter(fit=fit_1d) for fit_1d in fit_1d_list]
-multi_plotter = aplt.MultiFigurePlotter(plotter_list=fit_1d_plotter_list)
-
-multi_plotter.subplot_of_figure(func_name="figures_1d", figure_name="data")
-multi_plotter.subplot_of_figure(func_name="figures_1d", figure_name="residual_map")
+aplt.subplot_fit_dataset_1d_list(fit_list=fit_1d_list, quantity="data")
+aplt.subplot_fit_dataset_1d_list(fit_list=fit_1d_list, quantity="residual_map")
 
 """
 Finish.

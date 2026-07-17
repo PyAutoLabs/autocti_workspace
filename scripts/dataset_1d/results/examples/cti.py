@@ -2,6 +2,7 @@
 Results: CTI
 ============
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -94,9 +95,14 @@ analysis_list = [
     ac.AnalysisDataset1D(dataset=dataset, clocker=clocker) for dataset in dataset_list
 ]
 
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-result_list = search.fit(model=model, analysis=analysis)
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
+
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 
 samples = result_list[0].samples

@@ -1,9 +1,11 @@
 """
-Plots: FitImagingCIPlotter
-==========================
+Plots: FitImagingCI
+====================
 
-This example illustrates how to plot a `FitImagingCI` dataset using an `FitImagingCIPlotter`.
+This example illustrates how to plot a `FitImagingCI` fit using the plotting functions in
+`autocti.plot`.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -114,79 +116,83 @@ fit_ci_list = [
 ]
 
 """
-We now pass the `FitImagingCI` and call various `figure_*` methods to plot different attributes.
+We now pass the `FitImagingCI` to the `aplt.plot_array` function and call it once per attribute to
+plot different quantities.
 """
-fit_plotter = aplt.FitImagingCIPlotter(fit=fit_ci_list[0])
-fit_plotter.figures_2d(
-    data=True,
-    noise_map=True,
-    pre_cti_data=True,
-    residual_map=True,
-    normalized_residual_map=True,
-    chi_squared_map=True,
+aplt.plot_array(array=fit_ci_list[0].data, title="Data")
+aplt.plot_array(array=fit_ci_list[0].noise_map, title="Noise Map")
+aplt.plot_array(array=fit_ci_list[0].pre_cti_data, title="Pre CTI Data")
+aplt.plot_array(array=fit_ci_list[0].residual_map, title="Residual Map")
+aplt.plot_array(
+    array=fit_ci_list[0].normalized_residual_map, title="Normalized Residual Map"
 )
+aplt.plot_array(array=fit_ci_list[0].chi_squared_map, title="Chi Squared Map")
 
 """
-The `FitImagingCIPlotter` may also plot a subplot of these attributes.
+The `aplt.subplot_fit_ci` function may also plot a subplot of these attributes.
 """
-fit_plotter.subplot_fit()
+aplt.subplot_fit_ci(fit=fit_ci_list[0])
 
 """
 __Regions__
 
-We can also call `figures_1d_*` methods which create 1D plots of regions of the fit binned over the parallel or
-serial direction.
+We can also call `aplt.figure_fit_ci_region` which creates 1D plots of regions of the fit binned over the
+parallel or serial direction.
 
 The regions available are:
 
  `parallel_fpr`: The charge injection region binned up over all columns (e.g. across serial).
- `parallel_eper`: The parallel CTI trails behind the charge injection region binned up over all columns (e.g. 
+ `parallel_eper`: The parallel CTI trails behind the charge injection region binned up over all columns (e.g.
   across serial).
  `serial_front_edge`: The charge injection region binned up over all rows (e.g. across parallel).
  `serial_trails`: The serial CTI trails behind the charge injection region binned up over all rows (e.g. across serial).
 """
-fit_plotter.figures_1d(region="parallel_fpr", data=True, residual_map=True)
-fit_plotter.figures_1d(region="parallel_eper", data=True, residual_map=True)
+aplt.figure_fit_ci_region(fit=fit_ci_list[0], quantity="data", region="parallel_fpr")
+aplt.figure_fit_ci_region(
+    fit=fit_ci_list[0], quantity="residual_map", region="parallel_fpr"
+)
+aplt.figure_fit_ci_region(fit=fit_ci_list[0], quantity="data", region="parallel_eper")
+aplt.figure_fit_ci_region(
+    fit=fit_ci_list[0], quantity="residual_map", region="parallel_eper"
+)
 
 """
 Region plots also include the data with error bars showing the noise map.
 """
-fit_plotter.figures_1d(region="parallel_fpr", data=True)
-fit_plotter.figures_1d(region="parallel_eper", data=True)
+aplt.figure_fit_ci_region(fit=fit_ci_list[0], quantity="data", region="parallel_fpr")
+aplt.figure_fit_ci_region(fit=fit_ci_list[0], quantity="data", region="parallel_eper")
 
 """
 The above plots can also be created with a logarithmic y axis.
 """
-fit_plotter.figures_1d(region="parallel_fpr", data_logy=True)
-fit_plotter.figures_1d(region="parallel_eper", data_logy=True)
+aplt.figure_fit_ci_region(
+    fit=fit_ci_list[0], quantity="data", region="parallel_fpr", logy=True
+)
+aplt.figure_fit_ci_region(
+    fit=fit_ci_list[0], quantity="data", region="parallel_eper", logy=True
+)
 
 """
 There is also a subplot of these 1D plots.
 """
-fit_plotter.subplot_1d(region="parallel_fpr")
+aplt.subplot_fit_ci_region(fit=fit_ci_list[0], region="parallel_fpr")
 
 """
 __Multiple Images on the Same Plot__
 
 Our `FitImagingCI` is performed over multiple images taken at different charge injection levels. We may wish to plot
-the results of the fit on each image on the same subplot, which can be performed using the 
-method `subplot_of_figure`.
+the results of the fit on each image on the same subplot, which can be performed using the
+`aplt.subplot_fit_ci_list` function.
 """
-fit_plotter_list = [aplt.FitImagingCIPlotter(fit=fit_ci) for fit_ci in fit_ci_list]
-multi_plotter = aplt.MultiFigurePlotter(plotter_list=fit_plotter_list)
-
-multi_plotter.subplot_of_figure(func_name="figures_2d", figure_name="data")
-multi_plotter.subplot_of_figure(func_name="figures_2d", figure_name="residual_map")
+aplt.subplot_fit_ci_list(fit_list=fit_ci_list, quantity="data")
+aplt.subplot_fit_ci_list(fit_list=fit_ci_list, quantity="residual_map")
 
 """
-This method can also plot all of the 1D figures that we plotted above.
+The `aplt.subplot_fit_ci_region_list` function can also plot all of the 1D figures that we plotted above,
+for every fit on the same subplot.
 """
-fit_plotter_list = [aplt.FitImagingCIPlotter(fit=fit_ci) for fit_ci in fit_ci_list]
-
-multi_plotter = aplt.MultiFigurePlotter(plotter_list=fit_plotter_list)
-
-multi_plotter.subplot_of_figure(
-    func_name="figures_1d", figure_name="residual_map", region="parallel_fpr"
+aplt.subplot_fit_ci_region_list(
+    fit_list=fit_ci_list, region="parallel_fpr", quantity="residual_map"
 )
 
 """

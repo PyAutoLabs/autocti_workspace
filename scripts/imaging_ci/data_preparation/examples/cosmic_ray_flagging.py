@@ -13,6 +13,7 @@ care to mitigate, which the next tutorial explains.
 Therefore, to provide a simple explanation of cosmic ray flagging, this tutorial uses the true pre-CTI data output
 from the simulation procedure.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -85,8 +86,7 @@ dataset = ac.ImagingCI.from_fits(
 """
 A plot of the data shows it has non-uniform charge injection lines and cosmic rays.
 """
-array_2d_plotter = aplt.Array2DPlotter(array=dataset.data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=dataset.data)
 
 """
 __CTI Correction__
@@ -166,12 +166,11 @@ cosmic rays.
 So, whats happening? Well, we forgot an obvious fact above, that the charge injection region may also have a signal 
 to noise well above our threshold value of 4.0!
 """
-array_2d_plotter = aplt.Array2DPlotter(array=cosmic_ray_flag_mask)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=cosmic_ray_flag_mask)
 
 """
-To mitigate this effect, we can simply subtract off the charge injection pattern, such that we are left with an 
-image only containing cosmic rays. 
+To mitigate this effect, we can simply subtract off the charge injection pattern, such that we are left with an
+image only containing cosmic rays.
 """
 pre_cti_data = ac.Array2D.from_fits(
     file_path=path.join(dataset_path, f"norm_{int(norm)}", "pre_cti_data.fits"),
@@ -180,8 +179,7 @@ pre_cti_data = ac.Array2D.from_fits(
 
 data_charge_subtracted = data_corrected.native - pre_cti_data.native
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_charge_subtracted)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_charge_subtracted)
 
 """
 To mitigate this effect, we can simply subtract off the charge injection pattern, such that we are left with an 
@@ -192,8 +190,7 @@ cosmic_ray_flag_mask = ac.Array2D.no_mask(
     values=cosmic_ray_flag_mask, pixel_scales=dataset.pixel_scales
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=cosmic_ray_flag_mask)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=cosmic_ray_flag_mask)
 
 """
 We can also use the cosmic ray mask to create a `cosmic_ray_map`, which only contains the flagged cosmic rays.
@@ -203,8 +200,7 @@ cosmic_ray_map = ac.Array2D.no_mask(
     values=cosmic_ray_map, pixel_scales=dataset.pixel_scales
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=cosmic_ray_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=cosmic_ray_map)
 
 """
 __What about Cosmic Ray CTI Trails?__

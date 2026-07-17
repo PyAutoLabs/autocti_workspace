@@ -8,6 +8,7 @@ of a space mission where radiation damage increases therefore also increasing th
 This script loads the model-fitting results into an .sqlite database file and performs visualization of the results
 as a function of time.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -81,29 +82,17 @@ slope, intercept, r, p, std_err = stats.linregress(time_list, density_mp_list)
 
 print(time_list, density_mp_list)
 
-mat_plot = aplt.MatPlot1D(
-    output=aplt.Output(
-        path=path.join("scripts", "dataset_1d", "advanced", "temporal", "images"),
-        format="png",
-    )
-)
-
-from autoarray.plot.auto_labels import AutoLabels
-
 print(density_interpolate_list)
 
-mat_plot.plot_yx(
+aplt.plot_yx(
     y=ac.ArrayIrregular(values=density_mp_list),
     x=ac.ArrayIrregular(time_list),
-    plot_axis_type_override="errorbar",
-    visuals_1d=aplt.Visuals1D(),
     y_extra=ac.ArrayIrregular(values=density_interpolate_list),
     y_errors=[density_le3_list, density_ue3_list],
-    auto_labels=AutoLabels(
-        title=f"Density vs Time",
-        yunit="",
-        filename=f"density_versus_time",
-        xlabel=r"Time (s)",
-        ylabel="Density (e-/pixel)",
-    ),
+    title="Density vs Time",
+    xlabel=r"Time (s)",
+    ylabel="Density (e-/pixel)",
+    output_path=path.join("scripts", "dataset_1d", "advanced", "temporal", "images"),
+    output_filename="density_versus_time",
+    output_format="png",
 )

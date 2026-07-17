@@ -2,8 +2,28 @@
 Plots: Start Here
 =================
 
-This example illustrates the basic API for plotting.
+This example introduces the plotting API in PyAutoCTI.
+
+The old API (removed) used `*Plotter` classes (e.g. `Dataset1DPlotter`, `ImagingCIPlotter`) together
+with `MatPlot1D` / `MatPlot2D` and `Visuals1D` / `Visuals2D` helper objects. These have all been
+removed.
+
+The new API uses standalone functions:
+
+ - `aplt.plot_array()` — plot any 2D array (e.g. charge injection data).
+ - `aplt.plot_cti_1d()` — plot any 1D quantity with CTI conventions (errorbars, log-y, zero line).
+ - `aplt.subplot_dataset_1d()`, `aplt.subplot_imaging_ci()`, `aplt.subplot_fit_ci()`, etc. —
+   multi-panel subplots for standard objects.
+
+__Contents__
+
+- **Dataset:** Load and plot a 1D CTI calibration dataset.
+- **Regions:** Extract and bin the FPR / EPER regions of the data in 1D figures.
+- **Customization:** Each plotting function accepts direct keyword arguments.
+- **Config Defaults:** Default plotting values come from the `config/visualize.yaml` file.
+- **Charge Injection:** 2D plots and binned region plots of `ImagingCI` data.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -17,9 +37,9 @@ import autocti.plot as aplt
 """
 __Dataset__
 
-First, lets load an example image of a CTI `Dataset1D`.
+First, lets load an example `Dataset1D`, which we will use to illustrate the 1D plotting API.
 
-You should be familiar with how we load datasets in this way, if not checkout the `overview` 
+You should be familiar with how we load datasets in this way, if not checkout the `overview`
 and `modeling/start_here.py` examples.
 """
 dataset_name = "simple"
@@ -58,123 +78,98 @@ dataset_list = [
     for layout, norm in zip(layout_list, norm_list)
 ]
 
-"""
-__Plot Customization via MatPlot__
-
-You can customize a number of matplotlib setup options using a `MatPlot` object, which 
-wraps the `matplotlib` methods used to display the image.
-
-(For example, the `Figure` class wraps the `matplotlib` method `plt.figure()`, whereas the `YTicks` class wraps
-`plt.yticks`).
-
-The `autocti.workspace.*.plot.mat_wrap` illustrates every `MatPlot` object, for 
-example `Figure`, `YTicks`, etc.
-"""
-mat_plot = aplt.MatPlot1D(
-    figure=aplt.Figure(figsize=(7, 7)),
-    yticks=aplt.YTicks(fontsize=8),
-    xticks=aplt.XTicks(fontsize=8),
-    title=aplt.Title(fontsize=12),
-    ylabel=aplt.YLabel(fontsize=6),
-    xlabel=aplt.XLabel(fontsize=6),
-)
-
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0], mat_plot_1d=mat_plot)
-dataset_plotter.figures_1d(data=True)
+dataset = dataset_list[0]
 
 """
-__Configs__
+__Individual Figures__
 
-All matplotlib options can be customized via the config files, such that those values are used every time.
+The `aplt.figure_dataset_1d_data()` function plots the data of a `Dataset1D` as a 1D errorbar
+figure, with the noise map as error bars.
+"""
+aplt.figure_dataset_1d_data(dataset=dataset)
 
-Checkout the `mat_wrap.yaml`, `mat_wrap_1d.yaml` and `mat_wrap_2d.yaml` files 
-in `autocti_workspace/config/visualize/mat_wrap`.
-
-All default matplotlib values are here. There are a lot of entries, so lets focus on whats important for displaying 
-figures:
-
- - mat_wrap.yaml -> Figure -> figure: -> figsize
- - mat_wrap.yaml -> YLabel -> figure: -> fontsize
- - mat_wrap.yaml -> XLabel -> figure: -> fontsize
- - mat_wrap.yaml -> TickParams -> figure: -> labelsize
- - mat_wrap.yaml -> YTicks -> figure: -> labelsize
- - mat_wrap.yaml -> XTicks -> figure: -> labelsize
-
+"""
 __Subplots__
 
-In addition to plotting individual `figures`, we also plot `subplots` which are again customized via
-the `mat_plot` objects.
-
-__Visuals__
-
-Visuals can be added to any figure, using standard quantities.
-
-For example, we can plot a mask on the image above using a `Visuals2D` object.
-
-The `autocti.workspace.*.plot.visuals_2d` illustrates every `Visuals` object, for 
-example `MaskScatter`, `LightProfileCentreScatter`, etc.
+The `aplt.subplot_dataset_1d()` function produces a multi-panel overview of the dataset: the data,
+noise map, signal-to-noise map and pre-CTI data.
 """
-visuals = aplt.Visuals1D(vertical_line=5.0)
-
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0], visuals_1d=visuals)
-dataset_plotter.figures_1d(data=True)
+aplt.subplot_dataset_1d(dataset=dataset)
 
 """
+__Regions__
+
+CTI calibration interprets specific regions of the data — the FPR (first pixel response, the
+injected signal) and the EPER (extended pixel edge response, the CTI trail). Passing a `region`
+string extracts and bins the data over that region.
+
+EPER trails span orders of magnitude, so a log10 y-axis (`logy=True`) is often clearer.
+"""
+aplt.figure_dataset_1d_data(dataset=dataset, region="fpr")
+aplt.figure_dataset_1d_data(dataset=dataset, region="eper", logy=True)
+
+aplt.subplot_dataset_1d(dataset=dataset, region="eper")
+
+"""
+__Customization__
+
+Each plotting function accepts direct keyword arguments for customization:
+
+ - `title_prefix`: A string prefixed to every panel title.
+ - `output_path`: Directory path to save the figure on disk.
+ - `output_format`: Format of the saved file, e.g. "png" or "pdf".
+
+These replace the old `MatPlot1D` / `MatPlot2D` objects entirely — there is no `MatPlot` anymore.
+Figure-level cosmetics (fontsizes, figure sizes) are set via the config files (see below).
+"""
+aplt.figure_dataset_1d_data(
+    dataset=dataset,
+    output_path=path.join("output", "plot"),
+    output_format="png",
+)
+
+"""
+__Config Defaults__
+
+Default plotting values (figure sizes, fontsizes, output behaviour during model fits) are
+configured via:
+
+  autocti_workspace/config/visualize.yaml
+
+When no explicit keyword is passed to a plotting function the config value is used, allowing the
+default appearance to be controlled workspace-wide without changing code.
+
+__Multiple Datasets__
+
+CTI calibration datasets typically span many injection normalizations. The `*_list` functions plot
+one panel per dataset.
+"""
+aplt.subplot_dataset_1d_list(dataset_list=dataset_list, region="eper", logy=True)
+
+"""
+__Charge Injection Data__
+
+2D charge injection data (`ImagingCI`) has its own subplot and region functions. The 2D primitives
+are `aplt.plot_array()` for any `Array2D` and `aplt.subplot_imaging_ci()` for the dataset overview:
+
+ - `aplt.subplot_imaging_ci(dataset=dataset)` — data, noise map, S/N, pre-CTI data (+ cosmic rays).
+ - `aplt.figure_imaging_ci_data_region(dataset=dataset, region="parallel_eper")` — binned 1D
+   region figures ("parallel_fpr", "parallel_eper", "serial_fpr", "serial_eper").
+ - `aplt.subplot_imaging_ci_data_binned(dataset=dataset)` — the data binned over rows / columns
+   with and without the FPR, revealing injection non-uniformity and calibration systematics.
+
+The `imaging_ci` example scripts illustrate these on simulated charge injection data.
+
+__Fits__
+
+Fits to CTI datasets have matching functions: `aplt.subplot_fit_dataset_1d()`,
+`aplt.figure_fit_dataset_1d()` (any fit quantity, e.g. `quantity="residual_map"`),
+`aplt.subplot_fit_ci()` and `aplt.figure_fit_ci_region()` — see the `plot/plotters` examples.
+
 __Searches__
 
-Model-fits using a non-linear search (e.g. Nautilus, Emcee) produce search-specific visualization.
+Model-fits using a non-linear search produce search-specific visualization via
+`aplt.corner_anesthetic()`, `aplt.corner_cornerpy()` and related functions.
 
-The `autocti.workspace.*.plot.search` illustrates how to perform this visualization for every search (e.g.
-`NestPlotter`, `MCMCPlotter`.
-
-__Adding Plotter Objects Together__
-
-The `MatPlot` objects can be added together. 
-
-This is useful when we want to perform multiple visualizations which share the same base settings, but have
-individually tailored settings:
-"""
-mat_plot_base = aplt.MatPlot1D(
-    yticks=aplt.YTicks(fontsize=18),
-    xticks=aplt.XTicks(fontsize=18),
-    ylabel=aplt.YLabel(ylabel=""),
-    xlabel=aplt.XLabel(xlabel=""),
-)
-
-mat_plot = aplt.MatPlot1D(
-    title=aplt.Title(label="Example Figure 1"),
-)
-
-mat_plot = mat_plot + mat_plot_base
-
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0], mat_plot_1d=mat_plot)
-dataset_plotter.figures_1d(data=True)
-
-mat_plot = aplt.MatPlot1D(
-    title=aplt.Title(label="Example Figure 2"),
-)
-
-mat_plot = mat_plot + mat_plot_base
-
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0], mat_plot_1d=mat_plot)
-dataset_plotter.figures_1d(data=True)
-
-mat_plot = mat_plot + mat_plot_base
-
-
-"""
-The `Visuals` objects can also be added together.
-"""
-visuals_1d_0 = aplt.Visuals1D(vertical_line=5.0)
-visuals_1d_1 = aplt.Visuals1D(shaded_region=[6.0, 7.0])
-
-visuals = visuals_1d_0 + visuals_1d_1
-
-dataset_plotter = aplt.Dataset1DPlotter(
-    dataset=dataset_list[0], visuals_1d=visuals, mat_plot_1d=aplt.MatPlot1D()
-)
-dataset_plotter.figures_1d(data=True)
-
-"""
 Finish.
 """

@@ -16,6 +16,7 @@ To begin, we'll think about CTI calibration in 1D, before extending this to 2D.
 
 Lets recreate our simple 1D dataset.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -70,23 +71,13 @@ post_cti_data_1d_1 = clocker.add_cti(data=pre_cti_data_1d, cti=cti)
 """
 Now lets plot the two datasets and compare their appearance.
 """
-array_1d_plotter = aplt.Array1DPlotter(
-    y=post_cti_data_1d_0,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D CTI Data Density $\rho = 250.0$"),
-    ),
+aplt.plot_yx(
+    y=post_cti_data_1d_0, title=r"1D CTI Data Density $\rho = 250.0$", ylabel="e-"
 )
-array_1d_plotter.figure_1d()
 
-array_1d_plotter = aplt.Array1DPlotter(
-    y=post_cti_data_1d_1,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D CTI Data Density $\rho = 500.0$"),
-    ),
+aplt.plot_yx(
+    y=post_cti_data_1d_1, title=r"1D CTI Data Density $\rho = 500.0$", ylabel="e-"
 )
-array_1d_plotter.figure_1d()
 
 """
 Upon inspection and comparison of each post-CTI dataset, we can note two differences between how CTI has been added. 
@@ -137,23 +128,13 @@ post_cti_data_1d_1 = clocker.add_cti(data=pre_cti_data_1d, cti=cti)
 """
 Now lets plot the two datasets and compare their appearance.
 """
-array_1d_plotter = aplt.Array1DPlotter(
-    y=post_cti_data_1d_0,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D CTI Data Density $\tau = 0.5$"),
-    ),
+aplt.plot_yx(
+    y=post_cti_data_1d_0, title=r"1D CTI Data Density $\tau = 0.5$", ylabel="e-"
 )
-array_1d_plotter.figure_1d()
 
-array_1d_plotter = aplt.Array1DPlotter(
-    y=post_cti_data_1d_1,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D CTI Data Density $\tau = 3.0$"),
-    ),
+aplt.plot_yx(
+    y=post_cti_data_1d_1, title=r"1D CTI Data Density $\tau = 3.0$", ylabel="e-"
 )
-array_1d_plotter.figure_1d()
 
 """
 Lets now again compare the FPR and EPER of these two post-CTI datasets:
@@ -272,23 +253,13 @@ pre_cti_data_1d_1 = ac.Array1D.no_mask(
 
 post_cti_data_1d_1 = clocker.add_cti(data=pre_cti_data_1d_1, cti=cti)
 
-array_1d_plotter = aplt.Array1DPlotter(
-    y=post_cti_data_1d_0,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D CTI Data Density $n_{\rm e} = 10.0$"),
-    ),
+aplt.plot_yx(
+    y=post_cti_data_1d_0, title=r"1D CTI Data Density $n_{\rm e} = 10.0$", ylabel="e-"
 )
-array_1d_plotter.figure_1d()
 
-array_1d_plotter = aplt.Array1DPlotter(
-    y=post_cti_data_1d_1,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D CTI Data Density $n_{\rm e} = 100.0$"),
-    ),
+aplt.plot_yx(
+    y=post_cti_data_1d_1, title=r"1D CTI Data Density $n_{\rm e} = 100.0$", ylabel="e-"
 )
-array_1d_plotter.figure_1d()
 
 """
 __Wrap Up__
