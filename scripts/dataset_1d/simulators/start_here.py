@@ -20,11 +20,12 @@ This script simulates a 1D dataset with CTI, where:
 
  __Plotters__
 
-To output images of the simulated data, `Plotter` objects are used, which are high-level wrappers of matplotlib
-code which produce high quality visualization of strong lenses.
+To output images of the simulated data, the plotting functions in `autocti.plot` are used, which are high-level
+wrappers of matplotlib code which produce high quality visualization of strong lenses.
 
-The `Plotter` API is described in the `autocti_workspace/*/plot/start_here.py` script.
+The plotting API is described in the `autocti_workspace/*/plot/start_here.py` script.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -196,8 +197,7 @@ dataset_list = [
 """
 We plot the first dataset in the list, which is the dataset with the lowest normalization.
 """
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_dataset_1d(dataset=dataset_list[0])
 
 """
 __Output__
@@ -227,16 +227,11 @@ In the same folder as the .fits files, we also output plots of the simulated dat
 Having .png files like this is useful, as they can be opened quickly and easily by the user to check the dataset.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    output = aplt.Output(
-        path=path.join(dataset_path, f"norm_{int(norm)}"),
-        filename="dataset_1d",
-        format="png",
+    aplt.subplot_dataset_1d(
+        dataset=dataset,
+        output_path=path.join(dataset_path, f"norm_{int(norm)}"),
+        output_format="png",
     )
-
-    mat_plot = aplt.MatPlot1D(output=output)
-
-    dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-    dataset_plotter.subplot_dataset()
 
 """
 We also output subplots of the simulated dataset in .png format, as well as other images which summarize the dataset.
@@ -244,15 +239,22 @@ We also output subplots of the simulated dataset in .png format, as well as othe
 These plots include 1D binned up images of the FPR and EPER, so that electron capture and trailing can be seen clearly.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    output = aplt.Output(
-        path=path.join(dataset_path, f"norm_{int(norm)}", "binned_1d"), format="png"
+    output_path = path.join(dataset_path, f"norm_{int(norm)}", "binned_1d")
+
+    aplt.figure_dataset_1d_data(
+        dataset=dataset,
+        region="fpr",
+        logy=True,
+        output_path=output_path,
+        output_format="png",
     )
-
-    mat_plot = aplt.MatPlot1D(output=output)
-
-    dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-    dataset_plotter.figures_1d(region="fpr", data=True, data_logy=True)
-    dataset_plotter.figures_1d(region="eper", data=True, data_logy=True)
+    aplt.figure_dataset_1d_data(
+        dataset=dataset,
+        region="eper",
+        logy=True,
+        output_path=output_path,
+        output_format="png",
+    )
 
 
 """

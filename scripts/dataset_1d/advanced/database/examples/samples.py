@@ -3,7 +3,7 @@ Database: Samples
 =================
 
 In the script `autocti_workspace/*/advanced/database/start_here.py` we performed a fit which fitted 3
-datasets and stored the results in a sqlite database. 
+datasets and stored the results in a sqlite database.
 
 In this example, we'll load results from this database and show how to manipulate the non-linear search's samples,
 for example to inspect the maximum log likelihood models or get errors on parameters.
@@ -16,6 +16,7 @@ A fraction of this example repeats the API for manipulating samples given in the
 This is done so users can directly copy and paste Python code which loads results from the database and manipulates
 the samples.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -307,15 +308,15 @@ __Search Plots__
 The Probability Density Functions (PDF's) of the results can be plotted using the non-linear search in-built 
 visualization tools.
 
-This fit used `nautilus` therefore we use the `NestPlotter` for visualization, which wraps `nautilus`'s in-built
-visualization tools.
+This fit used `nautilus` therefore we use the `aplt.corner_cornerpy` function for visualization, which wraps
+`nautilus`'s in-built visualization tools.
 
 The `autofit_workspace/*/plots` folder illustrates other packages that can be used to make these plots using
 the standard output results formats (e.g. `GetDist.py`).
 """
 for samples in agg.values("samples"):
-    plotter = aplt.NestPlotter(samples=samples)
-#  plotter.corner_cornerpy()
+    pass
+    # aplt.corner_cornerpy(samples=samples)
 
 """
 __Maximum Likelihood__

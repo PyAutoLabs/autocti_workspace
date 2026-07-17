@@ -114,8 +114,7 @@ dataset = ac.Dataset1D.from_fits(
     pixel_scales=0.1,
 )
 
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset)
-dataset_plotter.subplot_dataset()
+aplt.subplot_dataset_1d(dataset=dataset)
 
 input(
     "\n"

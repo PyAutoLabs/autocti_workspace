@@ -8,6 +8,7 @@ Coupled Devices (CCDs).
 Lets take a look at a extract of data taken from the Advanced Camera for Surveys (ACS) instrument on board the
 Hubble Space Telescope (this figure is taken from Massey et al 2009 -- https://arxiv.org/abs/1009.4335):
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -123,20 +124,13 @@ pre_cti_data_1d = ac.Array1D.no_mask(
 """
 **PyAutoCTI** has a built in visualization library for plotting 1D data (amongst many other things)!
 
-(The`aplt.MatPLot1D` object below wraps various `matplotlib` methods such as `plt.title()` and `plt.ylabel()`. 
-The **PyAutoCTI** visualization library has numerous objects which perform wrapping like this in order to easily 
+(The `aplt.plot_yx` function below wraps `matplotlib` methods such as `plt.plot()`, `plt.title()`
+and `plt.ylabel()`. The **PyAutoCTI** visualization library provides functions like this in order to easily
 plot CTI specific figures.).
 """
 import autocti.plot as aplt
 
-array_1d_plotter = aplt.Array1DPlotter(
-    y=pre_cti_data_1d,
-    mat_plot_1d=aplt.MatPlot1D(
-        title=aplt.Title(label="1D Data Without CTI"),
-        ylabel=aplt.YLabel(ylabel="electrons"),
-    ),
-)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=pre_cti_data_1d, title="1D Data Without CTI", ylabel="electrons")
 
 """
 __arCTIc__
@@ -186,14 +180,7 @@ Note that, in 1D, clocking is to the left of the image.
 """
 post_cti_data_1d = clocker.add_cti(data=pre_cti_data_1d, cti=cti)
 
-array_1d_plotter = aplt.Array1DPlotter(
-    y=post_cti_data_1d,
-    mat_plot_1d=aplt.MatPlot1D(
-        title=aplt.Title(label="1D Data With CTI"),
-        ylabel=aplt.YLabel(ylabel="electrons"),
-    ),
-)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=post_cti_data_1d, title="1D Data With CTI", ylabel="electrons")
 
 """
 We can see CTI add been added to our 1D data! 
@@ -217,14 +204,9 @@ above, alongside the CTI model used to create it.
 """
 data_corrected_1d = clocker.remove_cti(data=post_cti_data_1d, cti=cti)
 
-array_1d_plotter = aplt.Array1DPlotter(
-    y=data_corrected_1d,
-    mat_plot_1d=aplt.MatPlot1D(
-        title=aplt.Title(label="1D Data With CTI Corrected"),
-        ylabel=aplt.YLabel(ylabel="electrons"),
-    ),
+aplt.plot_yx(
+    y=data_corrected_1d, title="1D Data With CTI Corrected", ylabel="electrons"
 )
-array_1d_plotter.figure_1d()
 
 """
 We have corrected CTI from the data and almost recovered our original 1D dataset!

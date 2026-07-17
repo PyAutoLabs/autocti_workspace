@@ -31,6 +31,7 @@ This script simulates a 2D dataset with CTI, where:
 
 Serial CTI is omitted.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -107,8 +108,7 @@ for quadrant_id in range(4):
         for layout, simulator in zip(layout_list, simulator_list)
     ]
 
-    dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset_list[0])
-    dataset_plotter.subplot_dataset()
+    aplt.subplot_imaging_ci(dataset=dataset_list[0])
 
     [
         dataset.output_to_fits(
@@ -125,27 +125,29 @@ for quadrant_id in range(4):
     ]
 
     for dataset, norm in zip(dataset_list, norm_list):
-        output = aplt.Output(
-            path=path.join(dataset_path, f"norm_{int(norm)}"),
-            filename="imaging_ci",
-            format="png",
+        aplt.subplot_imaging_ci(
+            dataset=dataset,
+            output_path=path.join(dataset_path, f"norm_{int(norm)}"),
+            output_format="png",
         )
-
-        mat_plot = aplt.MatPlot2D(output=output)
-
-        dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset, mat_plot_2d=mat_plot)
-        dataset_plotter.subplot_dataset()
 
     for dataset, norm in zip(dataset_list, norm_list):
-        output = aplt.Output(
-            path=path.join(dataset_path, f"norm_{int(norm)}", "binned_1d"), format="png"
+        output_path = path.join(dataset_path, f"norm_{int(norm)}", "binned_1d")
+
+        aplt.figure_imaging_ci_data_region(
+            dataset=dataset,
+            region="parallel_fpr",
+            logy=True,
+            output_path=output_path,
+            output_format="png",
         )
-
-        mat_plot = aplt.MatPlot1D(output=output)
-
-        dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-        dataset_plotter.figures_1d(region="parallel_fpr", data=True, data_logy=True)
-        dataset_plotter.figures_1d(region="parallel_eper", data=True, data_logy=True)
+        aplt.figure_imaging_ci_data_region(
+            dataset=dataset,
+            region="parallel_eper",
+            logy=True,
+            output_path=output_path,
+            output_format="png",
+        )
 
     40
     ac.output_to_json(

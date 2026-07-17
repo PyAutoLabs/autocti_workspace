@@ -2,7 +2,7 @@
 Modeling: Start Here
 ====================
 
-This script is the starting point for modeling of 1D CTI datasets and it provides an overview 
+This script is the starting point for modeling of 1D CTI datasets and it provides an overview
 of the modeling API.
 
 After reading this script, the `features`, `customize` and `searches` folders provide example for performing CTI
@@ -14,19 +14,19 @@ In this script, we will fit a 1D CTI Dataset to calibrate a CTI model, where:
 
  - The CTI model consists of multiple parallel `TrapInstantCapture` species.
  - The `CCD` volume filling is a simple parameterization with just a `well_fill_power` parameter.
- 
+
  __Plotters__
 
-To produce images of the data `Plotter` objects are used, which are high-level wrappers of matplotlib
-code which produce high quality visualization of strong CTIes.
+To produce images of the data the plotting functions in `autocti.plot` are used.
 
-The `PLotter` API is described in the script `autoCTI_workspace/*/plot/start_here.py`.
+The plotting API is described in the script `autoCTI_workspace/*/plot/start_here.py`.
 
 __Simulation__
 
 This script fits a simulated `Imaging` dataset of a strong CTI, which is produced in the
 script `autoCTI_workspace/*/imaging/simulators/start_here.py`
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -145,15 +145,14 @@ dataset_list = [
 ]
 
 """
-Use a `Dataset1DPlotter` to the plot the data, including: 
+Use `aplt.subplot_dataset_1d` to plot the data, including:
 
  - `data`: The 1D CTI data.
  - `noise_map`: The noise-map of the data, which quantifies the noise in every pixel as their RMS values.
- - `pre_cti_data`: The data before CTI, which has CTI added to it for every CTI model, which is compared to the data. 
+ - `pre_cti_data`: The data before CTI, which has CTI added to it for every CTI model, which is compared to the data.
  - `signal_to_noise_map`: Quantifies the signal-to-noise in every pixel.
 """
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_dataset_1d(dataset=dataset_list[0])
 
 """
 __Mask__
@@ -179,8 +178,7 @@ dataset_list = [dataset.apply_mask(mask=mask) for dataset in dataset_list]
 """
 By plotting the masked data, the mask removes the FPR of the data and now shows only the EPER trails.
 """
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_dataset_1d(dataset=dataset_list[0])
 
 """
 __Clocker / arCTIc__
@@ -326,21 +324,22 @@ analysis_list = [
 ]
 
 """
-By summing this list of analysis objects, we create an overall `Analysis` which we can use to fit the CTI model, where:
+Each analysis object is wrapped in an `AnalysisFactor`, which pairs it with the model and prepares it for use in a
+factor graph. The analysis factors are then combined into a `FactorGraphModel`, which we use to fit the CTI model,
+where:
 
- - The log likelihood function of this summed analysis class is the sum of the log likelihood functions of each 
+ - The log likelihood function of this factor graph is the sum of the log likelihood functions of each
  individual analysis object.
 
- - The summing process ensures that tasks such as outputting results to hard-disk, visualization, etc use a 
+ - The factor graph structure ensures that tasks such as outputting results to hard-disk, visualization, etc use a
  structure that separates each analysis.
 """
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-"""
-We can parallelize the likelihood function of these analysis classes, whereby each evaluation will be performed on a 
-different CPU.
-"""
-analysis.n_cores = 1
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
 
 """
 __Model-Fit__
@@ -382,7 +381,7 @@ Even before the search has finished, you will see:
  5) The `search.summary` file, which provides a summary of the non-linear search settings and statistics on how well
  it is performing.
 """
-result_list = search.fit(model=model, analysis=analysis)
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Result__
@@ -406,8 +405,7 @@ print(result_list[0].max_log_likelihood_instance.cti.trap_list[0].density)
 print(result_list[0].max_log_likelihood_instance.cti.ccd.well_fill_power)
 
 for result in result_list:
-    fit_plotter = aplt.FitDataset1DPlotter(fit=result.max_log_likelihood_fit)
-    fit_plotter.subplot_fit()
+    aplt.subplot_fit_dataset_1d(fit=result.max_log_likelihood_fit)
 
 """
 Checkout `autocti_workspace/*/dataset_1d/modeling/results.py` for a full description of the result object.

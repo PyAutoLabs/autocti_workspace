@@ -11,15 +11,16 @@ __Charge Injection Imaging__
 
 This script can easily be adapted to analyse the results of charge injection imaging model-fits.
 
-The only entries that needs changing are: 
+The only entries that needs changing are:
 
  - `Dataset1DAgg` -> `ImagingCIAgg`.
  - `FitDataset1DAgg` -> `FitImagingCIAgg`.
  - `Clocker1D` -> `Clocker2D`.
  - `SettingsDataset1D` -> `SettingsImagingCI`.
- - `Dataset1DPlotter` -> `ImagingCIPlotter`.
- - `FitDataset1DPlotter` -> `FitImagingCIPlotter`.
+ - `aplt.subplot_dataset_1d` -> `aplt.subplot_imaging_ci`.
+ - `aplt.subplot_fit_dataset_1d` -> `aplt.subplot_fit_ci`.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -57,8 +58,7 @@ dataset_1d_agg = ac.agg.Dataset1DAgg(aggregator=agg)
 dataset_gen = dataset_1d_agg.dataset_list_gen_from()
 
 for dataset_list in dataset_gen:
-    dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0])
-    dataset_plotter.subplot_dataset()
+    aplt.subplot_dataset_1d(dataset=dataset_list[0])
 
 """
 We now use the database to load a generator containing a list of the fits of the maximum log likelihood model to 
@@ -68,8 +68,7 @@ fit_agg = ac.agg.FitDataset1DAgg(aggregator=agg)
 fit_gen = fit_agg.max_log_likelihood_gen_from()
 
 for fit_list in fit_gen:
-    fit_plotter = aplt.FitDataset1DPlotter(fit=fit_list[0])
-    fit_plotter.subplot_fit()
+    aplt.subplot_fit_dataset_1d(fit=fit_list[0])
 
 """
 __Modification__
@@ -89,34 +88,26 @@ fit_agg = ac.agg.FitDataset1DAgg(
 fit_gen = fit_agg.max_log_likelihood_gen_from()
 
 for fit_list in fit_gen:
-    fit_plotter = aplt.FitDataset1DPlotter(fit=fit_list[0])
-    fit_plotter.subplot_fit()
+    aplt.subplot_fit_dataset_1d(fit=fit_list[0])
 
 """
 __Visualization Customization__
 
-The benefit of inspecting fits using the aggregator, rather than the files outputs to the hard-disk, is that we can 
-customize the plots using the `MatPlot1D` and `MatPlot2D` objects..
+The benefit of inspecting fits using the aggregator, rather than the files outputs to the hard-disk, is that we can
+customize the plots directly via keyword arguments (e.g. `title_prefix`, `output_path`, `output_format`) passed to
+the plotting functions in `autocti.plot`. Cosmetic defaults (fontsizes, figure sizes) are set workspace-wide via
+`config/visualize.yaml`.
 
-Below, we create a new function to apply as a generator to do this. However, we use a convenience method available 
+Below, we create a new function to apply as a generator to do this. However, we use a convenience method available
 in the aggregator package to set up the fit.
 """
 fit_agg = ac.agg.FitDataset1DAgg(aggregator=agg)
 fit_gen = fit_agg.max_log_likelihood_gen_from()
 
 for fit_list in fit_gen:
-    mat_plot = aplt.MatPlot1D(
-        figure=aplt.Figure(figsize=(12, 12)),
-        title=aplt.Title(label="Custom Image", fontsize=24),
-        yticks=aplt.YTicks(fontsize=24),
-        xticks=aplt.XTicks(fontsize=24),
-        cmap=aplt.Cmap(norm="log", vmax=1.0, vmin=1.0),
-        colorbar_tickparams=aplt.ColorbarTickParams(labelsize=20),
-        units=aplt.Units(in_kpc=True),
+    aplt.figure_fit_dataset_1d(
+        fit=fit_list[0], quantity="data", title_prefix="Custom Image"
     )
-
-    fit_plotter = aplt.FitDataset1DPlotter(fit=fit_list[0], mat_plot_1d=mat_plot)
-    fit_plotter.figures_1d(data=True)
 
 """
 Making this plot for a paper? You can output it to hard disk.
@@ -125,13 +116,12 @@ fit_agg = ac.agg.FitDataset1DAgg(aggregator=agg)
 fit_gen = fit_agg.max_log_likelihood_gen_from()
 
 for fit_list in fit_gen:
-    mat_plot = aplt.MatPlot2D(
-        title=aplt.Title(label="Hey"),
-        output=aplt.Output(
-            path=path.join("output", "path", "of", "file"),
-            filename="publication",
-            format="png",
-        ),
+    aplt.figure_fit_dataset_1d(
+        fit=fit_list[0],
+        quantity="data",
+        title_prefix="Hey",
+        output_path=path.join("output", "path", "of", "file"),
+        output_format="png",
     )
 
 

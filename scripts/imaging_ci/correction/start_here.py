@@ -10,6 +10,7 @@ the API for performing CTI correction, which can easily be applied to science da
 The correction of CTI calibration data can also be used as a diagnostic for the quality of the CTI model that is
 calibrated.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -17,9 +18,11 @@ calibrated.
 # print(f"Working Directory has been set to `{workspace_path}`")
 
 from os import path
+import numpy as np
 import autofit as af
 import autocti as ac
 import autocti.plot as aplt
+from autoconf import fitsable
 
 """
 __Dataset__
@@ -127,15 +130,14 @@ dataset_list = [
 ]
 
 """
-Use a `ImagingCIPlotter` to the plot the data, including: 
+Use the imaging_ci plotting functions to plot the data, including:
 
  - `data`: The 1D CTI data.
  - `noise_map`: The noise-map of the data, which quantifies the noise in every pixel as their RMS values.
  - `pre_cti_data`: The data before CTI, which has CTI added to it for every CTI model, which is compared to the data. 
  - `signal_to_noise_map`: Quantifies the signal-to-noise in every pixel.
 """
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_imaging_ci(dataset=dataset_list[0])
 
 """
 __Clocker / arCTIc__
@@ -198,39 +200,41 @@ __Output__
 Output the corrected image to the dataset path as a .png file.
 """
 for data_corrected, norm in zip(data_corrected_list, norm_list):
-    mat_plot = aplt.MatPlot2D(
-        output=aplt.Output(
-            path=path.join(dataset_path, f"norm_{int(norm)}", "correction"),
-            filename=f"data_corrected",
-            format="png",
-        )
+    aplt.plot_array(
+        array=data_corrected,
+        output_path=path.join(dataset_path, f"norm_{int(norm)}", "correction"),
+        output_filename="data_corrected",
+        output_format="png",
     )
 
-    array_2d_plotter = aplt.Array2DPlotter(array=data_corrected, mat_plot_2d=mat_plot)
-    array_2d_plotter.figure_2d()
-
 """
-This is a hack so we can use an `ImagingCIPlotter` to plot the corrected binned regions.
+This is a hack so we can use the imaging_ci plotting functions to plot the corrected binned regions.
 """
 for dataset, data_corrected in zip(dataset_list, data_corrected_list):
     dataset.data = data_corrected
 
 
 """
-Output plots of the corrected EPER and FPR's binned up in 1D, so that correction due to electron capture and trailing 
+Output plots of the corrected EPER and FPR's binned up in 1D, so that correction due to electron capture and trailing
 can be seen clearly.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    output = aplt.Output(
-        path=path.join(dataset_path, f"norm_{int(norm)}", "correction", "binned_1d"),
-        format="png",
+    output_path = path.join(
+        dataset_path, f"norm_{int(norm)}", "correction", "binned_1d"
     )
 
-    mat_plot = aplt.MatPlot1D(output=output)
-
-    dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-    dataset_plotter.figures_1d(region="parallel_fpr", data=True)
-    dataset_plotter.figures_1d(region="parallel_eper", data=True)
+    aplt.figure_imaging_ci_data_region(
+        dataset=dataset,
+        region="parallel_fpr",
+        output_path=output_path,
+        output_format="png",
+    )
+    aplt.figure_imaging_ci_data_region(
+        dataset=dataset,
+        region="parallel_eper",
+        output_path=output_path,
+        output_format="png",
+    )
 
 """
 Output the simulated dataset to the dataset path as .fits files.
@@ -239,7 +243,8 @@ If you are unfamiliar with .fits files, this is the standard file format of astr
 them using the software ds9 (https://sites.google.com/cfa.harvard.edu/saoimageds9/home).
 """
 [
-    data_corrected.output_to_fits(
+    fitsable.output_to_fits(
+        values=np.asarray(data_corrected.native),
         file_path=path.join(dataset_path, f"norm_{int(norm)}", "data_corrected.fits"),
         overwrite=True,
     )

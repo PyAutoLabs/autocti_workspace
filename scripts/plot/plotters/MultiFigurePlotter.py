@@ -2,21 +2,17 @@
 Plots: MultiFigurePlotter
 =========================
 
-This example illustrates how to plot figures from different plotters on the same subplot, assuming that the same
-type of `Plotter` and figure is being plotted.
+This example illustrates how to plot the same figure from multiple datasets on the same subplot.
 
-An example of when to use this plotter would be when two different datasets (e.g. two charge injection datasets) are 
-loaded and visualized, and the images of each dataset are plotted on the same subplot side-by-side. This is the example 
+An example of when to use this would be when two different datasets (e.g. two charge injection datasets) are
+loaded and visualized, and the images of each dataset are plotted on the same subplot side-by-side. This is the example
 we will use in this example script.
 
-This uses a `MultiFigurePlotter` object, which requires only a list of imaging datasets and `ImagingPlotter` objects
-to be passed to it. The `MultiFigurePlotter` object then plots the same figure from each `ImagingPlotter` on the same
-subplot.
-
-The script `MultiSubplot.py` illustrates a similar example, but a more general use-case where different figures
-from different plotters are plotted on the same subplot. This script offers a more concise way of plotting the same
-figures on the same subplot, but is less general.
+This uses the `*_list` family of plotting functions (e.g. `aplt.subplot_imaging_ci_list`), which require only a
+list of datasets to be passed to them. Each `*_list` function plots the same figure from every dataset in the list
+on the same subplot.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -83,38 +79,26 @@ dataset_list = [
 """
 __Plot__
 
-Plot the subhplot of each `ImagingCI` dataset individually using an `ImagingCIPlotter` object.
+Plot the subplot of each `ImagingCI` dataset individually using the `aplt.subplot_imaging_ci` function.
 """
 for dataset in dataset_list:
-    dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset)
-    dataset_plotter.subplot_dataset()
+    aplt.subplot_imaging_ci(dataset=dataset)
 
 """
 __Multi Plot__
 
-We now pass the list of `ImagingCIPlotter` objects to a `MultiFigurePlotter` object, which we use to plot the 
-image of each dataset on the same subplot.
-
-The `MultiFigurePlotter` object uses the `subplot_of_figure` method to plot the same figure from each `ImagingPlotter`,
-with the inputs:
-
- - `func_name`: The name of the function used to plot the figure in the `ImagingPlotter` (e.g. `figures_2d`).
- - `figure_name`: The name of the figure plotted by the function (e.g. `image`).
+We now pass the list of datasets to the `aplt.subplot_imaging_ci_list` function, which plots the same figure
+(the data) from each dataset on the same subplot.
 """
-dataset_plotter_list = [
-    aplt.ImagingCIPlotter(dataset=dataset) for dataset in dataset_list
-]
-
-multi_figure_plotter = aplt.MultiFigurePlotter(plotter_list=dataset_plotter_list)
-
-multi_figure_plotter.subplot_of_figure(func_name="figures_2d", figure_name="data")
+aplt.subplot_imaging_ci_list(dataset_list=dataset_list)
 
 """
 __Wrap Up__
 
-In the simple example above, we used a `MultiFigurePlotter` to plot the same figure from each `ImagingCIPlotter` on
-the same `matplotlib` subplot. 
+In the simple example above, we used `aplt.subplot_imaging_ci_list` to plot the same figure (the data) from each
+`ImagingCI` dataset on the same `matplotlib` subplot.
 
-This can be used for any figure plotted by any `Plotter` object, as long as the figure is plotted using the same
-function name and figure name.
+Every dataset and fit object in `autocti.plot` has a matching `*_list` function (e.g.
+`aplt.subplot_dataset_1d_list`, `aplt.subplot_fit_ci_list`, `aplt.subplot_fit_dataset_1d_list`), each of which
+plots the same figure from a list of objects on the same subplot.
 """

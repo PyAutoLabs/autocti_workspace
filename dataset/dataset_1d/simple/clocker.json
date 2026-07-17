@@ -2,39 +2,38 @@
     "type": "instance",
     "class_path": "autocti.clocker.one_d.Clocker1D",
     "arguments": {
+        "window_start": 0,
         "express": 5,
-        "prune_n_electrons": 1e-18,
-        "allow_negative_pixels": 1,
-        "prune_frequency": 20,
         "iterations": 5,
+        "window_stop": -1,
         "time_start": 0,
-        "pixel_bounce": null,
+        "time_stop": -1,
         "roe": {
             "type": "instance",
             "class_path": "arcticpy.roe.ROE",
             "arguments": {
-                "pixel_bounce_kA": 0.0,
-                "use_integer_express_matrix": false,
-                "pixel_bounce_omega": 1.0,
-                "pixel_bounce_gamma": 1.0,
-                "empty_traps_for_first_transfers": false,
-                "overscan_start": -1,
-                "pixel_bounce_kv": 0.0,
                 "empty_traps_between_columns": true,
-                "force_release_away_from_readout": true,
+                "pixel_bounce_kA": 0.0,
+                "empty_traps_for_first_transfers": false,
+                "pixel_bounce_kv": 0.0,
+                "overscan_start": -1,
+                "pixel_bounce_omega": 1.0,
                 "prescan_offset": 0,
+                "force_release_away_from_readout": true,
                 "dwell_times": {
                     "type": "ndarray",
                     "array": [
                         1.0
                     ],
                     "dtype": "float64"
-                }
+                },
+                "use_integer_express_matrix": false,
+                "pixel_bounce_gamma": 1.0
             }
         },
-        "time_stop": -1,
+        "prune_n_electrons": 1e-18,
+        "allow_negative_pixels": 1,
         "verbosity": 0,
-        "window_start": 0,
-        "window_stop": -1
+        "prune_frequency": 20
     }
 }

@@ -10,6 +10,7 @@ the API for performing CTI correction.
 The correction of CTI calibration data can also be used as a diagnostic for the quality of the CTI model that is
 calibrated.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -17,9 +18,11 @@ calibrated.
 # print(f"Working Directory has been set to `{workspace_path}`")
 
 import json
+import numpy as np
 from os import path
 import autocti as ac
 import autocti.plot as aplt
+from autoconf import fitsable
 
 """
 __Dataset__
@@ -133,22 +136,19 @@ __Output__
 Output the corrected image to the dataset path as a .png file.
 """
 for data_corrected_1d, norm in zip(data_corrected_1d_list, norm_list):
-    mat_plot = aplt.MatPlot1D(
-        output=aplt.Output(
-            path=path.join(dataset_path, "correction", f"norm_{int(norm)}"),
-            filename=f"data_corrected",
-            format="png",
-        )
+    aplt.plot_yx(
+        y=data_corrected_1d,
+        output_path=path.join(dataset_path, "correction", f"norm_{int(norm)}"),
+        output_filename="data_corrected",
+        output_format="png",
     )
-
-    array_1d_plotter = aplt.Array1DPlotter(y=data_corrected_1d, mat_plot_1d=mat_plot)
-    array_1d_plotter.figure_1d()
 
 """
 Output the image, noise-map and pre CTI image of the dataset to .fits files.
 """
 [
-    data_corrected_1d.output_to_fits(
+    fitsable.output_to_fits(
+        values=np.asarray(data_corrected_1d.native),
         file_path=path.join(
             dataset_path, "correction", f"norm_{int(norm)}", f"data_corrected.fits"
         ),

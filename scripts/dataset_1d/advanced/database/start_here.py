@@ -3,7 +3,7 @@ Database: Introduction
 ======================
 
 The default behaviour of **PyAutoCTI** is for model-fitting results to be output to hard-disc in folders, which are
-straight forward to navigate and manually check. For small model-fitting tasks this is sufficient, however many users 
+straight forward to navigate and manually check. For small model-fitting tasks this is sufficient, however many users
 have a need to perform many model fits to large samples of CTI data, making manual inspection of results time consuming.
 #
 PyAutoCTI's database feature outputs all model-fitting results as a
@@ -22,6 +22,7 @@ In this script, we fit a 1D CTI Dataset to calibrate a CTI model, where:
  - The CTI model consists of multiple parallel `TrapInstantCapture` species.
  - The `CCD` volume filling is a simple parameterization with just a `well_fill_power` parameter.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -209,9 +210,15 @@ for i, dataset_name in enumerate(dataset_name_list):
         ac.AnalysisDataset1D(dataset=dataset, clocker=clocker)
         for dataset in dataset_list
     ]
-    analysis = sum(analysis_list)
 
-    search.fit(analysis=analysis, model=model, info=info)
+    analysis_factor_list = [
+        af.AnalysisFactor(prior_model=model, analysis=analysis)
+        for analysis in analysis_list
+    ]
+
+    factor_graph = af.FactorGraphModel(*analysis_factor_list)
+
+    search.fit(analysis=factor_graph, model=factor_graph.global_prior_model, info=info)
 
 
 """

@@ -9,6 +9,7 @@ This script illustrates all the available options.
 This script assumes familiaring with the **PyAutoCTI** API, if anything is unclear check out other scripts throughout
 the workspace.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -105,8 +106,7 @@ data_parallel_eper_list = layout.extract.parallel_eper.array_2d_list_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_parallel_eper_list[0])
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_parallel_eper_list[0])
 
 """
 A stacked 2D array of the list of 2D arrays returned above can be extracted.
@@ -117,8 +117,7 @@ data_parallel_eper = layout.extract.parallel_eper.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_parallel_eper)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_parallel_eper)
 
 """
 A binned 1D array can be extracted. 
@@ -130,8 +129,7 @@ image_1d_parallel_eper = layout.extract.parallel_eper.binned_array_1d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=image_1d_parallel_eper)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=image_1d_parallel_eper)
 
 """
 Negative inputs to the `pixels` tuple are supported in all of the above methods, which extract additional rows in 
@@ -141,8 +139,7 @@ image_1d_parallel_eper = layout.extract.parallel_eper.binned_array_1d_from(
     array=data, settings=ac.SettingsExtract(pixels=(-10, 10))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=image_1d_parallel_eper)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=image_1d_parallel_eper)
 
 
 """
@@ -159,29 +156,25 @@ data_parallel_fpr_list = layout.extract.parallel_fpr.array_2d_list_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_parallel_fpr_list[0])
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_parallel_fpr_list[0])
 
 data_parallel_fpr = layout.extract.parallel_fpr.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_parallel_fpr)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_parallel_fpr)
 
 data_parallel_fpr = layout.extract.parallel_fpr.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_parallel_fpr)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_parallel_fpr)
 
 image_1d_parallel_fpr = layout.extract.parallel_fpr.binned_array_1d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=image_1d_parallel_fpr)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=image_1d_parallel_fpr)
 
 """
 __Serial EPERs__
@@ -202,29 +195,25 @@ data_serial_eper_list = layout.extract.serial_eper.array_2d_list_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_serial_eper_list[0])
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_serial_eper_list[0])
 
 data_serial_eper = layout.extract.serial_eper.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_serial_eper)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_serial_eper)
 
 data_serial_eper = layout.extract.serial_eper.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_serial_eper)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_serial_eper)
 
 image_1d_serial_eper = layout.extract.serial_eper.binned_array_1d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=image_1d_serial_eper)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=image_1d_serial_eper)
 
 """
 __Serial FPR__
@@ -240,29 +229,25 @@ data_serial_fpr_list = layout.extract.serial_fpr.array_2d_list_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_serial_fpr_list[0])
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_serial_fpr_list[0])
 
 data_serial_fpr = layout.extract.serial_fpr.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_serial_fpr)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_serial_fpr)
 
 data_serial_fpr = layout.extract.serial_fpr.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_serial_fpr)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_serial_fpr)
 
 image_1d_serial_fpr = layout.extract.serial_fpr.binned_array_1d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=image_1d_serial_fpr)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=image_1d_serial_fpr)
 
 
 """
@@ -289,29 +274,25 @@ data_parallel_overscan_list = layout.extract.parallel_overscan.array_2d_list_fro
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_parallel_overscan_list[0])
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_parallel_overscan_list[0])
 
 data_parallel_overscan = layout.extract.parallel_overscan.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_parallel_overscan)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_parallel_overscan)
 
 data_parallel_overscan = layout.extract.parallel_overscan.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_parallel_overscan)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_parallel_overscan)
 
 image_1d_parallel_overscan = layout.extract.parallel_overscan.binned_array_1d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=image_1d_parallel_overscan)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=image_1d_parallel_overscan)
 
 """
 Equivalent methods are available for serial overscans.
@@ -325,29 +306,25 @@ data_serial_overscan_list = layout.extract.serial_overscan.array_2d_list_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_serial_overscan_list[0])
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_serial_overscan_list[0])
 
 data_serial_overscan = layout.extract.serial_overscan.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_serial_overscan)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_serial_overscan)
 
 data_serial_overscan = layout.extract.serial_overscan.stacked_array_2d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_2d_plotter = aplt.Array2DPlotter(array=data_serial_overscan)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=data_serial_overscan)
 
 image_1d_serial_overscan = layout.extract.serial_overscan.binned_array_1d_from(
     array=data, settings=ac.SettingsExtract(pixels=(0, 30))
 )
 
-array_1d_plotter = aplt.Array1DPlotter(y=image_1d_serial_overscan)
-array_1d_plotter.figure_1d()
+aplt.plot_yx(y=image_1d_serial_overscan)
 
 """
 __Dataset 1D__
@@ -376,8 +353,7 @@ dataset_1d = layout.extract.serial_overscan.dataset_1d_from(
     dataset_2d=dataset, settings=ac.SettingsExtract(pixels=(-10, 30))
 )
 
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_1d)
-dataset_plotter.subplot_dataset()
+aplt.subplot_dataset_1d(dataset=dataset_1d)
 
 """
 Finish.

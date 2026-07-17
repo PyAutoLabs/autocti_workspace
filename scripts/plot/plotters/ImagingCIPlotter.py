@@ -1,9 +1,11 @@
 """
-Plots: ImagingCIPlotter
-=======================
+Plots: ImagingCI
+=================
 
-This example illustrates how to plot a `ImagingCI` dataset using an `ImagingCIPlotter`.
+This example illustrates how to plot an `ImagingCI` dataset using the plotting functions in
+`autocti.plot`.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -71,87 +73,77 @@ dataset_list = [
 """
 __Plotting__
 
-We now pass the first dataset in the imaging to a `ImagingCIPlotter` and call various `figure_*` methods to plot 
-different attributes.
+We now pass the first dataset in the imaging to the `aplt.plot_array` function and call it once per
+attribute to plot different quantities.
 """
-dataset_plotter = aplt.ImagingCIPlotter(
-    dataset=dataset_list[0],
-)
-dataset_plotter.figures_2d(
-    data=True,
-    noise_map=True,
-    pre_cti_data=True,
-)
+aplt.plot_array(array=dataset_list[0].data, title="Data")
+aplt.plot_array(array=dataset_list[0].noise_map, title="Noise Map")
+aplt.plot_array(array=dataset_list[0].pre_cti_data, title="Pre CTI Data")
 
 """
-The `ImagingCIPlotter` may also plot a subplot of all of these attributes.
+The `aplt.subplot_imaging_ci` function may also plot a subplot of all of these attributes.
 """
-dataset_plotter.subplot_dataset()
+aplt.subplot_imaging_ci(dataset=dataset_list[0])
 
 """
 __Regions__
 
-We can also call `figures_1d_*` methods which create 1D plots of regions of the image binned over the parallel or
-serial direction.
+We can also call `aplt.figure_imaging_ci_data_region` which creates 1D plots of regions of the image
+binned over the parallel or serial direction.
 
 The regions available are:
 
  `parallel_fpr`: The charge injection region binned up over all columns (e.g. across serial).
- `parallel_eper`: The parallel CTI trails behind the charge injection region binned up over all columns (e.g. 
+ `parallel_eper`: The parallel CTI trails behind the charge injection region binned up over all columns (e.g.
   across serial).
  `serial_front_edge`: The charge injection region binned up over all rows (e.g. across parallel).
  `serial_trails`: The serial CTI trails behind the charge injection region binned up over all rows (e.g. across serial).
 """
-dataset_plotter.figures_1d(region="parallel_fpr", data=True, pre_cti_data=True)
-dataset_plotter.figures_1d(region="parallel_eper", data=True, pre_cti_data=True)
+aplt.figure_imaging_ci_data_region(dataset=dataset_list[0], region="parallel_fpr")
+aplt.figure_imaging_ci_data_region(dataset=dataset_list[0], region="parallel_eper")
 
 """
-Region plots also include the data with error bars showing the noise map.
+Region plots include the data with error bars showing the noise map.
 """
-dataset_plotter.figures_1d(region="parallel_fpr", data=True)
-dataset_plotter.figures_1d(region="parallel_eper", data=True)
+aplt.figure_imaging_ci_data_region(dataset=dataset_list[0], region="parallel_fpr")
+aplt.figure_imaging_ci_data_region(dataset=dataset_list[0], region="parallel_eper")
 
 """
 The above plots can also be created with a logarithmic y axis.
 """
-dataset_plotter.figures_1d(region="parallel_fpr", data_logy=True)
-dataset_plotter.figures_1d(region="parallel_eper", data_logy=True)
+aplt.figure_imaging_ci_data_region(
+    dataset=dataset_list[0], region="parallel_fpr", logy=True
+)
+aplt.figure_imaging_ci_data_region(
+    dataset=dataset_list[0], region="parallel_eper", logy=True
+)
 
 """
 There is also a subplot of these 1D plots.
 """
-dataset_plotter.subplot_1d(region="parallel_fpr")
+aplt.subplot_imaging_ci_region(dataset=dataset_list[0], region="parallel_fpr")
 
-"""`
-Imaging` contains the following attributes which can be plotted automatically via the `Include2D` object.
-
-(By default, an `Array2D` does not contain a `Mask2D`, we therefore manually created an `Array2D` with a mask to 
-illustrate the plotted of a mask and its border below).
 """
-include = aplt.Include2D(
-    parallel_overscan=True, serial_prescan=True, serial_overscan=True
-)
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset_list[0], include_2d=include)
-dataset_plotter.figures_2d(data=True)
+Cosmetic customization of these figures (e.g. drawing the parallel overscan, serial prescan and serial
+overscan regions, or a mask and its border) is no longer performed via an `Include2D` object — it is
+set via direct keyword arguments to the plotting functions and the `config/visualize.yaml` file.
+"""
+aplt.plot_array(array=dataset_list[0].data, title="Data")
 
 """
 __Multiple Images__
 
 Our `ImagingCI` dataset consists of many images taken at different charge injection levels. We may wish to plot
-all images on the same subplot, which can be performed using the method `subplot_of_figure`.
+all images on the same subplot, which can be performed using the `aplt.subplot_imaging_ci_list` function.
 """
-dataset_plotter_list = [
-    aplt.ImagingCIPlotter(dataset=dataset) for dataset in dataset_list
-]
-multi_plotter = aplt.MultiFigurePlotter(plotter_list=dataset_plotter_list)
-multi_plotter.subplot_of_figure(func_name="figures_2d", figure_name="data")
-multi_plotter.subplot_of_figure(func_name="figures_2d", figure_name="pre_cti_data")
+aplt.subplot_imaging_ci_list(dataset_list=dataset_list)
 
 """
-This method can also plot all of the 1D figures that we plotted above.
+The `aplt.subplot_imaging_ci_data_region_list` function can also plot all of the 1D region figures that we
+plotted above, for every dataset on the same subplot.
 """
-multi_plotter.subplot_of_figure(
-    func_name="figures_1d", figure_name="data", region="parallel_fpr"
+aplt.subplot_imaging_ci_data_region_list(
+    dataset_list=dataset_list, region="parallel_fpr"
 )
 
 """
@@ -178,13 +170,8 @@ dataset_list = [
     for layout, norm in zip(layout_list, norm_list)
 ]
 
-dataset_plotter_list = [
-    aplt.ImagingCIPlotter(dataset=dataset) for dataset in dataset_list
-]
-multi_plotter = aplt.MultiFigurePlotter(plotter_list=dataset_plotter_list)
-
-multi_plotter.subplot_of_figure(
-    func_name="figures_1d", figure_name="data", region="parallel_fpr"
+aplt.subplot_imaging_ci_data_region_list(
+    dataset_list=dataset_list, region="parallel_fpr"
 )
 
 
