@@ -18,6 +18,7 @@ the image below) interspersed around regions with no charge.
 (It turns out that charge injection images are crucial to calibrating CTI -- a process we have to undertake before
 we can correct CTI in data. We cover this in overviews 4 and 5!)
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -101,11 +102,7 @@ pre_cti_data_2d = ac.Array2D.no_mask(
 """
 import autocti.plot as aplt
 
-array_2d_plotter = aplt.Array2DPlotter(
-    array=pre_cti_data_2d,
-    mat_plot_2d=aplt.MatPlot2D(title=aplt.Title(label="2D Data Without CTI")),
-)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=pre_cti_data_2d, title="2D Data Without CTI")
 
 """
 To model the CCD clocking process, including CTI, we create a **PyAutoCTI** `Clocker2D` object, which calls arCTIc
@@ -144,11 +141,7 @@ block of 10 electrons.
 """
 post_cti_data_2d = clocker.add_cti(data=pre_cti_data_2d, cti=cti)
 
-array_2d_plotter = aplt.Array2DPlotter(
-    array=post_cti_data_2d,
-    mat_plot_2d=aplt.MatPlot2D(title=aplt.Title(label="2D Data With Parallel CTI")),
-)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=post_cti_data_2d, title="2D Data With Parallel CTI")
 
 """
 __CTI Model (Serial)__
@@ -180,11 +173,7 @@ block of 10 electrons.
 """
 post_cti_data_2d = clocker.add_cti(data=pre_cti_data_2d, cti=cti)
 
-array_2d_plotter = aplt.Array2DPlotter(
-    array=post_cti_data_2d,
-    mat_plot_2d=aplt.MatPlot2D(title=aplt.Title(label="2D Data With Serial CTI")),
-)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=post_cti_data_2d, title="2D Data With Serial CTI")
 
 """
 __CTI Model (Parallel + Serial)__
@@ -206,13 +195,7 @@ cti = ac.CTI2D(
 
 post_cti_data_2d = clocker.add_cti(data=pre_cti_data_2d, cti=cti)
 
-array_2d_plotter = aplt.Array2DPlotter(
-    array=post_cti_data_2d,
-    mat_plot_2d=aplt.MatPlot2D(
-        title=aplt.Title(label="2D Data With Parallel and Serial CTI")
-    ),
-)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=post_cti_data_2d, title="2D Data With Parallel and Serial CTI")
 
 """
 __Correcting CTI__
@@ -221,11 +204,7 @@ Correcting CTI in 2D is as easy as it was in 1D, by simply calling the clocker's
 """
 corrected_cti_data = clocker.remove_cti(data=post_cti_data_2d, cti=cti)
 
-array_2d_plotter = aplt.Array2DPlotter(
-    array=corrected_cti_data,
-    mat_plot_2d=aplt.MatPlot2D(title=aplt.Title(label="2D Data With CTI Corrected")),
-)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=corrected_cti_data, title="2D Data With CTI Corrected")
 
 """
 __Wrap Up__

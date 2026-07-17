@@ -57,6 +57,7 @@ This script fits a 1D dataset with CTI, where:
 import copy
 import os
 
+import matplotlib.pyplot as plt
 import numpy as np
 from os import path
 import autofit as af
@@ -95,15 +96,13 @@ settings_dict = {
 workspace_path = os.getcwd()
 plot_path = path.join(workspace_path, "scripts", "plot", "diagnostics", "images")
 
-output = aplt.Output(path=plot_path, filename="fpr_vs_eper", format="png")
+fpa_size = 2  # matches the 2x2 FPA grid produced by diagnostics/imaging_ci/simulator.py
 
-multi_plotter_list = []
-
-fpa_size = 6
+fig, axes = plt.subplots(fpa_size, fpa_size, figsize=(24, 24))
 
 for fpa_i in range(fpa_size):
     for fpa_j in range(fpa_size):
-        plotter_list = []
+        ax = axes[fpa_i, fpa_j]
 
         for quad_k in range(4):
             fpr_list = []
@@ -171,34 +170,20 @@ for fpa_i in range(fpa_size):
                 fpr_list.append(fpr)
                 eper_list.append(eper)
 
-            legend = aplt.Legend(label=f"quad_{quad_k}")
-            title = aplt.Title(label=settings_dict["CCD"])
-            units = aplt.Units(use_raw=True, ticks_label=r"e$^-$")
-
-            yx_plotter = aplt.YX1DPlotter(
-                x=fpr_list,
+            aplt.plot_yx(
                 y=eper_list,
+                x=fpr_list,
+                ax=ax,
+                label=f"quad_{quad_k}",
                 plot_axis_type="semilogy",
-                should_plot_grid=True,
-                mat_plot_1d=aplt.MatPlot1D(
-                    output=output, legend=legend, title=title, units=units
-                ),
+                title=settings_dict["CCD"],
+                ytick_suffix=r" e$^-$",
             )
 
-            plotter_list.append(yx_plotter)
-
-        multi_plotter = aplt.MultiYX1DPlotter(
-            plotter_list=plotter_list,
-        )
-
-        multi_plotter_list.append(multi_plotter)
-
-subplot_title = (
+fig.suptitle(
     "[x]: FPR signal excluding first 10 pixels\n[y]: EPER signal in first trail pixel"
 )
-
-multi_plotter = aplt.MultiFigurePlotter(
-    plotter_list=multi_plotter_list, subplot_shape=(6, 6), subplot_title=subplot_title
-)
-
-multi_plotter.subplot_of_multi_yx_1d()
+fig.tight_layout()
+os.makedirs(plot_path, exist_ok=True)
+fig.savefig(path.join(plot_path, "fpr_vs_eper.png"))
+plt.close(fig)

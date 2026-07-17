@@ -11,6 +11,7 @@ __Start Here Notebook__
 
 If any code in this script is unclear, refer to the `simulators/start_here.ipynb` notebook.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -115,8 +116,7 @@ dataset_list = [
     for layout, simulator in zip(layout_list, simulator_list)
 ]
 
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_dataset_1d(dataset=dataset_list[0])
 
 """
 __Output__
@@ -124,16 +124,11 @@ __Output__
 Output a subplot of the data, noise-map and pre CTI image to .png files.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    filename = f"dataset_1d_{int(norm)}"
-
     output_path = path.join(dataset_path, f"norm_{int(norm)}")
 
-    mat_plot = aplt.MatPlot1D(
-        output=aplt.Output(path=output_path, filename=filename, format="png")
+    aplt.subplot_dataset_1d(
+        dataset=dataset, output_path=output_path, output_format="png"
     )
-
-    dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-    dataset_plotter.subplot_dataset()
 
 """
 Output the data, noise-map and pre CTI image of the charge injection dataset to .fits files.

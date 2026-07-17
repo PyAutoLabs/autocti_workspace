@@ -15,6 +15,7 @@ Fitting a CTI model to a realistically sized charge injection image (e.g. the 20
 tutorials) can take a while. To ensure this illustration script runs fast, we'll fit an idealized charge injection
 image which is just 30 x 30 pixels.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -76,8 +77,8 @@ each image) and a single EPER (with trails appearing at the bottom of the image)
 We will fit only a parallel CTI model for simplicity in this overview, but extending this to also include serial 
 CTI is straightforward.
 """
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset)
-dataset_plotter.figures_2d(data=True, pre_cti_data=True)
+aplt.plot_array(array=dataset.data, title="Data")
+aplt.plot_array(array=dataset.pre_cti_data, title="Pre CTI Data")
 
 """
 __CTI Model__
@@ -125,26 +126,14 @@ The `FitImagingCI` contains the following NumPy arrays as properties which quant
  - `normalized_residual_map`: Normalized_Residual = (Data - Model_Data) / Noise
  - `chi_squared_map`: Chi_Squared = ((Residuals) / (Noise)) ** 2.0 = ((Data - Model)**2.0)/(Variances)
 
-We can plot these via a `FitImagingCIPlotter` and see that the residuals and other quantities are significant, 
+We can plot these via the `aplt.plot_array` function and see that the residuals and other quantities are significant, 
 indicating a bad model fit.
 """
-fit_plotter = aplt.FitImagingCIPlotter(
-    fit=fit,
-    mat_plot_2d=aplt.MatPlot2D(title=aplt.Title(label=r"2D Residual Map (Bad Fit)")),
+aplt.plot_array(array=fit.residual_map, title="2D Residual Map (Bad Fit)")
+aplt.plot_array(
+    array=fit.normalized_residual_map, title="2D Normalized Residual Map (Bad Fit)"
 )
-fit_plotter.figures_2d(residual_map=True)
-fit_plotter = aplt.FitImagingCIPlotter(
-    fit=fit,
-    mat_plot_2d=aplt.MatPlot2D(
-        title=aplt.Title(label=r"2D Normalized Residual Map (Bad Fit)")
-    ),
-)
-fit_plotter.figures_2d(normalized_residual_map=True)
-fit_plotter = aplt.FitImagingCIPlotter(
-    fit=fit,
-    mat_plot_2d=aplt.MatPlot2D(title=aplt.Title(label=r"2D Chi-Squared Map (Bad Fit)")),
-)
-fit_plotter.figures_2d(chi_squared_map=True)
+aplt.plot_array(array=fit.chi_squared_map, title="2D Chi-Squared Map (Bad Fit)")
 
 """
 There are single valued floats which quantify the goodness of fit:
@@ -184,27 +173,11 @@ fit = ac.FitImagingCI(dataset=dataset, post_cti_data=post_cti_data)
 """
 The plot of the residuals now shows no significant signal, indicating a good fit.
 """
-fit_plotter = aplt.FitImagingCIPlotter(
-    fit=fit,
-    mat_plot_2d=aplt.MatPlot2D(title=aplt.Title(label=r"2D Residual Map (Good Fit)")),
+aplt.plot_array(array=fit.residual_map, title="2D Residual Map (Good Fit)")
+aplt.plot_array(
+    array=fit.normalized_residual_map, title="2D Normalized Residual Map (Good Fit)"
 )
-fit_plotter.figures_2d(residual_map=True)
-
-fit_plotter = aplt.FitImagingCIPlotter(
-    fit=fit,
-    mat_plot_2d=aplt.MatPlot2D(
-        title=aplt.Title(label=r"2D Normalized Residual Map (Good Fit)")
-    ),
-)
-fit_plotter.figures_2d(normalized_residual_map=True)
-
-fit_plotter = aplt.FitImagingCIPlotter(
-    fit=fit,
-    mat_plot_2d=aplt.MatPlot2D(
-        title=aplt.Title(label=r"2D Chi-Squared Map (Good Fit)")
-    ),
-)
-fit_plotter.figures_2d(chi_squared_map=True)
+aplt.plot_array(array=fit.chi_squared_map, title="2D Chi-Squared Map (Good Fit)")
 
 """
 If we compare the `log_likelihood` to the value above, we can see that it has increased by a lot, again indicating a
@@ -239,13 +212,7 @@ If we apply this mask to the charge injection imaging and plot it, the parallel 
 """
 dataset = dataset.apply_mask(mask=mask)
 
-dataset_plotter = aplt.ImagingCIPlotter(
-    dataset=dataset,
-    mat_plot_2d=aplt.MatPlot2D(
-        title=aplt.Title(label=r"Charge Injection Image (Masked)")
-    ),
-)
-dataset_plotter.figures_2d(data=True)
+aplt.plot_array(array=dataset.data, title="Charge Injection Image (Masked)")
 
 """
 If we repeat the fit above using this masked imaging we see that the residuals, normalized residuals and chi-squared
@@ -253,23 +220,11 @@ map are masked and not included in the fit.
 """
 fit = ac.FitImagingCI(dataset=dataset, post_cti_data=post_cti_data)
 
-fit_plotter = aplt.FitImagingCIPlotter(
-    fit=fit,
-    mat_plot_2d=aplt.MatPlot2D(title=aplt.Title(label=r"2D Residual Map (Masked)")),
+aplt.plot_array(array=fit.residual_map, title="2D Residual Map (Masked)")
+aplt.plot_array(
+    array=fit.normalized_residual_map, title="2D Normalized Residual Map (Masked)"
 )
-fit_plotter.figures_2d(residual_map=True)
-fit_plotter = aplt.FitImagingCIPlotter(
-    fit=fit,
-    mat_plot_2d=aplt.MatPlot2D(
-        title=aplt.Title(label=r"2D Normalized Residual Map (Masked)")
-    ),
-)
-fit_plotter.figures_2d(normalized_residual_map=True)
-fit_plotter = aplt.FitImagingCIPlotter(
-    fit=fit,
-    mat_plot_2d=aplt.MatPlot2D(title=aplt.Title(label=r"2D Chi-Squared Map (Masked)")),
-)
-fit_plotter.figures_2d(chi_squared_map=True)
+aplt.plot_array(array=fit.chi_squared_map, title="2D Chi-Squared Map (Masked)")
 
 """
 Furthermore, the `log_likelihood` value changes, because the parallel FPR pixels are not used when computing its value.
@@ -313,13 +268,7 @@ dataset = ac.Dataset1D.from_fits(
 When we plot the dataset we see it has an FPR of 25 pixels and an EPER of 5 trailling pixels, just like the charge 
 injection data.
 """
-dataset_plotter = aplt.Dataset1DPlotter(
-    dataset=dataset,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"), title=aplt.Title(label=r"1D Dataset")
-    ),
-)
-dataset_plotter.subplot_dataset()
+aplt.subplot_dataset_1d(dataset=dataset)
 
 """
 We can mask the data to remove the FPR just like we did above.
@@ -355,30 +304,9 @@ fit = ac.FitDataset1D(dataset=dataset, post_cti_data=post_cti_data)
 """
 Plotting the fit shows this model gives a good fit, with minimal residuals.
 """
-fit_plotter = aplt.FitDataset1DPlotter(
-    fit=fit,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D Residual Map"),
-    ),
-)
-fit_plotter.figures_1d(residual_map=True)
-fit_plotter = aplt.FitDataset1DPlotter(
-    fit=fit,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D Normalized Residual Map"),
-    ),
-)
-fit_plotter.figures_1d(normalized_residual_map=True)
-fit_plotter = aplt.FitDataset1DPlotter(
-    fit=fit,
-    mat_plot_1d=aplt.MatPlot1D(
-        yticks=aplt.YTicks(manual_suffix="e-"),
-        title=aplt.Title(label=r"1D Chi-Squared Map"),
-    ),
-)
-fit_plotter.figures_1d(chi_squared_map=True)
+aplt.figure_fit_dataset_1d(fit=fit, quantity="residual_map")
+aplt.figure_fit_dataset_1d(fit=fit, quantity="normalized_residual_map")
+aplt.figure_fit_dataset_1d(fit=fit, quantity="chi_squared_map")
 
 """
 The fit has all the same figures of merit as the charge injection fit, for example, the `chi_squared` 

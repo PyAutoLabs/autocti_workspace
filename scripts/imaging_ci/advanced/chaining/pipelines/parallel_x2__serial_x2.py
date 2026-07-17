@@ -7,6 +7,7 @@ By chaining together three searches this script fits A CTI model using `ImagingC
  - The CTI model consists of an input number of parallel trap species and an input number of serial trap species.
  - The `CCD` volume filling is an input.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -73,8 +74,7 @@ dataset_list = [
     for layout, norm in zip(layout_list, norm_list)
 ]
 
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_imaging_ci(dataset=dataset_list[0])
 
 """
 __Mask__
@@ -148,10 +148,14 @@ analysis_list = [
     for dataset in imaging_ci_trim_list
 ]
 
-analysis = sum(analysis_list)
-analysis.n_cores = 1
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-result_1_list = search.fit(model=model, analysis=analysis)
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
+
+result_1_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Model + Search + Analysis + Model-Fit (Search 2)__
@@ -181,8 +185,8 @@ serial_ccd.full_well_depth = 200000.0
 model = af.Collection(
     cti=af.Model(
         ac.CTI2D,
-        parallel_trap_list=result_1_list.instance.cti.parallel_trap_list,
-        parallel_ccd=result_1_list.instance.cti.parallel_ccd,
+        parallel_trap_list=result_1_list[0].instance.cti.parallel_trap_list,
+        parallel_ccd=result_1_list[0].instance.cti.parallel_ccd,
         serial_trap_list=serial_trap_list,
         serial_ccd=serial_ccd,
     )
@@ -232,10 +236,14 @@ analysis_list = [
     for dataset in dataset_list
 ]
 
-analysis = sum(analysis_list)
-analysis.n_cores = 1
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-result_2_list = search.fit(model=model, analysis=analysis)
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
+
+result_2_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Model (Search 3)__
@@ -288,10 +296,14 @@ analysis_list = [
     for dataset in dataset_list
 ]
 
-analysis = sum(analysis_list)
-analysis.n_cores = 1
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-result_5_list = search.fit(model=model, analysis=analysis)
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
+
+result_5_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 Finish.

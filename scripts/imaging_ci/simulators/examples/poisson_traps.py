@@ -13,6 +13,7 @@ __Start Here Notebook__
 
 If any code in this script is unclear, refer to the `simulators/start_here.ipynb` notebook.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -152,31 +153,30 @@ __Output__
 Output subplots of the simulated dataset to the dataset path as .png files.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    output = aplt.Output(
-        path=path.join(dataset_path, f"norm_{int(norm)}"),
-        filename="imaging_ci",
-        format="png",
+    aplt.subplot_imaging_ci(
+        dataset=dataset,
+        output_path=path.join(dataset_path, f"norm_{int(norm)}"),
+        output_format="png",
     )
-
-    mat_plot = aplt.MatPlot2D(output=output)
-
-    dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset, mat_plot_2d=mat_plot)
-    dataset_plotter.subplot_dataset()
 
 """
 Output plots of the EPER and FPR's binned up in 1D, so that electron capture and trailing can be
 seen clearly.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    output = aplt.Output(
-        path=path.join(dataset_path, f"norm_{int(norm)}", "binned_1d"), format="png"
-    )
+    output_path = path.join(dataset_path, f"norm_{int(norm)}", "binned_1d")
 
-    mat_plot = aplt.MatPlot1D(output=output)
-
-    dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-    dataset_plotter.figures_1d(region="parallel_fpr", data=True, data_logy=True)
-    dataset_plotter.figures_1d(region="parallel_eper", data=True, data_logy=True)
+    for region in ("parallel_fpr", "parallel_eper"):
+        aplt.figure_imaging_ci_data_region(
+            dataset=dataset, region=region, output_path=output_path, output_format="png"
+        )
+        aplt.figure_imaging_ci_data_region(
+            dataset=dataset,
+            region=region,
+            logy=True,
+            output_path=output_path,
+            output_format="png",
+        )
 
 """
 Output the image, noise-map and pre CTI image of the charge injection dataset to .fits files.

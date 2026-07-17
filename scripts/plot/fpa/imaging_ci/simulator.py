@@ -34,6 +34,7 @@ This script simulates a 1D dataset with CTI, where:
  - CTI is added to the image using a 1 `Trap` species model.
  - The volume filling behaviour in the direction uses the `CCD` class.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -110,8 +111,7 @@ for fpa_i in range(6):
             for layout, simulator in zip(layout_list, simulator_list)
         ]
 
-        dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset_list[0])
-        dataset_plotter.subplot_dataset()
+        aplt.subplot_imaging_ci(dataset=dataset_list[0])
 
         [
             dataset.output_to_fits(
@@ -128,34 +128,29 @@ for fpa_i in range(6):
         ]
 
         for dataset, norm in zip(dataset_list, norm_list):
-            output = aplt.Output(
-                path=path.join(dataset_path, f"norm_{int(norm)}"),
-                filename="imaging_ci",
-                format="png",
+            aplt.subplot_imaging_ci(
+                dataset=dataset,
+                output_path=path.join(dataset_path, f"norm_{int(norm)}"),
+                output_format="png",
             )
-
-            mat_plot = aplt.MatPlot2D(output=output)
-
-            dataset_plotter = aplt.ImagingCIPlotter(
-                dataset=dataset, mat_plot_2d=mat_plot
-            )
-            dataset_plotter.subplot_dataset()
 
         for dataset, norm in zip(dataset_list, norm_list):
-            output = aplt.Output(
-                path=path.join(dataset_path, f"norm_{int(norm)}", "binned_1d"),
-                format="png",
-            )
+            binned_path = path.join(dataset_path, f"norm_{int(norm)}", "binned_1d")
 
-            mat_plot = aplt.MatPlot1D(output=output)
-
-            dataset_plotter = aplt.ImagingCIPlotter(
-                dataset=dataset, mat_plot_1d=mat_plot
-            )
-            dataset_plotter.figures_1d(region="parallel_fpr", data=True, data_logy=True)
-            dataset_plotter.figures_1d(
-                region="parallel_eper", data=True, data_logy=True
-            )
+            for region in ["parallel_fpr", "parallel_eper"]:
+                aplt.figure_imaging_ci_data_region(
+                    dataset=dataset,
+                    region=region,
+                    output_path=binned_path,
+                    output_format="png",
+                )
+                aplt.figure_imaging_ci_data_region(
+                    dataset=dataset,
+                    region=region,
+                    logy=True,
+                    output_path=binned_path,
+                    output_format="png",
+                )
 
         40
         ac.output_to_json(

@@ -14,6 +14,7 @@ from the previous day's CTI calibration observations.
 
 I recommend you have completed all previous preprocess scripts before this one.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -86,8 +87,7 @@ dataset = ac.ImagingCI.from_fits(
 """
 A plot of the data shows it has non-uniform charge injection lines and cosmic rays.
 """
-array_2d_plotter = aplt.Array2DPlotter(array=dataset.data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=dataset.data)
 
 """
 __Normalization List__
@@ -117,22 +117,19 @@ pre_cti_data = layout.pre_cti_data_non_uniform_from(
 """
 If we plot the original data and this pre-CTI estimate we can see they are similar by eye.
 """
-array_2d_plotter = aplt.Array2DPlotter(array=dataset.data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=dataset.data)
 
-array_2d_plotter = aplt.Array2DPlotter(array=pre_cti_data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=pre_cti_data)
 
 """
-However, if we subtract the two images, we find that there are residuals contained in the parallel and serial 
+However, if we subtract the two images, we find that there are residuals contained in the parallel and serial
 FPR and EPERs.
 
 These are because our pre-CTI estimate image does not account for the CTI contained in the original data.
 """
 residual_map = dataset.data.native - pre_cti_data.native
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 """
 The aim of this example is to account for the impact of serial CTI mixing in the charge injection FPR, which the
@@ -188,8 +185,7 @@ injection image estimate.
 """
 residual_map = dataset.data.native - post_cti_data
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 """
 __CTI Correction__
@@ -223,8 +219,7 @@ post_cti_data = clocker.add_cti(data=pre_cti_data, cti=cti)
 
 residual_map = dataset.data.native - post_cti_data
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 """
 __Parallel CTI Correction__

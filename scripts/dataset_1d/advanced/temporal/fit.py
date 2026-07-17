@@ -24,6 +24,7 @@ In this script, we will fit multiple charge injection imaging to calibrate CTI, 
  - The CTI model consists of one `TrapInstantCapture` species.
  - The `CCD` volume filling is a simple parameterization.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -213,16 +214,23 @@ for time in time_list:
         ac.AnalysisDataset1D(dataset=dataset, clocker=clocker)
         for dataset in dataset_list
     ]
-    analysis = sum(analysis_list)
-    analysis.n_cores = 1
+
+    analysis_factor_list = [
+        af.AnalysisFactor(prior_model=model, analysis=analysis)
+        for analysis in analysis_list
+    ]
+
+    factor_graph = af.FactorGraphModel(*analysis_factor_list)
 
     """
     __Model-Fit__
-    
+
     We can now begin the model-fit by passing the model and analysis object to the search, which performs a non-linear
     search to find which models fit the data with the highest likelihood.
     """
-    result_list = search.fit(model=model, analysis=analysis)
+    result_list = search.fit(
+        model=factor_graph.global_prior_model, analysis=factor_graph
+    )
 
     """
     __Instances__

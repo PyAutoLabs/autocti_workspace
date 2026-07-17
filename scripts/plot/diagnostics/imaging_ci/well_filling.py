@@ -15,6 +15,7 @@ However, a visual showing the behaviour before the fit can be produced.
 
 import os
 
+import matplotlib.pyplot as plt
 import numpy as np
 from os import path
 import autocti as ac
@@ -95,14 +96,6 @@ eper_list = [
 
 print(eper_list)
 
-units = aplt.Units(use_scaled=True)
-xticks = aplt.XTicks(manual_suffix="e-")
-yticks = aplt.YTicks(manual_suffix="e-")
-xlabel = aplt.XLabel(xlabel="Injeciton Level")
-ylabel = aplt.YLabel(ylabel="Electrons in First Parallel EPER Pixel")
-yx_plot = aplt.YXPlot(linestyle=" ", marker="x", ms=20)
-output = aplt.Output(path=workspace_path, filename="well_filling", format="png")
-
 beta_0 = np.asarray(injection_norm_list) ** (0.5)
 beta_1 = 0.5 * np.asarray(injection_norm_list) ** (0.5)
 beta_2 = 0.1 * np.asarray(injection_norm_list) ** (0.5)
@@ -113,32 +106,48 @@ beta_2 = 0.1 * np.asarray(injection_norm_list) ** (0.5)
 # beta_1 = np.asarray(injection_norm_list)**(0.5)
 # beta_2 = np.asarray(injection_norm_list)**(0.7)
 
-mat_plot = aplt.MatPlot1D(
-    yx_plot=yx_plot,
-    ylabel=ylabel,
-    xlabel=xlabel,
-    yticks=yticks,
-    xticks=xticks,
-    units=units,
-    output=output,
+"""
+__Plot__
+
+The `aplt.plot_yx()` function plots the EPER signal against the injection level. `xtick_suffix` /
+`ytick_suffix` append the electron unit ("e-") to the tick labels, replicating the old `Units` /
+`XTicks` / `YTicks` customization.
+"""
+fig, ax = plt.subplots(figsize=(10, 10))
+
+aplt.plot_yx(
+    y=eper_list,
+    x=injection_norm_list,
+    ax=ax,
+    plot_axis_type="scatter",
+    xlabel="Injection Level",
+    ylabel="Electrons in First Parallel EPER Pixel",
+    xtick_suffix="e-",
+    ytick_suffix="e-",
 )
 
-plotter = aplt.YX1DPlotter(
-    x=injection_norm_list,
-    y=eper_list,
-    mat_plot_1d=mat_plot,
-)
+fig.savefig(path.join(workspace_path, "well_filling.png"))
+plt.close(fig)
 
-plotter.figure_1d()
+"""
+The well filling behaviour is also plotted on a log-log axis, alongside three reference power-law
+curves (`beta_0`, `beta_1`, `beta_2`) for comparison against the data.
+"""
+fig, ax = plt.subplots(figsize=(10, 10))
 
-plotter = aplt.YX1DPlotter(
-    x=injection_norm_list,
+aplt.plot_yx(
     y=eper_list,
-    mat_plot_1d=mat_plot,
+    x=injection_norm_list,
+    ax=ax,
     plot_axis_type="loglog",
-    plot_yx_dict={"y_extra": [beta_0, beta_1, beta_2]},
+    y_extra=beta_0,
+    xlabel="Injection Level",
+    ylabel="Electrons in First Parallel EPER Pixel",
+    xtick_suffix="e-",
+    ytick_suffix="e-",
 )
+ax.plot(injection_norm_list, beta_1, color="g", linestyle="--", alpha=0.7)
+ax.plot(injection_norm_list, beta_2, color="b", linestyle="--", alpha=0.7)
 
-plotter.set_filename(filename="well_filling_loglog")
-
-plotter.figure_1d()
+fig.savefig(path.join(workspace_path, "well_filling_loglog.png"))
+plt.close(fig)

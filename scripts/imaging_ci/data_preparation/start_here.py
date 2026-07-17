@@ -19,6 +19,7 @@ The pixel scale of some common telescopes is as follows:
 
 It is absolutely vital you use the correct pixel scale, so double check this value!
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -124,10 +125,9 @@ dataset = ac.ImagingCI.from_fits(
 )
 
 """
-Use a `ImagingCIPlotter` to the plot the data.
+We now plot the data.
 """
-array_2d_plotter = aplt.Array2DPlotter(array=dataset.data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=dataset.data)
 
 """
 __Image__
@@ -156,8 +156,7 @@ RMS standard deviation in every pixel (not the variances, HST WHT-map values, et
 
 Lets inspect a noise-map which conforms to **PyAutoCTI** standards:
 """
-array_plotter = aplt.Array2DPlotter(array=dataset.noise_map)
-array_plotter.figure_2d()
+aplt.plot_array(array=dataset.noise_map)
 
 """
 This noise-map conforms to **PyAutoCTI** standards for the following reasons:
@@ -200,8 +199,7 @@ be estimate using the FPR.
 
 Lets inspect pre-cti data which conforms to **PyAutoCTI** standards:
 """
-array_plotter = aplt.Array2DPlotter(array=dataset.pre_cti_data)
-array_plotter.figure_2d()
+aplt.plot_array(array=dataset.pre_cti_data)
 
 """
 This conforms to **PyAutoCTI** standards for the following reasons.
@@ -242,8 +240,7 @@ cosmic_ray_map = ac.Array2D.from_fits(
     pixel_scales=0.1,
 )
 
-array_plotter = aplt.Array2DPlotter(array=cosmic_ray_map)
-array_plotter.figure_2d()
+aplt.plot_array(array=cosmic_ray_map)
 
 """
 This conforms to **PyAutoCTI** standards for the following reasons.

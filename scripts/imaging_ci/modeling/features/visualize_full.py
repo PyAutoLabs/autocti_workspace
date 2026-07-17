@@ -16,6 +16,7 @@ __Start Here Notebook__
 
 If any code in this script is unclear, refer to the `modeling/start_here.ipynb` notebook.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -104,8 +105,7 @@ dataset_list = [
 """
 Lets plot the first `ImagingCI`.
 """
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_imaging_ci(dataset=dataset_list[0])
 
 """
 __Full__
@@ -222,21 +222,22 @@ analysis_list = [
 ]
 
 """
-By summing this list of analysis objects, we create an overall `Analysis` which we can use to fit the CTI model, where:
+Each analysis object is wrapped in an `AnalysisFactor`, which pairs it with the model and prepares it for use in a
+factor graph. The analysis factors are then combined into a `FactorGraphModel`, which we use to fit the CTI model,
+where:
 
- - The log likelihood function of this summed analysis class is the sum of the log likelihood functions of each 
+ - The log likelihood function of this factor graph is the sum of the log likelihood functions of each
  individual analysis object.
 
- - The summing process ensures that tasks such as outputting results to hard-disk, visualization, etc use a 
+ - The factor graph structure ensures that tasks such as outputting results to hard-disk, visualization, etc use a
  structure that separates each analysis.
 """
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-"""
-We can parallelize the likelihood function of these analysis classes, whereby each evaluation will be performed on a 
-different CPU.
-"""
-analysis.n_cores = 1
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
 
 """
 __Model-Fit__
@@ -247,7 +248,7 @@ search to find which models fit the data with the highest likelihood.
 Checkout the folder `autocti_workspace/output/imaging_ci/parallel[x2]` for live outputs 
 of the results of the fit, including on-the-fly visualization of the best fit model!
 """
-result_list = search.fit(model=model, analysis=analysis)
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Result__
@@ -266,8 +267,7 @@ print(result_list[0].max_log_likelihood_instance.cti.parallel_trap_list[0].densi
 print(result_list[0].max_log_likelihood_instance.cti.parallel_ccd.well_fill_power)
 
 for result in result_list:
-    fit_plotter = aplt.FitImagingCIPlotter(fit=result.max_log_likelihood_fit)
-    fit_plotter.subplot_fit()
+    aplt.subplot_fit_ci(fit=result.max_log_likelihood_fit)
 """
 Checkout `autocti_workspace/*/imaging_ci/modeling/results.py` for a full description of the result object.
 """

@@ -1,9 +1,11 @@
 """
-Plots: Dataset1DPlotter
-=======================
+Plots: Dataset1D
+================
 
-This example illustrates how to plot a `Dataset1D` dataset using an `Dataset1DPlotter`.
+This example illustrates how to plot a `Dataset1D` dataset using the plotting functions in
+`autocti.plot`.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -17,7 +19,7 @@ import autocti.plot as aplt
 """
 __dataset__
 
-Load the dataset 'dataset_1d/species_x1' from .fits files, which is the dataset we will use to illustrate plotting 
+Load the dataset 'dataset_1d/simple' from .fits files, which is the dataset we will use to illustrate plotting
 the dataset.
 """
 dataset_name = "simple"
@@ -58,76 +60,55 @@ dataset_list = [
 """
 __Plotting__
 
-We now pass the first dataset in the imaging to a `Dataset1DPlotter` and call various `figure_*` methods to plot 
-different attributes.
+We now pass the first dataset to the plotting functions, which plot its different attributes.
+
+The `figure_dataset_1d_data` function plots the data as a 1D errorbar figure (with the noise map
+as error bars); `logy=True` uses a logarithmic y axis. The `output_path` / `output_format` inputs
+save the figure to hard-disk.
 """
+output_path = path.join(".")
 
-output = aplt.Output(path=path.join("."), format="png")
-
-dataset_plotter = aplt.Dataset1DPlotter(
-    dataset=dataset_list[0], mat_plot_1d=aplt.MatPlot1D(output=output)
-)
-dataset_plotter.figures_1d(
-    data_logy=True,
-    noise_map=True,
-    signal_to_noise_map=True,
-    pre_cti_data=True,
+aplt.figure_dataset_1d_data(
+    dataset=dataset_list[0], logy=True, output_path=output_path, output_format="png"
 )
 
 """
-The `Dataset1DPlotter` may also plot a subplot of all of these attributes.
+The `subplot_dataset_1d` function plots a subplot of the data, noise map, signal-to-noise map and
+pre-CTI data.
 """
-dataset_plotter.subplot_dataset()
-
-"""`
-Imaging` contains the following attributes which can be plotted automatically via the `Include2D` object.
-
-(By default, an `Array2D` does not contain a `Mask2D`, we therefore manually created an `Array2D` with a mask to 
-illustrate the plotted of a mask and its border below).
-"""
-include = aplt.Include1D()
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0], include_1d=include)
-dataset_plotter.figures_1d(data=True)
+aplt.subplot_dataset_1d(
+    dataset=dataset_list[0], output_path=output_path, output_format="png"
+)
 
 """
 __Regions__
 
 Specific regions of the data can be extracted and plotted, for example the EPER or FPR.
-"""
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0])
-dataset_plotter.figures_1d(region="fpr", data=True)
-dataset_plotter.figures_1d(region="eper", data=True)
 
+Region plots include the data with error bars showing the noise map.
 """
-Region plots also include the data with error bars showing the noise map.
-"""
-dataset_plotter.figures_1d(region="fpr", data=True)
-dataset_plotter.figures_1d(region="eper", data=True)
+aplt.figure_dataset_1d_data(dataset=dataset_list[0], region="fpr")
+aplt.figure_dataset_1d_data(dataset=dataset_list[0], region="eper")
 
 """
 The above plots can also be created with a logarithmic y axis.
 """
-dataset_plotter.figures_1d(region="fpr", data_logy=True)
-dataset_plotter.figures_1d(region="eper", data_logy=True)
+aplt.figure_dataset_1d_data(dataset=dataset_list[0], region="fpr", logy=True)
+aplt.figure_dataset_1d_data(dataset=dataset_list[0], region="eper", logy=True)
 
 """
 __Multiple Images__
 
-Our `Dataset1D` dataset consists of many images taken at different charge injection levels. We may wish to plot
-all images on the same subplot, which can be performed using the method `subplot_of_figure`.
+Our `Dataset1D` dataset consists of many images taken at different charge injection levels. We may
+wish to plot all images on the same subplot, which is performed using the `subplot_dataset_1d_list`
+function.
 """
-dataset_plotter_list = [
-    aplt.Dataset1DPlotter(dataset=dataset)
-    for dataset, norm in zip(dataset_list, norm_list)
-]
-multi_plotter = aplt.MultiFigurePlotter(plotter_list=dataset_plotter_list)
-multi_plotter.subplot_of_figure(func_name="figures_1d", figure_name="data")
-multi_plotter.subplot_of_figure(func_name="figures_1d", figure_name="pre_cti_data")
+aplt.subplot_dataset_1d_list(dataset_list=dataset_list)
 
 """
 __Settings Dictionary__
 
-The `settings_dict` of each dataset has entries corresponding to the settings used to create the data. 
+The `settings_dict` of each dataset has entries corresponding to the settings used to create the data.
 
 For example, this might be the voltages of the charge injections.
 
@@ -148,12 +129,7 @@ dataset_list = [
     for layout, norm in zip(layout_list, norm_list)
 ]
 
-dataset_plotter_list = [
-    aplt.Dataset1DPlotter(dataset=dataset)
-    for dataset, norm in zip(dataset_list, norm_list)
-]
-multi_plotter = aplt.MultiFigurePlotter(plotter_list=dataset_plotter_list)
-multi_plotter.subplot_of_figure(func_name="figures_1d", figure_name="data")
+aplt.subplot_dataset_1d_list(dataset_list=dataset_list)
 
 """
 Finish.

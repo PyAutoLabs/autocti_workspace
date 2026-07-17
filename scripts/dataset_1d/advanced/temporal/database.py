@@ -8,6 +8,7 @@ of a space mission where radiation damage increases therefore also increasing th
 This script loads the model-fitting results into an .sqlite database file and performs interpolation on the results
 to determine the evolution of CTI with time.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
