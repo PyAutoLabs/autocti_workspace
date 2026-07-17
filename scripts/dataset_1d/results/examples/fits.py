@@ -2,17 +2,17 @@
 Results: Fits
 =============
 
-This tutorial inspects the model's fit to the data using the `FitDataset1D` object inferred by the non-linear search, 
+This tutorial inspects the model's fit to the data using the `FitDataset1D` object inferred by the non-linear search,
 for example visualizing and interpreting its results.
 
 This includes inspecting the residuals, chi-squared and other goodness-of-fit quantities.
 
 __Plot Module__
 
-This example uses the **PyAutoCTI** plot module to plot the results, including `Plotter` objects that make
-the figures and `MatPlot` objects that wrap matplotlib to customize the figures.
+This example uses the **PyAutoCTI** plot module to plot the results, via the plotting functions in `autocti.plot`
+that make the figures.
 
-The visualization API is straightforward but is explained in the `autocti_workspace/*/plot` package in full. This 
+The visualization API is straightforward but is explained in the `autocti_workspace/*/plot` package in full. This
 includes detailed guides on how to customize every aspect of the figures, which can easily be combined with the
 code outlined in this tutorial.
 
@@ -21,6 +21,7 @@ __Units__
 In this example, all quantities are **PyAutoCTI**'s internal unit coordinates, with spatial coordinates in
 arc seconds, luminosities in electrons per second and mass quantities (e.g. convergence) are dimensionless.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -114,9 +115,14 @@ analysis_list = [
     ac.AnalysisDataset1D(dataset=dataset, clocker=clocker) for dataset in dataset_list
 ]
 
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-result_list = search.fit(model=model, analysis=analysis)
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
+
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Max Likelihood Fit__
@@ -125,8 +131,7 @@ As seen elsewhere in the workspace, the result contains a `max_log_likelihood_fi
 """
 fit = result_list[0].max_log_likelihood_fit
 
-fit_plotter = aplt.FitDataset1DPlotter(fit=fit)
-fit_plotter.subplot_fit()
+aplt.subplot_fit_dataset_1d(fit=fit)
 
 """
 __Fit Quantities__

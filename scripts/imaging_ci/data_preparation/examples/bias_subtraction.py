@@ -17,6 +17,7 @@ subtracted from the fata row-by-row.
 This script first demonstrates a simple example, where there are no cosmic rays in the charge injection imaging. All
 functionality can use masking and cosmic rays, as illustrated in other proprocessing scripts.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -85,8 +86,7 @@ dataset = ac.ImagingCI.from_fits(
 """
 A plot of the data shows it has a minimum signal of 2000e- in all pixels, including those with no charge injection.
 """
-array_2d_plotter = aplt.Array2DPlotter(array=dataset.data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=dataset.data)
 
 """
 __Bias Level List__

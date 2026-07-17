@@ -2,7 +2,7 @@
 Simulator: Uniform Charge Injection With Cosmic Rays
 ====================================================
 
-This script is the starting point for simulating a 2D charge injection CTI dataset and it provides 
+This script is the starting point for simulating a 2D charge injection CTI dataset and it provides
 an overview of the simulation API.
 
 This script simulates the simplest 2D charge injection CTI dataset in the workspace, where the CTI model has just two
@@ -18,14 +18,15 @@ This script simulates charge injection imaging with CTI, where:
 
  - Parallel CTI is added to the image using a 2 `Trap` species model.
  - The volume filling behaviour in the parallel direction using the `CCD` class.
- 
-__Plotters__
 
-To output images of the simulated data, `Plotter` objects are used, which are high-level wrappers of matplotlib
-code which produce high quality visualization of strong lenses.
+__Plotting__
 
-The `Plotter` API is described in the `autocti_workspace/*/plot/start_here.py` script.
+To output images of the simulated data, the plotting functions in `autocti.plot` are used, which are
+high-level wrappers of matplotlib code which produce high quality visualization of strong lenses.
+
+The plotting API is described in the `autocti_workspace/*/plot/start_here.py` script.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -219,8 +220,7 @@ dataset_list = [
 """
 We plot the first dataset in the list, which is the dataset with the lowest normalization.
 """
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_imaging_ci(dataset=dataset_list[0])
 
 """
 __Output__
@@ -250,16 +250,11 @@ In the same folder as the .fits files, we also output plots of the simulated dat
 Having .png files like this is useful, as they can be opened quickly and easily by the user to check the dataset.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    output = aplt.Output(
-        path=path.join(dataset_path, f"norm_{int(norm)}"),
-        filename="imaging_ci",
-        format="png",
+    aplt.subplot_imaging_ci(
+        dataset=dataset,
+        output_path=path.join(dataset_path, f"norm_{int(norm)}"),
+        output_format="png",
     )
-
-    mat_plot = aplt.MatPlot2D(output=output)
-
-    dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset, mat_plot_2d=mat_plot)
-    dataset_plotter.subplot_dataset()
 
 """
 We also output subplots of the simulated dataset in .png format, as well as other images which summarize the dataset.
@@ -267,15 +262,19 @@ We also output subplots of the simulated dataset in .png format, as well as othe
 These plots include 1D binned up images of the FPR and EPER, so that electron capture and trailing can be seen clearly.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    output = aplt.Output(
-        path=path.join(dataset_path, f"norm_{int(norm)}", "binned_1d"), format="png"
-    )
+    output_path = path.join(dataset_path, f"norm_{int(norm)}", "binned_1d")
 
-    mat_plot = aplt.MatPlot1D(output=output)
-
-    dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-    dataset_plotter.figures_1d(region="parallel_fpr", data=True, data_logy=True)
-    dataset_plotter.figures_1d(region="parallel_eper", data=True, data_logy=True)
+    for region in ("parallel_fpr", "parallel_eper"):
+        aplt.figure_imaging_ci_data_region(
+            dataset=dataset, region=region, output_path=output_path, output_format="png"
+        )
+        aplt.figure_imaging_ci_data_region(
+            dataset=dataset,
+            region=region,
+            logy=True,
+            output_path=output_path,
+            output_format="png",
+        )
 
 
 """

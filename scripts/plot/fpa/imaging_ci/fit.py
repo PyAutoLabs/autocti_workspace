@@ -183,11 +183,19 @@ for fpa_i in range(6):
             for dataset, dataset_full in zip(dataset_list, dataset_full_list)
         ]
 
-        analysis = sum(analysis_list)
+        for analysis in analysis_list:
+            analysis.n_cores = 1
 
-        analysis.n_cores = 1
+        analysis_factor_list = [
+            af.AnalysisFactor(prior_model=model, analysis=analysis)
+            for analysis in analysis_list
+        ]
 
-        result_list = search.fit(model=model, analysis=analysis)
+        factor_graph = af.FactorGraphModel(*analysis_factor_list)
+
+        result_list = search.fit(
+            model=factor_graph.global_prior_model, analysis=factor_graph
+        )
 
 """
 __Database__

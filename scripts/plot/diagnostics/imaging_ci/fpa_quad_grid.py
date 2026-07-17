@@ -57,6 +57,7 @@ This script fits a 1D dataset with CTI, where:
 import copy
 import os
 
+import matplotlib.pyplot as plt
 import numpy as np
 from os import path
 import autofit as af
@@ -93,12 +94,10 @@ settings_dict = {
 
 workspace_path = os.getcwd()
 
-output = aplt.Output(path=workspace_path, filename="fpa_quad_grid", format="png")
-
-multi_plotter_list = []
-
-fpa_i_range = 6
-fpa_j_range = 6
+fpa_i_range = (
+    2  # matches the 2x2 FPA grid produced by diagnostics/imaging_ci/simulator.py
+)
+fpa_j_range = 2
 
 fpa_quad_array_list = []
 
@@ -152,15 +151,21 @@ for norm in norm_list:
 
     fpa_quad_array_list.append(fpa_quad_array)
 
-mat_plot = aplt.MatPlot2D(output=output)
+"""
+__Plot__
 
-array_plotter_list = [
-    aplt.Array2DPlotter(array=fpa_quad_array, mat_plot_2d=mat_plot)
-    for fpa_quad_array in fpa_quad_array_list
-]
+The `aplt.plot_array()` function plots a single `Array2D`. To assemble the per-normalization arrays
+into one figure, each array is plotted onto its own `matplotlib` axis of a subplot grid.
+"""
+fig, axes = plt.subplots(2, 2, figsize=(10, 10))
+axes = axes.flatten()
 
-multi_plotter = aplt.MultiFigurePlotter(
-    plotter_list=array_plotter_list, subplot_shape=(2, 2)
-)
+for ax, fpa_quad_array, norm in zip(axes, fpa_quad_array_list, norm_list):
+    aplt.plot_array(array=fpa_quad_array, ax=ax, title=f"norm = {norm}")
 
-multi_plotter.subplot_of_figure(func_name="figure_2d", figure_name=None)
+for ax in axes[len(fpa_quad_array_list) :]:
+    ax.axis("off")
+
+fig.tight_layout()
+fig.savefig(path.join(workspace_path, "fpa_quad_grid.png"))
+plt.close(fig)

@@ -13,6 +13,7 @@ __Start Here Notebook__
 
 If any code in this script is unclear, refer to the `modeling/start_here.ipynb` notebook.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -129,8 +130,7 @@ dataset_list = [dataset.apply_mask(mask=mask) for dataset in dataset_list]
 """
 Plot the first dataset.
 """
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_dataset_1d(dataset=dataset_list[0])
 
 """
 __Clocking__
@@ -199,18 +199,22 @@ search = af.Nautilus(
 """
 __Analysis__
 
-The `AnalysisDataset1D` object defines the `log_likelihood_function` used by the non-linear search to fit the model 
+The `AnalysisDataset1D` object defines the `log_likelihood_function` used by the non-linear search to fit the model
 to the `Dataset1D`dataset.
 
-We sum the list to create an overall `Analysis` object, which we can use to fit the CTI model.
+Each analysis object is wrapped in an `AnalysisFactor`, which pairs it with the model and prepares it for use in a
+factor graph. The analysis factors are then combined into a `FactorGraphModel`, which we use to fit the CTI model.
 """
 analysis_list = [
     ac.AnalysisDataset1D(dataset=dataset, clocker=clocker) for dataset in dataset_list
 ]
 
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-analysis.n_cores = 1
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
 
 """
 __Model-Fit__
@@ -221,7 +225,7 @@ search to find which models fit the data with the highest likelihood.
 Checkout the folder `autocti_workspace/output/dataset_1d/species[x2]` for live outputs of the results of the fit, 
 including on-the-fly visualization of the best fit model!
 """
-result_list = search.fit(model=model, analysis=analysis)
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Result__

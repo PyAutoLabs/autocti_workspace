@@ -11,6 +11,7 @@ __Start Here Notebook__
 
 If any code in this script is unclear, refer to the `simulators/start_here.ipynb` notebook.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -125,8 +126,7 @@ dataset_list = [
     for layout, simulator in zip(layout_list, simulator_list)
 ]
 
-dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_dataset_1d(dataset=dataset_list[0])
 
 """
 __Output__
@@ -134,31 +134,33 @@ __Output__
 Output a subplot of the data, noise-map and pre CTI image to .png files.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    output = aplt.Output(
-        path=path.join(dataset_path, f"norm_{int(norm)}"),
-        filename="dataset_1d",
-        format="png",
+    aplt.subplot_dataset_1d(
+        dataset=dataset,
+        output_path=path.join(dataset_path, f"norm_{int(norm)}"),
+        output_format="png",
     )
-
-    mat_plot = aplt.MatPlot1D(output=output)
-
-    dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-    dataset_plotter.subplot_dataset()
 
 """
 Output plots of the EPER and FPR's binned up in 1D, so that electron capture and trailing can be
 seen clearly.
 """
 for dataset, norm in zip(dataset_list, norm_list):
-    output = aplt.Output(
-        path=path.join(dataset_path, f"norm_{int(norm)}", "binned_1d"), format="png"
+    output_path = path.join(dataset_path, f"norm_{int(norm)}", "binned_1d")
+
+    aplt.figure_dataset_1d_data(
+        dataset=dataset,
+        region="fpr",
+        logy=True,
+        output_path=output_path,
+        output_format="png",
     )
-
-    mat_plot = aplt.MatPlot1D(output=output)
-
-    dataset_plotter = aplt.Dataset1DPlotter(dataset=dataset, mat_plot_1d=mat_plot)
-    dataset_plotter.figures_1d(region="fpr", data=True, data_logy=True)
-    dataset_plotter.figures_1d(region="eper", data=True, data_logy=True)
+    aplt.figure_dataset_1d_data(
+        dataset=dataset,
+        region="eper",
+        logy=True,
+        output_path=output_path,
+        output_format="png",
+    )
 
 """
 Output the data, noise-map and pre CTI image of the charge injection dataset to .fits files.

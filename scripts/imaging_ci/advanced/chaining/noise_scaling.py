@@ -24,6 +24,7 @@ the columns whose densities are larger outliers.
 In order to scale the nosie in this way, we therefore require an intiial fit that gives us the initial chi
 squared map used to inform noise scaling.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -91,8 +92,7 @@ dataset_list = [
     for layout, norm in zip(layout_list, norm_list)
 ]
 
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_imaging_ci(dataset=dataset_list[0])
 
 """
 __Paths__
@@ -191,22 +191,29 @@ analysis_1_list = [
 ]
 
 """
-By summing this list of analysis objects, we create an overall `Analysis` which we can use to fit the CTI model, where:
+Each analysis object is wrapped in an `AnalysisFactor`, which pairs it with the model and prepares it for use in
+a factor graph. All `AnalysisFactor` objects are then combined into a `FactorGraphModel`, where:
 
- - The log likelihood function of this summed analysis class is the sum of the log likelihood functions of each 
+ - The log likelihood function of the `FactorGraphModel` is the sum of the log likelihood functions of each
  individual analysis object.
 
- - The summing process ensures that tasks such as outputting results to hard-disk, visualization, etc use a 
- structure that separates each analysis.
+ - Results from every dataset are output to a unified directory, with subdirectories that separate the
+ visualization and output of each analysis.
 """
-analysis_1 = sum(analysis_1_list)
-analysis_1.n_cores = 1
+analysis_factor_1_list = [
+    af.AnalysisFactor(prior_model=model_1, analysis=analysis)
+    for analysis in analysis_1_list
+]
+
+factor_graph_1 = af.FactorGraphModel(*analysis_factor_1_list)
 
 search_1 = af.Nautilus(
     path_prefix=path_prefix, name="search[1]_species[x1]", n_live=100
 )
 
-result_1_list = search_1.fit(model=model_1, analysis=analysis_1)
+result_1_list = search_1.fit(
+    model=factor_graph_1.global_prior_model, analysis=factor_graph_1
+)
 
 """
 __Noise Map Scaling__
@@ -235,8 +242,8 @@ The number of free parameters and therefore the dimensionality of non-linear par
 model_2 = af.Collection(
     cti=af.Model(
         ac.CTI2D,
-        parallel_trap_list=result_1_list.instance.cti.parallel_trap_list,
-        parallel_ccd=result_1_list.instance.cti.parallel_ccd,
+        parallel_trap_list=result_1_list[0].instance.cti.parallel_trap_list,
+        parallel_ccd=result_1_list[0].instance.cti.parallel_ccd,
     ),
     hyper_noise=af.Model(
         ac.HyperCINoiseCollection,
@@ -259,36 +266,44 @@ analysis_2_list = [
 ]
 
 """
-By summing this list of analysis objects, we create an overall `Analysis` which we can use to fit the CTI model, where:
+Each analysis object is wrapped in an `AnalysisFactor`, which pairs it with the model and prepares it for use in
+a factor graph. All `AnalysisFactor` objects are then combined into a `FactorGraphModel`, where:
 
- - The log likelihood function of this summed analysis class is the sum of the log likelihood functions of each 
+ - The log likelihood function of the `FactorGraphModel` is the sum of the log likelihood functions of each
  individual analysis object.
 
- - The summing process ensures that tasks such as outputting results to hard-disk, visualization, etc use a 
- structure that separates each analysis.
-"""
-analysis_2 = sum(analysis_2_list)
-analysis_2.n_cores = 1
+ - Results from every dataset are output to a unified directory, with subdirectories that separate the
+ visualization and output of each analysis.
 
+To make the noise map scaling parameters free across every dataset, each `AnalysisFactor` is given its own copy
+of `model_2` whose `hyper_noise` sub-model is overwritten with a fresh `HyperCINoiseScalar`, so that every
+dataset's noise scaling is fitted by independent priors rather than a single shared model component.
 """
-Make noise map scaling parameter free across every dataset.
-"""
-analysis_2 = analysis_2.with_free_parameters(
-    model_2.hyper_noise.regions_ci, model_2.hyper_noise.parallel_eper
-)
+analysis_factor_2_list = []
+
+for analysis in analysis_2_list:
+    model_analysis = model_2.copy()
+    model_analysis.hyper_noise.regions_ci = af.Model(ac.HyperCINoiseScalar)
+    model_analysis.hyper_noise.parallel_eper = af.Model(ac.HyperCINoiseScalar)
+
+    analysis_factor = af.AnalysisFactor(prior_model=model_analysis, analysis=analysis)
+
+    analysis_factor_2_list.append(analysis_factor)
+
+factor_graph_2 = af.FactorGraphModel(*analysis_factor_2_list)
 
 """
 The `info` attribute shows the model, including how parameters and priors were passed from `result_1`.
 """
-print(model_2.info)
+print(factor_graph_2.global_prior_model.info)
 
 search_2 = af.Nautilus(
     path_prefix=path_prefix, name="search[2]_species[x2]", n_live=100
 )
 
-# result_2_list = search_2.fit(model=model_2, analysis=analysis_2)
-
-result_2_list = search_2.fit_sequential(model=model_2, analysis=analysis_2)
+result_2_list = search_2.fit(
+    model=factor_graph_2.global_prior_model, analysis=factor_graph_2
+)
 
 """
 __Model (Search 3)__
@@ -342,24 +357,32 @@ analysis_3_list = [
 ]
 
 """
-By summing this list of analysis objects, we create an overall `Analysis` which we can use to fit the CTI model, where:
+Each analysis object is wrapped in an `AnalysisFactor`, which pairs it with the model and prepares it for use in
+a factor graph. All `AnalysisFactor` objects are then combined into a `FactorGraphModel`, where:
 
- - The log likelihood function of this summed analysis class is the sum of the log likelihood functions of each 
+ - The log likelihood function of the `FactorGraphModel` is the sum of the log likelihood functions of each
  individual analysis object.
 
- - The summing process ensures that tasks such as outputting results to hard-disk, visualization, etc use a 
- structure that separates each analysis.
-"""
-analysis_3 = sum(analysis_3_list)
-analysis_3.n_cores = 1
+ - Results from every dataset are output to a unified directory, with subdirectories that separate the
+ visualization and output of each analysis.
 
-analysis_3 = analysis_3.with_free_parameters()
+Every `AnalysisFactor` is given the same `model_3` (no per-dataset copy), so no parameter is made free across
+datasets in this search.
+"""
+analysis_factor_3_list = [
+    af.AnalysisFactor(prior_model=model_3, analysis=analysis)
+    for analysis in analysis_3_list
+]
+
+factor_graph_3 = af.FactorGraphModel(*analysis_factor_3_list)
 
 search_3 = af.Nautilus(
     path_prefix=path_prefix, name="search[3]_species[x2]", n_live=100
 )
 
-result_3_list = search_3.fit(model=model_3, analysis=analysis_3)
+result_3_list = search_3.fit(
+    model=factor_graph_3.global_prior_model, analysis=factor_graph_3
+)
 
 """
 __Wrap Up__

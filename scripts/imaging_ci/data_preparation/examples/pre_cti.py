@@ -24,6 +24,7 @@ This script demonstrates a simple example, where only parallel CTI is present in
 rays in the charge injection imaging. The script `advanced.py` shows how this can be done with serial CTI and cosmic
 rays also included.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -96,8 +97,7 @@ dataset = ac.ImagingCI.from_fits(
 """
 A plot of the data shows it has non-uniform charge injection lines.
 """
-array_2d_plotter = aplt.Array2DPlotter(array=dataset.data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=dataset.data)
 
 """
 __Normalization List__
@@ -143,11 +143,9 @@ pre_cti_data = layout.pre_cti_data_non_uniform_from(
 """
 If we plot the original data and this pre-CTI estimate we can see they are similar.
 """
-array_2d_plotter = aplt.Array2DPlotter(array=dataset.data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=dataset.data)
 
-array_2d_plotter = aplt.Array2DPlotter(array=pre_cti_data)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=pre_cti_data)
 
 """
 If we subtract the two images, we find that the only residuals left are contained in the parallel FPR and EPERs.
@@ -156,8 +154,7 @@ These are because our pre-CTI estimate image does not account for the CTI contai
 """
 residual_map = dataset.data.native - pre_cti_data.native
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 """
 __CTI Modeling__
@@ -217,8 +214,7 @@ post_cti_data = clocker.add_cti(data=pre_cti_data, cti=instance.cti)
 
 residual_map = dataset.data.native - post_cti_data
 
-array_2d_plotter = aplt.Array2DPlotter(array=residual_map)
-array_2d_plotter.figure_2d()
+aplt.plot_array(array=residual_map)
 
 """
 __Wrap Up__

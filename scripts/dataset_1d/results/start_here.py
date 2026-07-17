@@ -16,6 +16,7 @@ results API.
 If you are not familiar with the modeling API and process, checkout the `autocti_workspace/imaging_ci/modeling`
 folder for examples.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -108,9 +109,14 @@ analysis_list = [
     ac.AnalysisDataset1D(dataset=dataset, clocker=clocker) for dataset in dataset_list
 ]
 
-analysis = sum(analysis_list)
+analysis_factor_list = [
+    af.AnalysisFactor(prior_model=model, analysis=analysis)
+    for analysis in analysis_list
+]
 
-result_list = search.fit(model=model, analysis=analysis)
+factor_graph = af.FactorGraphModel(*analysis_factor_list)
+
+result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
 
 """
 __Info__

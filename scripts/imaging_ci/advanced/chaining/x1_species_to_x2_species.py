@@ -26,6 +26,7 @@ will provide a reasonably accurate estimate of the total density of trap_list an
 These results are not perfect, but they can be obtained quickly and are "good enough" to initialize the second
 search's model-fit with two (or more) trap species.
 """
+
 # %matplotlib inline
 # from pyprojroot import here
 # workspace_path = str(here())
@@ -92,8 +93,7 @@ dataset_list = [
     for layout, norm in zip(layout_list, norm_list)
 ]
 
-dataset_plotter = aplt.ImagingCIPlotter(dataset=dataset_list[0])
-dataset_plotter.subplot_dataset()
+aplt.subplot_imaging_ci(dataset=dataset_list[0])
 
 """
 __Paths__
@@ -182,22 +182,29 @@ analysis_1_list = [
 ]
 
 """
-By summing this list of analysis objects, we create an overall `Analysis` which we can use to fit the CTI model, where:
+Each analysis object is wrapped in an `AnalysisFactor`, which pairs it with the model and prepares it for use in
+a factor graph. All `AnalysisFactor` objects are then combined into a `FactorGraphModel`, where:
 
- - The log likelihood function of this summed analysis class is the sum of the log likelihood functions of each 
+ - The log likelihood function of the `FactorGraphModel` is the sum of the log likelihood functions of each
  individual analysis object.
 
- - The summing process ensures that tasks such as outputting results to hard-disk, visualization, etc use a 
- structure that separates each analysis.
+ - Results from every dataset are output to a unified directory, with subdirectories that separate the
+ visualization and output of each analysis.
 """
-analysis_1 = sum(analysis_1_list)
-analysis_1.n_cores = 1
+analysis_factor_1_list = [
+    af.AnalysisFactor(prior_model=model_1, analysis=analysis)
+    for analysis in analysis_1_list
+]
+
+factor_graph_1 = af.FactorGraphModel(*analysis_factor_1_list)
 
 search_1 = af.Nautilus(
     path_prefix=path_prefix, name="search[1]_species[x1]", n_live=100
 )
 
-result_1_list = search_1.fit(model=model_1, analysis=analysis_1)
+result_1_list = search_1.fit(
+    model=factor_graph_1.global_prior_model, analysis=factor_graph_1
+)
 
 """
 __Model (Search 2)__
@@ -263,22 +270,29 @@ analysis_2_list = [
 ]
 
 """
-By summing this list of analysis objects, we create an overall `Analysis` which we can use to fit the CTI model, where:
+Each analysis object is wrapped in an `AnalysisFactor`, which pairs it with the model and prepares it for use in
+a factor graph. All `AnalysisFactor` objects are then combined into a `FactorGraphModel`, where:
 
- - The log likelihood function of this summed analysis class is the sum of the log likelihood functions of each 
+ - The log likelihood function of the `FactorGraphModel` is the sum of the log likelihood functions of each
  individual analysis object.
 
- - The summing process ensures that tasks such as outputting results to hard-disk, visualization, etc use a 
- structure that separates each analysis.
+ - Results from every dataset are output to a unified directory, with subdirectories that separate the
+ visualization and output of each analysis.
 """
-analysis_2 = sum(analysis_2_list)
-analysis_2.n_cores = 1
+analysis_factor_2_list = [
+    af.AnalysisFactor(prior_model=model_2, analysis=analysis)
+    for analysis in analysis_2_list
+]
+
+factor_graph_2 = af.FactorGraphModel(*analysis_factor_2_list)
 
 search_2 = af.Nautilus(
     path_prefix=path_prefix, name="search[2]_species[x2]", n_live=100
 )
 
-result_2_list = search_2.fit(model=model_2, analysis=analysis_2)
+result_2_list = search_2.fit(
+    model=factor_graph_2.global_prior_model, analysis=factor_graph_2
+)
 
 """
 __Wrap Up__
