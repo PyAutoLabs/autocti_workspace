@@ -76,7 +76,7 @@ NUMBA_CACHE_DIR=/tmp/numba_cache MPLCONFIGDIR=/tmp/matplotlib python scripts/...
 
 Notebooks in `notebooks/` are **generated** from the `.py` files in `scripts/`. **Always edit the
 `.py` scripts, never the `.ipynb` notebooks directly.** Notebook regeneration runs through the
-PyAutoBuild pipeline at release time.
+PyAutoHands pipeline at release time.
 
 ## Multi-dataset fits
 
@@ -102,7 +102,7 @@ The PyAutoCTI stack (all on the `PyAutoLabs` GitHub org):
 - https://github.com/PyAutoLabs/PyAutoFit — model composition + non-linear search
 - https://github.com/PyAutoLabs/PyAutoCTI — CTI clocking (arctic), datasets, fits, analyses
 - https://github.com/PyAutoLabs/autocti_workspace_test — regression scripts + Euclid heritage
-- https://github.com/PyAutoLabs/PyAutoBuild — notebook generation + CI
+- https://github.com/PyAutoLabs/PyAutoHands — notebook generation + CI
 
 For local development these are typically cloned as siblings of this repo (`../PyAutoCTI`, etc.).
 
