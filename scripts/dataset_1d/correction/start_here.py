@@ -22,7 +22,7 @@ import numpy as np
 from os import path
 import autocti as ac
 import autocti.plot as aplt
-from autoconf import fitsable
+from autocti import fitsable
 
 """
 __Dataset__
