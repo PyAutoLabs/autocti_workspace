@@ -58,8 +58,8 @@ agg = af.Aggregator.from_database(
 # `output/test_mode` namespace.
 from pathlib import Path
 
-from autoconf import conf
-from autoconf.test_mode import with_test_mode_segment
+from autocti import conf
+from autocti import with_test_mode_segment
 
 agg.add_directory(
     directory=path.join(
