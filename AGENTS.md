@@ -97,7 +97,7 @@ result_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_
 
 The PyAutoCTI stack (all on the `PyAutoLabs` GitHub org):
 
-- https://github.com/PyAutoLabs/PyAutoConf — configuration handling
+- https://github.com/PyAutoLabs/PyAutoNerves — configuration handling
 - https://github.com/PyAutoLabs/PyAutoArray — arrays, layouts, regions, masks
 - https://github.com/PyAutoLabs/PyAutoFit — model composition + non-linear search
 - https://github.com/PyAutoLabs/PyAutoCTI — CTI clocking (arctic), datasets, fits, analyses
