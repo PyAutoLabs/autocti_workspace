@@ -276,7 +276,7 @@ print(f"Trap Density interpolated at t = 1.5 {instance.cti.trap_list[0].density}
 """
 __Serialization__
 
-The interpolator and model can be serialized to a .json file using **PyAutoConf**'s dedicated serialization methods. 
+The interpolator and model can be serialized to a .json file using **PyAutoNerves**'s dedicated serialization methods. 
 
 This means an interpolator can easily be loaded into other scripts.
 """
