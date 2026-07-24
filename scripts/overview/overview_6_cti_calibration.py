@@ -177,9 +177,7 @@ factor_graph = af.FactorGraphModel(*analysis_factor_list)
 """
 We can parallelize the likelihood function of these analysis classes, whereby each evaluation is performed on a 
 different CPU, via the non-linear search settings.
-"""
 
-"""
 __Model-Fit__
 
 We can now begin the model-fit by passing the model and analysis object to the search, which performs a non-linear
