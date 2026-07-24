@@ -17,11 +17,7 @@ To begin, we'll think about CTI calibration in 1D, before extending this to 2D.
 Lets recreate our simple 1D dataset.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import autocti as ac
 import autocti.plot as aplt

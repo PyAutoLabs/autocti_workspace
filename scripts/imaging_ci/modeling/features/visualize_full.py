@@ -17,11 +17,7 @@ __Start Here Notebook__
 If any code in this script is unclear, refer to the `modeling/start_here.ipynb` notebook.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import copy
 from os import path

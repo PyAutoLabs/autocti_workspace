@@ -19,11 +19,7 @@ the image below) interspersed around regions with no charge.
 we can correct CTI in data. We cover this in overviews 4 and 5!)
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg

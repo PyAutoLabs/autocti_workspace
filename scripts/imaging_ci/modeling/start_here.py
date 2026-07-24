@@ -29,11 +29,7 @@ This script fits a simulated `Imaging` dataset of a strong CTI, which is produce
 script `autoCTI_workspace/*/imaging/simulators/start_here.py`
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 from os import path
 import autofit as af

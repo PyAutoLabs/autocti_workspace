@@ -25,11 +25,7 @@ In this script, we will fit multiple charge injection imaging to calibrate CTI, 
  - The `CCD` volume filling is a simple parameterization.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import numpy as np
 from os import path
