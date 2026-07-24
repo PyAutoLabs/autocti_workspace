@@ -9,11 +9,7 @@ Lets take a look at a extract of data taken from the Advanced Camera for Surveys
 Hubble Space Telescope (this figure is taken from Massey et al 2009 -- https://arxiv.org/abs/1009.4335):
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg

@@ -7,11 +7,7 @@ The well filling behaviour of a CCD is fitted for in a CTI model fit.
 However, a visual showing the behaviour before the fit can be produced.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import os
 

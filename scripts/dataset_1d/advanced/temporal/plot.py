@@ -9,11 +9,7 @@ This script loads the model-fitting results into an .sqlite database file and pe
 as a function of time.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import numpy as np
 from os import path

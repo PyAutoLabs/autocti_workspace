@@ -10,11 +10,7 @@ search. This allows us to compute the errors on quantities that the `CTI` object
 directly by the non-linear search.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import autofit as af
 import autocti as ac

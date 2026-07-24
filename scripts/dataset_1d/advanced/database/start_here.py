@@ -23,11 +23,7 @@ In this script, we fit a 1D CTI Dataset to calibrate a CTI model, where:
  - The `CCD` volume filling is a simple parameterization with just a `well_fill_power` parameter.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import json
 from os import path

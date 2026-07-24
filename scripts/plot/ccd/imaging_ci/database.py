@@ -20,11 +20,7 @@ If you are not familiar with the database functionality, checkout
 the `autocti_workspace/*/imaging_ci/advanced/database` package.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import copy
 import os

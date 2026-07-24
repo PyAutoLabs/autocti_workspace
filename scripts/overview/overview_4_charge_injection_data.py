@@ -14,11 +14,7 @@ numba not being installed. Now is a good time to install numba using pip, if you
 information can be found at the following link: https://pyautocti.readthedocs.io/en/latest/installation/numba.html
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import autocti as ac
 import autocti.plot as aplt

@@ -22,11 +22,7 @@ In this example, all quantities are **PyAutoCTI**'s internal unit coordinates, w
 arc seconds, luminosities in electrons per second and mass quantities (e.g. convergence) are dimensionless.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import numpy as np
 from os import path
