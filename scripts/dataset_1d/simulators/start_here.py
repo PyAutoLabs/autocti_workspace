@@ -26,11 +26,7 @@ wrappers of matplotlib code which produce high quality visualization of strong l
 The plotting API is described in the `autocti_workspace/*/plot/start_here.py` script.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import json
 from os import path

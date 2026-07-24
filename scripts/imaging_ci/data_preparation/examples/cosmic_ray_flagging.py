@@ -14,11 +14,7 @@ Therefore, to provide a simple explanation of cosmic ray flagging, this tutorial
 from the simulation procedure.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 from os import path
 import autocti as ac

@@ -20,11 +20,7 @@ The pixel scale of some common telescopes is as follows:
 It is absolutely vital you use the correct pixel scale, so double check this value!
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 from os import path
 import autofit as af

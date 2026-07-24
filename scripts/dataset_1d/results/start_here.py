@@ -17,11 +17,7 @@ If you are not familiar with the modeling API and process, checkout the `autocti
 folder for examples.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 from os import path
 import autofit as af

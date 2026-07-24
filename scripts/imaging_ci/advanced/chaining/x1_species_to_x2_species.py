@@ -27,11 +27,7 @@ These results are not perfect, but they can be obtained quickly and are "good en
 search's model-fit with two (or more) trap species.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 from os import path
 import autofit as af

@@ -11,11 +11,7 @@ The correction of CTI calibration data can also be used as a diagnostic for the 
 calibrated.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import json
 import numpy as np

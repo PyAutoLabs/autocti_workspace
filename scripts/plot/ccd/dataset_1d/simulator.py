@@ -29,11 +29,7 @@ This script simulates a 1D dataset with CTI, where:
  - The volume filling behaviour in the direction uses the `CCD` class.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 import json
 from os import path

@@ -16,11 +16,7 @@ tutorials) can take a while. To ensure this illustration script runs fast, we'll
 image which is just 30 x 30 pixels.
 """
 
-# %matplotlib inline
-# from pyprojroot import here
-# workspace_path = str(here())
-# %cd $workspace_path
-# print(f"Working Directory has been set to `{workspace_path}`")
+# from autonerves import setup_notebook; setup_notebook()
 
 from os import path
 
