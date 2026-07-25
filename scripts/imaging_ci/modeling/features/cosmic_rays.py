@@ -285,5 +285,5 @@ print(result_list[0].max_log_likelihood_instance.cti.parallel_ccd.well_fill_powe
 for result in result_list:
     aplt.subplot_fit_ci(fit=result.max_log_likelihood_fit)
 """
-Checkout `autocti_workspace/*/imaging_ci/modeling/results.py` for a full description of the result object.
+Checkout `autocti_workspace/*/dataset_1d/results/start_here.py` for a full description of the result object.
 """

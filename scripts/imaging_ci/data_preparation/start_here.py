@@ -177,8 +177,9 @@ there may be charge injection noise in the FPR.
 If your noise-map conforms to all of the above standards, you are good to use it for an analysis (but must also check
 you image conform to standards first!).
 
-If it does not, checkout the `examples/noise_map.ipynb` notebook for tools to process the data so it does (or use your 
-own data reduction tools to do so).
+If it does not, the `data_preparation` examples alongside this script (bias subtraction, cosmic-ray flagging) cover
+the reduction steps that most often leave a noise-map unreliable; otherwise use your own data reduction tools to
+bring it up to the standards above.
 
 __Pre CTI Data__
 

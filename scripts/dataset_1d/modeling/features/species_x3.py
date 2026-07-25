@@ -239,5 +239,5 @@ print(result_list[0].max_log_likelihood_instance.cti.trap_list[0].density)
 print(result_list[0].max_log_likelihood_instance.cti.ccd.well_fill_power)
 
 """
-Checkout `autocti_workspace/*/dataset_1d/modeling/results.py` for a full description of the result object.
+Checkout `autocti_workspace/*/dataset_1d/results/start_here.py` for a full description of the result object.
 """
