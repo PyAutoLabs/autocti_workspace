@@ -395,6 +395,6 @@ robust and efficient way.
 The following example pipelines fits a two trap species CTI model, using the same approach demonstrated in this script 
 of first fitting a single species:
 
- `autocti_workspace/imaging/chaining/pipelines/parallel.py`
- `autocti_workspace/imaging/chaining/pipelines/serial.py`
+ `autocti_workspace/*/imaging_ci/advanced/chaining/pipelines/parallel.py`
+ `autocti_workspace/*/imaging_ci/advanced/chaining/pipelines/serial.py`
 """

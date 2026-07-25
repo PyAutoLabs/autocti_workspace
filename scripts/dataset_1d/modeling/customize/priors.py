@@ -12,7 +12,7 @@ __Disadvantages__
 The priors on your model determine the errors you infer. Overly tight priors may lead to over
 confidence in the inferred parameters.
 
-The `autocti_workspace/*/imaging/modeling/customize/start_point.ipynb` shows an alternative API, which
+The `autofit_workspace/*/searches/start_point.ipynb` shows an alternative API, which
 customizes where the non-linear search starts its search of parameter space.
 
 This cannot be used for a nested sampling method like `nautilus` (whose parameter space search is dictated by priors)
@@ -300,5 +300,5 @@ for result in result_list:
     aplt.subplot_fit_dataset_1d(fit=result.max_log_likelihood_fit)
 
 """
-Checkout `autocti_workspace/*/dataset_1d/modeling/results.py` for a full description of the result object.
+Checkout `autocti_workspace/*/dataset_1d/results/start_here.py` for a full description of the result object.
 """

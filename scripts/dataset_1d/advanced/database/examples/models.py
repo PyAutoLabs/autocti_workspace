@@ -34,7 +34,7 @@ compose our own `CTI` object. For large datasets, this would require us to use g
 which are cumbersome to write.
 
 This example therefore uses the `CTIAgg` object, which conveniently loads the `CTI` objects of every fit via 
-generators for us. Explicit examples of how to do this via generators is given in the `advanced/manual_generator.py` 
+generators for us. Explicit examples of how to do this via generators is given in the `advanced/database/start_here.py` (its `__Generators__` section) 
 tutorial.
 
 We get a CTI generator via the `ac.agg.CTIAgg` object, where this `cti_gen` contains the maximum log

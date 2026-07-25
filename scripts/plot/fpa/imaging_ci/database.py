@@ -39,7 +39,7 @@ import autocti.plot as aplt
 """
 __Building a Database File From an Output Folder__
 
-The fits performed in the `plot/foa/dataset_1d/fit.py` script output results to hard-disk, in the `output` folder.
+The fits performed in the `plot/fpa/imaging_ci/fit.py` script output results to hard-disk, in the `output` folder.
 
 The code belows creates a new .sqlite database file from these results, which is used to load the results of the 
 model-fit in this example script.

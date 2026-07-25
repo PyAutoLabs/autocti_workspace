@@ -11,7 +11,7 @@ for example to inspect the maximum log likelihood models or get errors on parame
 __Samples via Result__
 
 A fraction of this example repeats the API for manipulating samples given in the
-`autogalaxy_workspace/*/results/examples/samples.py` example.
+`autogalaxy_workspace/*/guides/results/aggregator/samples.py` example.
 
 This is done so users can directly copy and paste Python code which loads results from the database and manipulates
 the samples.
