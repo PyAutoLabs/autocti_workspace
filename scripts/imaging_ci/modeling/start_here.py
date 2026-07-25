@@ -21,12 +21,12 @@ __Plotters__
 To produce images of the data the plotting functions in `autocti.plot` are used, which are high-level
 wrappers of matplotlib code which produce high quality visualization of strong CTIes.
 
-The plotting API is described in the script `autoCTI_workspace/*/plot/start_here.py`.
+The plotting API is described in the script `autocti_workspace/*/plot/start_here.py`.
 
 __Simulation__
 
 This script fits a simulated `Imaging` dataset of a strong CTI, which is produced in the
-script `autoCTI_workspace/*/imaging/simulators/start_here.py`
+script `autocti_workspace/*/imaging_ci/simulators/start_here.py`
 """
 
 # from autonerves import setup_notebook; setup_notebook()
@@ -428,5 +428,5 @@ for result in result_list:
     aplt.subplot_fit_ci(fit=result.max_log_likelihood_fit)
 
 """
-Checkout `autocti_workspace/*/imaging_ci/modeling/results.py` for a full description of the result object.
+Checkout `autocti_workspace/*/dataset_1d/results/start_here.py` for a full description of the result object.
 """

@@ -199,6 +199,6 @@ __Database__
 Creating custom figures as above is somewhat cumbersome, as it requires us to rerun the model-fit, load the results,
 and create the plotter and figure for each dataset.
 
-The example `plots/imaging_ci/database.py` shows how we can use the database to load the results of the model-fit
+The example `plot/fpa/imaging_ci/database.py` shows how we can use the database to load the results of the model-fit
 and create the figure above in a single line of code.
 """
