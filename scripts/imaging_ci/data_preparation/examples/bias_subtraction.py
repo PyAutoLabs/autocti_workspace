@@ -35,6 +35,21 @@ You should be familiar with the **PyAutoCTI** API below, if not check out other 
 dataset_name = "bias_uncorrected"
 dataset_path = path.join("dataset", "imaging_ci", dataset_name)
 
+"""
+__Dataset Auto-Simulation__
+
+If the dataset does not already exist on your system, it will be created by running the corresponding
+simulator script. This ensures that all example scripts can be run without manually simulating data first.
+"""
+if not path.exists(dataset_path):
+    import subprocess
+    import sys
+
+    subprocess.run(
+        [sys.executable, "scripts/imaging_ci/simulators/examples/bias_uncorrected.py"],
+        check=True,
+    )
+
 shape_native = (2000, 100)
 
 """
