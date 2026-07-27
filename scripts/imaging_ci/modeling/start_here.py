@@ -45,6 +45,21 @@ dataset_name = "simple"
 dataset_path = path.join("dataset", "imaging_ci", dataset_name)
 
 """
+__Dataset Auto-Simulation__
+
+If the dataset does not already exist on your system, it will be created by running the corresponding
+simulator script. This ensures that all example scripts can be run without manually simulating data first.
+"""
+if not path.exists(dataset_path):
+    import subprocess
+    import sys
+
+    subprocess.run(
+        [sys.executable, "scripts/imaging_ci/simulators/start_here.py"],
+        check=True,
+    )
+
+"""
 __Shape__
 
 The 2D shape of the images.

@@ -14,4 +14,8 @@ python scripts/imaging_ci/simulators/examples/serial_cti.py
 
 python scripts/imaging_ci/simulators/overview/calibrate.py
 
-git add -f dataset
+# Only the datasets on the `.gitignore` allowlist are committed. The
+# `dataset/imaging_ci/*` datasets are simulated on demand by the example scripts
+# themselves (see the `__Dataset Auto-Simulation__` guards) and must never be
+# force-added back into the repository.
+git add -f dataset/dataset_1d dataset/overview
