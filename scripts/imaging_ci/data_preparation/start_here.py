@@ -37,6 +37,21 @@ dataset_name = "non_uniform"
 dataset_path = path.join("dataset", "imaging_ci", dataset_name)
 
 """
+__Dataset Auto-Simulation__
+
+If the dataset does not already exist on your system, it will be created by running the corresponding
+simulator script. This ensures that all example scripts can be run without manually simulating data first.
+"""
+if not path.exists(dataset_path):
+    import subprocess
+    import sys
+
+    subprocess.run(
+        [sys.executable, "scripts/imaging_ci/simulators/examples/non_uniform.py"],
+        check=True,
+    )
+
+"""
 __Shape__
 
 The 2D shape of the images.
@@ -231,6 +246,21 @@ which are often applied to science data, which by default would flag the charge 
 Lets inspect a cosmic ray map which conforms to **PyAutoCTI** standards:
 """
 dataset_path = path.join("dataset", "imaging_ci", "cosmic_rays")
+
+"""
+__Dataset Auto-Simulation__
+
+If the dataset does not already exist on your system, it will be created by running the corresponding
+simulator script. This ensures that all example scripts can be run without manually simulating data first.
+"""
+if not path.exists(dataset_path):
+    import subprocess
+    import sys
+
+    subprocess.run(
+        [sys.executable, "scripts/imaging_ci/simulators/examples/cosmic_rays.py"],
+        check=True,
+    )
 
 cosmic_ray_map = ac.Array2D.from_fits(
     file_path=path.join(dataset_path, f"norm_{int(norm)}", "cosmic_ray_map.fits"),
