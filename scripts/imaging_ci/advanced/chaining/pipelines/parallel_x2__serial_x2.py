@@ -315,7 +315,3 @@ analysis_factor_list = [
 factor_graph = af.FactorGraphModel(*analysis_factor_list)
 
 result_5_list = search.fit(model=factor_graph.global_prior_model, analysis=factor_graph)
-
-"""
-Finish.
-"""

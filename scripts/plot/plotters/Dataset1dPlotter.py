@@ -126,7 +126,3 @@ dataset_list = [
 ]
 
 aplt.subplot_dataset_1d_list(dataset_list=dataset_list)
-
-"""
-Finish.
-"""

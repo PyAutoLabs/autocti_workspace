@@ -225,7 +225,3 @@ for time in time_list:
         obj=clocker,
         file_path=path.join(dataset_output_path, "clocker.json"),
     )
-
-"""
-Finished.
-"""

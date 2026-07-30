@@ -527,7 +527,3 @@ latex = af.text.Samples.latex(
     suffix=r"\\[-2pt]",
 )
 print(latex)
-
-"""
-Finished.
-"""

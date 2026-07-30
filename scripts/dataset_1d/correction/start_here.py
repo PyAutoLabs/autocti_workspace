@@ -169,7 +169,3 @@ ac.output_to_json(
     obj=clocker,
     file_path=path.join(dataset_path, "clocker_correction.json"),
 )
-
-"""
-Finished.
-"""

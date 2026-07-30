@@ -153,7 +153,3 @@ for cti_gen in cti_list_gen:
     print(
         f"delta ellipticity = {median_delta_ellipticity} ({upper_delta_ellipticity} {lower_delta_ellipticity}"
     )
-
-"""
-Finish.
-"""

@@ -153,7 +153,3 @@ for fpa_i in range(6):
             obj=clocker,
             file_path=path.join(dataset_path, "clocker.json"),
         )
-
-"""
-Finish.
-"""

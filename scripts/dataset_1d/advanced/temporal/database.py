@@ -77,7 +77,3 @@ print(f"Trap density of fit 1 (t = 1): {ml_instances_list[0].cti.trap_list[0].de
 print(f"Trap density of fit 2 (t = 2): {ml_instances_list[1].cti.trap_list[0].density}")
 
 print(f"Trap Density interpolated at t = 1.5 {instance.cti.trap_list[0].density}")
-
-"""
-Finish.
-"""

@@ -167,5 +167,4 @@ __Searches__
 Model-fits using a non-linear search produce search-specific visualization via
 `aplt.corner_anesthetic()`, `aplt.corner_cornerpy()` and related functions.
 
-Finish.
 """
