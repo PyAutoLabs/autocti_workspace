@@ -92,7 +92,7 @@ __Visualization Customization__
 The benefit of inspecting fits using the aggregator, rather than the files outputs to the hard-disk, is that we can
 customize the plots directly via keyword arguments (e.g. `title_prefix`, `output_path`, `output_format`) passed to
 the plotting functions in `autocti.plot`. Cosmetic defaults (fontsizes, figure sizes) are set workspace-wide via
-`config/visualize.yaml`.
+`config/visualize/general.yaml`.
 
 Below, we create a new function to apply as a generator to do this. However, we use a convenience method available
 in the aggregator package to set up the fit.

@@ -20,7 +20,7 @@ __Contents__
 - **Dataset:** Load and plot a 1D CTI calibration dataset.
 - **Regions:** Extract and bin the FPR / EPER regions of the data in 1D figures.
 - **Customization:** Each plotting function accepts direct keyword arguments.
-- **Config Defaults:** Default plotting values come from the `config/visualize.yaml` file.
+- **Config Defaults:** Default plotting values come from the `config/visualize/general.yaml` file.
 - **Charge Injection:** 2D plots and binned region plots of `ImagingCI` data.
 """
 
