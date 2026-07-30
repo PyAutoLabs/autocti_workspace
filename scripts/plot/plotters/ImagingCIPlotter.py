@@ -137,7 +137,7 @@ aplt.subplot_imaging_ci_region(dataset=dataset_list[0], region="parallel_fpr")
 """
 Cosmetic customization of these figures (e.g. drawing the parallel overscan, serial prescan and serial
 overscan regions, or a mask and its border) is no longer performed via an `Include2D` object — it is
-set via direct keyword arguments to the plotting functions and the `config/visualize.yaml` file.
+set via direct keyword arguments to the plotting functions and the `config/visualize/general.yaml` file.
 """
 aplt.plot_array(array=dataset_list[0].data, title="Data")
 
