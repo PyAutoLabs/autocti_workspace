@@ -127,7 +127,3 @@ The info dictionary we passed is also available.
 print("Info:")
 info_gen = agg.values("info")
 print([info for info in info_gen])
-
-"""
-Finished.
-"""

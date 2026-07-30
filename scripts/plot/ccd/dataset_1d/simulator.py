@@ -156,7 +156,3 @@ for quadrant_id in range(4):
     with open(true_log_likelihood_file, "w+") as f:
         json.dump(true_log_likelihood_list, f, indent=4)
         json.dump(true_log_likelihood, f, indent=4)
-
-"""
-Finish.
-"""

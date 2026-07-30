@@ -129,7 +129,3 @@ The OR logical clause is also supported via the symbol |.
 #     len(agg_query),
 #     "\n",
 # )
-
-"""
-Finished.
-"""

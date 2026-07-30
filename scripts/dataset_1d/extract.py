@@ -168,7 +168,3 @@ data_1d_overscan = layout_1d.extract.overscan.stacked_array_1d_from(
 )
 
 aplt.plot_yx(y=data_1d_overscan)
-
-"""
-Finish.
-"""

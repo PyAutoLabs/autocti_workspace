@@ -150,7 +150,3 @@ for quadrant_id in range(4):
         obj=clocker,
         file_path=path.join(dataset_path, "clocker.json"),
     )
-
-"""
-Finish.
-"""

@@ -162,7 +162,3 @@ true_log_likelihood_file = path.join(dataset_path, "true_log_likelihood.json")
 with open(true_log_likelihood_file, "w+") as f:
     json.dump(true_log_likelihood_list, f, indent=4)
     json.dump(true_log_likelihood, f, indent=4)
-
-"""
-Finish.
-"""

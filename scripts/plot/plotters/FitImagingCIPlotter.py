@@ -205,7 +205,3 @@ for every fit on the same subplot.
 aplt.subplot_fit_ci_region_list(
     fit_list=fit_ci_list, region="parallel_fpr", quantity="residual_map"
 )
-
-"""
-Finish.
-"""

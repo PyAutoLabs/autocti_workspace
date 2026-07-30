@@ -164,7 +164,3 @@ for fpa_i in range(6):
         with open(true_log_likelihood_file, "w+") as f:
             json.dump(true_log_likelihood_list, f, indent=4)
             json.dump(true_log_likelihood, f, indent=4)
-
-"""
-Finish.
-"""

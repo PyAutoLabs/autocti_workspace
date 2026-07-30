@@ -365,7 +365,3 @@ dataset_1d = layout.extract.serial_overscan.dataset_1d_from(
 )
 
 aplt.subplot_dataset_1d(dataset=dataset_1d)
-
-"""
-Finish.
-"""

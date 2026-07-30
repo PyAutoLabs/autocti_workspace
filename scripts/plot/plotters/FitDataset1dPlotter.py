@@ -118,7 +118,3 @@ the results of the fit on each line on the same subplot, which can be performed 
 """
 aplt.subplot_fit_dataset_1d_list(fit_list=fit_1d_list, quantity="data")
 aplt.subplot_fit_dataset_1d_list(fit_list=fit_1d_list, quantity="residual_map")
-
-"""
-Finish.
-"""

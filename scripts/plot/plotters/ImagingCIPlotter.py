@@ -184,8 +184,3 @@ dataset_list = [
 aplt.subplot_imaging_ci_data_region_list(
     dataset_list=dataset_list, region="parallel_fpr"
 )
-
-
-"""
-Finish.
-"""
