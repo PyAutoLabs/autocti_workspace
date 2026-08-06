@@ -1,2 +1,2 @@
-python scripts/imaging_ci/simulators/overview/non_uniform_charge_injection.py
+python scripts/imaging_ci/simulators/overview/non_uniform_cosmic_rays.py
 python scripts/imaging_ci/simulators/overview/uniform.py
