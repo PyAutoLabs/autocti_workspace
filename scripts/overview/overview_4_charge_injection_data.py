@@ -122,6 +122,21 @@ dataset_name = "overview"
 dataset_type = "uniform"
 dataset_path = path.join("dataset", dataset_name, "imaging_ci", dataset_type)
 
+"""
+__Dataset Auto-Simulation__
+
+If the dataset does not already exist on your system, it will be created by running the corresponding
+simulator script. This ensures that all example scripts can be run without manually simulating data first.
+"""
+if ac.util.dataset.should_simulate(dataset_path):
+    import subprocess
+    import sys
+
+    subprocess.run(
+        [sys.executable, "scripts/imaging_ci/simulators/overview/uniform.py"],
+        check=True,
+    )
+
 dataset = ac.ImagingCI.from_fits(
     data_path=path.join(dataset_path, f"norm_{int(norm)}", "data.fits"),
     noise_map_path=path.join(dataset_path, f"norm_{int(norm)}", "noise_map.fits"),
@@ -234,6 +249,21 @@ https://github.com/Jammy2211/autocti_workspace/tree/main/notebooks/imaging_ci/da
 dataset_name = "overview"
 dataset_type = "non_uniform_cosmic_rays"
 dataset_path = path.join("dataset", dataset_name, "imaging_ci", dataset_type)
+
+"""
+__Dataset Auto-Simulation__
+
+If the dataset does not already exist on your system, it will be created by running the corresponding
+simulator script. This ensures that all example scripts can be run without manually simulating data first.
+"""
+if ac.util.dataset.should_simulate(dataset_path):
+    import subprocess
+    import sys
+
+    subprocess.run(
+        [sys.executable, "scripts/imaging_ci/simulators/overview/non_uniform_cosmic_rays.py"],
+        check=True,
+    )
 
 dataset = ac.ImagingCI.from_fits(
     data_path=path.join(dataset_path, f"norm_{int(norm)}", "data.fits"),
