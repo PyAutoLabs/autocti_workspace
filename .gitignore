@@ -5,24 +5,17 @@ __pycache__/
 /*.png
 
 # Datasets are simulated at runtime by the workspace simulator scripts, which the
-# example scripts invoke automatically when the dataset is missing. Everything
-# under `dataset/` is therefore ignored by default; the `!` lines below are the
-# allowlist of datasets that remain committed by design.
+# example scripts invoke automatically when the dataset is missing (the
+# `__Dataset Auto-Simulation__` guards). Everything under `dataset/` is therefore
+# ignored. The only committed exceptions are the five hand-made overview media
+# illustrations, which no simulator writes; their allowlist lives in
+# `dataset/.gitignore` (the deeper file wins for paths under `dataset/`) and is
+# mirrored here for clarity.
 dataset/**
 !dataset/.gitignore
-!dataset/dataset_1d/**
-!dataset/overview/**
-
-# Generated plots and corrected-data products produced by the tutorial simulators
-# / correction scripts — never committed, even inside an allowlisted directory.
-dataset/**/*.png
-dataset/**/ccd_plot/
-dataset/**/fpa_plot/
-dataset/imaging_ci/diagnostic_plot/
-dataset/imaging_ci/poisson/
-dataset/**/correction/
-dataset/**/clocker_correction.json
-dataset/**/cti_correction.json
-dataset/**/interpolator.json
-dataset/**/data_corrected.fits
-dataset/overview/imaging_ci/uniform/
+!dataset/overview/
+!dataset/overview/ccd.gif
+!dataset/overview/ccd_schematic.png
+!dataset/overview/cti.gif
+!dataset/overview/cti_time_evolution.png
+!dataset/overview/what_is_cti.png

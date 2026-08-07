@@ -44,6 +44,21 @@ dataset_label = "temporal"
 dataset_path = path.join("dataset", dataset_type, dataset_label)
 
 """
+__Dataset Auto-Simulation__
+
+If the dataset does not already exist on your system, it will be created by running the corresponding
+simulator script. This ensures that all example scripts can be run without manually simulating data first.
+"""
+if ac.util.dataset.should_simulate(dataset_path):
+    import subprocess
+    import sys
+
+    subprocess.run(
+        [sys.executable, "scripts/dataset_1d/simulators/examples/temporal.py"],
+        check=True,
+    )
+
+"""
 __Layout__
 
 The 1D shape of each data.

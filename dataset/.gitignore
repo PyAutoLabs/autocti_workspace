@@ -1,2 +1,8 @@
 *
 !.gitignore
+!overview/
+!overview/ccd.gif
+!overview/ccd_schematic.png
+!overview/cti.gif
+!overview/cti_time_evolution.png
+!overview/what_is_cti.png
