@@ -25,7 +25,6 @@ In this script, we fit a 1D CTI Dataset to calibrate a CTI model, where:
 
 # from autonerves import setup_notebook; setup_notebook()
 
-import json
 from os import path
 import os
 import autofit as af
@@ -151,21 +150,14 @@ for i, dataset_name in enumerate(dataset_name_list):
     """
     __Info__
 
-    Information about our model-fit that isn't part of the model-fit can be made accessible to the database, by 
-    passing an `info` dictionary. 
+    Information about our model-fit that isn't part of the model-fit can be made accessible to the database, by
+    passing an `info` dictionary.
 
-    Below we load this info dictionary from an `info.json` file stored in each dataset's folder. This dictionary
-    contains the (hypothetical) injection voltage settings of the data, as if it were made via a charge injection.
+    Below we define this info dictionary inline. It contains the (hypothetical) injection voltage settings of the
+    data, as if it were made via a charge injection. For fits to large datasets you would store this alongside each
+    dataset (e.g. as an `info.json` file) and load it here instead of defining it inline.
     """
-    info_list = []
-
-    for norm in norm_list:
-        info_file = path.join(dataset_path, f"norm_{int(norm)}", "info.json")
-
-        with open(info_file) as json_file:
-            info = json.load(json_file)
-
-        info_list.append(info)
+    info = {"injection_voltage": 15.0, "injection_time": 0.5}
 
     """
     __Model__
