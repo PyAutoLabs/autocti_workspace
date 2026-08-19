@@ -283,7 +283,7 @@ try:
     print("Errors Instances: \n")
     # print(ue3_instances, "\n")
     # print(le3_instances, "\n")
-except af.exc.FitException:
+except (af.exc.FitException, af.exc.SamplesException):
     pass
 
 """
