@@ -384,7 +384,7 @@ nautilus non-linear search in order to find which models fit the data with the h
 
 __Output Folder__
 
-Now this is running you should checkout the `autoCTI_workspace/output` folder.
+Now this is running you should checkout the `autocti_workspace/output` folder.
 
 This is where the results of the search are written to your hard-disk (in the `tutorial_1_non_linear_search` folder). 
 When its completed, images, results and information about the fit appear in this folder, meaning that you don't need 
