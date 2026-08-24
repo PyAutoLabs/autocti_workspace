@@ -61,11 +61,6 @@ PYAUTO_TEST_MODE=2 python scripts/dataset_1d/modeling/start_here.py
 (`2` bypasses sampling entirely; `1` runs a reduced-iteration search; the variable is
 `PYAUTO_TEST_MODE`, not `PYAUTOFIT_TEST_MODE`.)
 
-Known test-mode artifact: bypass levels (2/3) evaluate the model at prior medians, so scripts
-whose models assert an ordering between identically-prior'd parameters (e.g.
-`trap_0.release_timescale < trap_1.release_timescale`) raise a `FitException` at the tied
-medians. Real (non-bypass) runs resample such points gracefully — this is not a script bug.
-
 In a sandboxed / restricted environment, point caches at writable directories:
 
 ```bash
