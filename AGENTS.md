@@ -131,6 +131,44 @@ In a sandboxed / restricted environment, point caches at writable directories:
 NUMBA_CACHE_DIR=/tmp/numba_cache MPLCONFIGDIR=/tmp/matplotlib python scripts/...
 ```
 
+### Navigator catalogue (CI)
+
+`llms-full.txt` and `workspace_index.json` in the repo root are the **generated**
+LLM-facing catalogue of every script in `scripts/`. They are checked by the
+`Navigator Check` workflow (`.github/workflows/navigator_check.yml`, a thin
+caller of PyAutoHands' reusable `navigator_check.yml`), which runs three jobs:
+a path/banner lint, an unbatched multi-start search guard, and a **staleness**
+job that regenerates the catalogue and fails if it drifts from `scripts/`.
+
+Regenerate after adding, renaming, moving or re-titling any script, and commit
+the result alongside the script change:
+
+```bash
+git clone https://github.com/PyAutoLabs/PyAutoHands.git ../PyAutoHands
+python3 ../PyAutoHands/autohands/regenerate_navigator.py autocti
+```
+
+Run it from the workspace root — the generator catalogues the current working
+directory. It needs only `pyyaml`, not the science stack, and its output is
+deterministic (two runs are byte-identical).
+
+Two things to know before editing a script header:
+
+- The catalogue's per-script summary is the **first prose paragraph** of the
+  opening docstring, and the title line is only recognised as a title when the
+  line beneath it is a `=` underline. A `-----` underline is not recognised, so
+  the dashes become the summary — which is what 12 scripts did before
+  autocti_workspace#29. Use `=`.
+- 13 scripts still have no prose paragraph at all and catalogue as
+  `(no summary in script docstring)`. That is a documentation gap, not a CI
+  failure; the check does not gate on it.
+
+**Notebook regeneration is a separate thing and is currently blocked for this
+workspace:** `autohands/generate.py` rejects any project absent from
+`build_util.COLAB_PROJECTS`, and `autocti` is not registered there (nor in
+PyAutoNerves' `setup_colab.py`). `regenerate_navigator.py` is unaffected — it
+never touches that registry.
+
 ## Notebooks vs Scripts
 
 Notebooks in `notebooks/` are **generated** from the `.py` files in `scripts/`. **Always edit the

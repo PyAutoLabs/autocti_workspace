@@ -1,0 +1,811 @@
+[
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/dataset_1d/advanced/database/examples/data_fitting.ipynb",
+    "path": "scripts/dataset_1d/advanced/database/examples/data_fitting.py",
+    "summary": "In this tutorial, we use the aggregator to load models and data from a non-linear search and use them to perform fits to the data.",
+    "title": "Database: Data Fitting"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "advanced/database/start_here.py",
+      "start_here.py"
+    ],
+    "notebook": "notebooks/dataset_1d/advanced/database/examples/models.ipynb",
+    "path": "scripts/dataset_1d/advanced/database/examples/models.py",
+    "summary": "In this tutorial, we use the database to load models and `CTI` objects from a non-linear search. This allows us to visualize and interpret its results.",
+    "title": "Database: Models"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/dataset_1d/advanced/database/examples/queries.ipynb",
+    "path": "scripts/dataset_1d/advanced/database/examples/queries.py",
+    "summary": "Suppose we have the results of many fits in the database and we only wanted to load and inspect a specific set of model-fits (e.g. the results of `tutorial_1_introduction`). We can use the database's querying tools to only load the results we are interested in.",
+    "title": "Database: Queries"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/advanced/database/start_here.py",
+      "/guides/results/aggregator/samples.py",
+      "GetDist.py",
+      "start_here.py"
+    ],
+    "notebook": "notebooks/dataset_1d/advanced/database/examples/samples.ipynb",
+    "path": "scripts/dataset_1d/advanced/database/examples/samples.py",
+    "summary": "In the script `autocti_workspace/*/advanced/database/start_here.py` we performed a fit which fitted 3 datasets and stored the results in a sqlite database.",
+    "title": "Database: Samples"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "//docs.py",
+      "data_fitting.py",
+      "models.py",
+      "queries.py",
+      "samples.py"
+    ],
+    "notebook": "notebooks/dataset_1d/advanced/database/start_here.ipynb",
+    "path": "scripts/dataset_1d/advanced/database/start_here.py",
+    "summary": "The default behaviour of **PyAutoCTI** is for model-fitting results to be output to hard-disc in folders, which are straight forward to navigate and manually check. For small model-fitting tasks this is sufficient, however many users have a need to perform many model fits to large samples of CTI data, making manual inspection of results time consuming. # PyAutoCTI's database feature outputs all model-fitting results as a sqlite3 (https://docs.python.org/3/library/sqlite3.html) relational database, such that all results can be efficiently loaded into a Jupyter notebook or Python script for inspection, analysis and interpretation. This database supports advanced querying, so that specific model-fits (e.g., which fit a certain model or dataset) can be loaded.",
+    "title": "Database: Introduction"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "advanced/temporal/fit.py",
+      "fit.py",
+      "interpolation.py"
+    ],
+    "notebook": "notebooks/dataset_1d/advanced/temporal/database.ipynb",
+    "path": "scripts/dataset_1d/advanced/temporal/database.py",
+    "summary": "The example script `fit.py` fits multiple 1D CTI calibration datasets, representative of data taken over the course of a space mission where radiation damage increases therefore also increasing the level of CTI.",
+    "title": "Temporal: Database"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "advanced/temporal/database.py",
+      "interpolation.py"
+    ],
+    "notebook": "notebooks/dataset_1d/advanced/temporal/fit.ipynb",
+    "path": "scripts/dataset_1d/advanced/temporal/fit.py",
+    "summary": "This script fits multiple 1D CTI calibration datasets, representative of data taken over the course of a space mission where radiation damage increases therefore also increasing the level of CTI.",
+    "title": "Temporal: Individual Fits"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "advanced/temporal/fit.py",
+      "fit.py"
+    ],
+    "notebook": "notebooks/dataset_1d/advanced/temporal/plot.ipynb",
+    "path": "scripts/dataset_1d/advanced/temporal/plot.py",
+    "summary": "The example script `fit.py` fits multiple 1D CTI calibration datasets, representative of data taken over the course of a space mission where radiation damage increases therefore also increasing the level of CTI.",
+    "title": "Temporal: Plot"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/dataset_1d/correction/start_here.ipynb",
+    "path": "scripts/dataset_1d/correction/start_here.py",
+    "summary": "In this script, we correct CTI from a 1D CTI calibration dataset using a known CTI model.",
+    "title": "Correction: Start Here"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/dataset_1d/extract.ipynb",
+    "path": "scripts/dataset_1d/extract.py",
+    "summary": "**PyAutoCTI** has numerous methods for extracting subsets of data from a 1D CTI dataset.",
+    "title": "Extract"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/start_here.py",
+      "/searches/start_point.ipynb",
+      "modeling/start_here.ipynb"
+    ],
+    "notebook": "notebooks/dataset_1d/modeling/customize/priors.ipynb",
+    "path": "scripts/dataset_1d/modeling/customize/priors.py",
+    "summary": "This example demonstrates how to customize the priors of a model-fit, for example if you are modeling a dataset where certain parameters are known beforehand.",
+    "title": "Customize: Priors"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/start_here.py",
+      "modeling/start_here.ipynb",
+      "start_here.ipynb"
+    ],
+    "notebook": "notebooks/dataset_1d/modeling/features/species_x3.ipynb",
+    "path": "scripts/dataset_1d/modeling/features/species_x3.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Modeling: Dataset 1D x3 Species"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/start_here.py",
+      "modeling/start_here.ipynb",
+      "start_here.ipynb"
+    ],
+    "notebook": "notebooks/dataset_1d/modeling/features/visualize_full.ipynb",
+    "path": "scripts/dataset_1d/modeling/features/visualize_full.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Modeling: Visualize Full"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/start_here.py",
+      "/dataset_1d/simulators/start_here.py",
+      "/plot/start_here.py"
+    ],
+    "notebook": "notebooks/dataset_1d/modeling/start_here.ipynb",
+    "path": "scripts/dataset_1d/modeling/start_here.py",
+    "summary": "This script is the starting point for modeling of 1D CTI datasets and it provides an overview of the modeling API.",
+    "title": "Modeling: Start Here"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "modeling/start_here.py"
+    ],
+    "notebook": "notebooks/dataset_1d/results/examples/cti.ipynb",
+    "path": "scripts/dataset_1d/results/examples/cti.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Results: CTI"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "modeling/start_here.py"
+    ],
+    "notebook": "notebooks/dataset_1d/results/examples/fits.ipynb",
+    "path": "scripts/dataset_1d/results/examples/fits.py",
+    "summary": "This tutorial inspects the model's fit to the data using the `FitDataset1D` object inferred by the non-linear search, for example visualizing and interpreting its results.",
+    "title": "Results: Fits"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "GetDist.py",
+      "cti.py",
+      "fits.py",
+      "modeling/start_here.py"
+    ],
+    "notebook": "notebooks/dataset_1d/results/examples/samples.ipynb",
+    "path": "scripts/dataset_1d/results/examples/samples.py",
+    "summary": "After a non-linear search has completed, it returns a `Result` object that contains information on samples of the non-linear search, such as the maximum likelihood model instance, the errors on each parameter and the Bayesian evidence.",
+    "title": "Results: Samples"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/examples/cti.py",
+      "/dataset_1d/results/examples/fits.py",
+      "/dataset_1d/results/examples/samples.py",
+      "modeling/start_here.py"
+    ],
+    "notebook": "notebooks/dataset_1d/results/start_here.ipynb",
+    "path": "scripts/dataset_1d/results/start_here.py",
+    "summary": "This script is the starting point for investigating the results of modeling and it provides an overview of the modeling API.",
+    "title": "Results: Start Here"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/dataset_1d/simulators/examples/overview.ipynb",
+    "path": "scripts/dataset_1d/simulators/examples/overview.py",
+    "summary": "This script simulates a 1D dataset with CTI, where:",
+    "title": "Simulator: Dataset 1D With x2 traps"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/dataset_1d/simulators/examples/species_x1_continuum.ipynb",
+    "path": "scripts/dataset_1d/simulators/examples/species_x1_continuum.py",
+    "summary": "This script simulates a 1D dataset with CTI, where:",
+    "title": "Simulator: 1D Data With x2 traps"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/dataset_1d/simulators/examples/species_x3.ipynb",
+    "path": "scripts/dataset_1d/simulators/examples/species_x3.py",
+    "summary": "This script simulates a 1D dataset with CTI, where:",
+    "title": "Simulator: 1D Data With x3 traps"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/dataset_1d/simulators/examples/temporal.ipynb",
+    "path": "scripts/dataset_1d/simulators/examples/temporal.py",
+    "summary": "This script simulates multiple 1D CTI calibration datasets, representative of data taken over the course of a space mission where radiation damage increases therefore also increasing the level of CTI.",
+    "title": "Simulator: Temporal"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/plot/start_here.py"
+    ],
+    "notebook": "notebooks/dataset_1d/simulators/start_here.ipynb",
+    "path": "scripts/dataset_1d/simulators/start_here.py",
+    "summary": "This script is the starting point for simulating a 1D CTI dataset and it provides an overview of the simulation API.",
+    "title": "Simulator: Start Here"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/imaging_ci/advanced/chaining/pipelines/parallel.py",
+      "/imaging_ci/advanced/chaining/pipelines/serial.py"
+    ],
+    "notebook": "notebooks/imaging_ci/advanced/chaining/noise_scaling.ipynb",
+    "path": "scripts/imaging_ci/advanced/chaining/noise_scaling.py",
+    "summary": "In this script, we chain two searches to fit `ImagingCI` with a CTI model where:",
+    "title": "Chaining: Noise Scaling"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/imaging_ci/advanced/chaining/pipelines/parallel.ipynb",
+    "path": "scripts/imaging_ci/advanced/chaining/pipelines/parallel.py",
+    "summary": "By chaining together three searches this script fits A CTI model using `ImagingCI`, where in the final model:",
+    "title": "Pipelines: Parallel CTI"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/imaging_ci/advanced/chaining/pipelines/parallel_x2__serial_x2.ipynb",
+    "path": "scripts/imaging_ci/advanced/chaining/pipelines/parallel_x2__serial_x2.py",
+    "summary": "By chaining together three searches this script fits A CTI model using `ImagingCI`, where in the final model:",
+    "title": "Pipelines: Parallel CTI"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/imaging_ci/advanced/chaining/pipelines/serial.ipynb",
+    "path": "scripts/imaging_ci/advanced/chaining/pipelines/serial.py",
+    "summary": "By chaining together three searches this script fits A CTI model using `ImagingCI`, where in the final model:",
+    "title": "Pipelines: Serial CTI"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/imaging_ci/advanced/chaining/pipelines/parallel.py",
+      "/imaging_ci/advanced/chaining/pipelines/serial.py"
+    ],
+    "notebook": "notebooks/imaging_ci/advanced/chaining/x1_species_to_x2_species.ipynb",
+    "path": "scripts/imaging_ci/advanced/chaining/x1_species_to_x2_species.py",
+    "summary": "In this script, we chain two searches to fit `ImagingCI` with a CTI model where:",
+    "title": "Chaining: x1 Species to x2 Species"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/imaging_ci/correction/start_here.ipynb",
+    "path": "scripts/imaging_ci/correction/start_here.py",
+    "summary": "In this script, we correct CTI from charge injection imaging using a known CTI model.",
+    "title": "Correction: Start Here"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/imaging_ci/data_preparation/examples/bias_subtraction.ipynb",
+    "path": "scripts/imaging_ci/data_preparation/examples/bias_subtraction.py",
+    "summary": "Throughout the `autocti_workspace/imaging_ci` package, the charge injection imaging is assumed to already be bias subtracted, which may not be the case for real data.",
+    "title": "Data Preparation: Bias Subtraction"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/imaging_ci/data_preparation/examples/cosmic_ray_flagging.ipynb",
+    "path": "scripts/imaging_ci/data_preparation/examples/cosmic_ray_flagging.py",
+    "summary": "We have seen how to estimate the pre-CTI image from charge injection data, including accounting for serial CTI.",
+    "title": "Data Preparation: Cosmic Rays"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "advanced.py",
+      "complex.py"
+    ],
+    "notebook": "notebooks/imaging_ci/data_preparation/examples/pre_cti.ipynb",
+    "path": "scripts/imaging_ci/data_preparation/examples/pre_cti.py",
+    "summary": "Throughout the `autocti_workspace/imaging_ci` package, the charge injection imaging `pre_cti_data` is output to .fits format when data is simulated and loaded from .fits for modeling scripts.",
+    "title": "Data Preparation: Pre CTI"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "complex.py"
+    ],
+    "notebook": "notebooks/imaging_ci/data_preparation/examples/pre_cti_and_cosmics.ipynb",
+    "path": "scripts/imaging_ci/data_preparation/examples/pre_cti_and_cosmics.py",
+    "summary": "We have seen how to estimate the pre-CTI image from charge injection data (including accounting for serial CTI) and how to flag cosmic rays in that data.",
+    "title": "Data Preparation: Pre-CTI and Cosmics (Optional)"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "preprocess_1_serial_cti.py",
+      "proprocess_1_pre_cti.py"
+    ],
+    "notebook": "notebooks/imaging_ci/data_preparation/examples/serial_cti.ipynb",
+    "path": "scripts/imaging_ci/data_preparation/examples/serial_cti.py",
+    "summary": "The `preprocess_1_serial_cti.py` script shows how to estimate the pre-CTI charge injection images from an observed charge injection data which includes parallel CTI.",
+    "title": "Data Preparation: Serial CTI"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "examples/bias_subtraction.ipynb",
+      "examples/pre_cti.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/data_preparation/start_here.ipynb",
+    "path": "scripts/imaging_ci/data_preparation/start_here.py",
+    "summary": "When a charge injection imaging dataset is analysed, it must conform to certain standards in order for the analysis to be performed correctly. This tutorial describes these standards and links to more detailed scripts which will help you prepare your dataset to adhere to them if it does not already.",
+    "title": "Charge Injection Imaging: Data Preparation"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/imaging_ci/extract.ipynb",
+    "path": "scripts/imaging_ci/extract.py",
+    "summary": "**PyAutoCTI** has numerous methods for extracting subsets of data from a charge injection dataset.",
+    "title": "Extract"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/start_here.py",
+      "imaging_ci/data_preparation/examples/cosmic_ray_flagging.ipynb",
+      "modeling/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/modeling/features/cosmic_rays.ipynb",
+    "path": "scripts/imaging_ci/modeling/features/cosmic_rays.py",
+    "summary": "Charge injection imaging data will have cosmic rays hit it during data acquisition, which must be identified and masked from the CTI calibration produce in order to prevent an inaccurate model being inferred. The CTI trails of the cosmic rays must be also be masked.",
+    "title": "Modeling: Charge Injection Uniform"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/start_here.py",
+      "modeling/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/modeling/features/non_uniform.ipynb",
+    "path": "scripts/imaging_ci/modeling/features/non_uniform.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Modeling: Charge Injection Uniform"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/start_here.py",
+      "modeling/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/modeling/features/serial_cti.ipynb",
+    "path": "scripts/imaging_ci/modeling/features/serial_cti.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Modeling: Charge Injection Uniform"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/start_here.py",
+      "modeling/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/modeling/features/visualize_full.ipynb",
+    "path": "scripts/imaging_ci/modeling/features/visualize_full.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Modeling: Visualize Full"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/dataset_1d/results/start_here.py",
+      "/imaging_ci/simulators/start_here.py",
+      "/plot/start_here.py"
+    ],
+    "notebook": "notebooks/imaging_ci/modeling/start_here.ipynb",
+    "path": "scripts/imaging_ci/modeling/start_here.py",
+    "summary": "This script is the starting point for modeling of 2D CTI charge injection datasets and it provides an overview of the modeling API.",
+    "title": "Modeling: Start Here"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "preprocess_optional_bias_subtraction.py",
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/examples/bias_uncorrected.ipynb",
+    "path": "scripts/imaging_ci/simulators/examples/bias_uncorrected.py",
+    "summary": "The data is used to illustrate the bias subtraction functionality illustrated in `preprocess_optional_bias_subtraction.py`.",
+    "title": "Simulator: Bias Uncorrected"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/examples/cosmic_rays.ipynb",
+    "path": "scripts/imaging_ci/simulators/examples/cosmic_rays.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Simulator: Non-Uniform Charge Injection With Cosmic Rays"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/examples/non_uniform.ipynb",
+    "path": "scripts/imaging_ci/simulators/examples/non_uniform.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Simulator: Non-Uniform Charge Injection"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/examples/parallel_and_serial.ipynb",
+    "path": "scripts/imaging_ci/simulators/examples/parallel_and_serial.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Simulator: Non-Uniform Charge Injection"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/examples/poisson_traps.ipynb",
+    "path": "scripts/imaging_ci/simulators/examples/poisson_traps.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Simulator: Uniform Charge Injection With Cosmic Rays"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/examples/serial_cti.ipynb",
+    "path": "scripts/imaging_ci/simulators/examples/serial_cti.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Simulator: Uniform Charge Injection With Cosmic Rays"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/overview/calibrate.ipynb",
+    "path": "scripts/imaging_ci/simulators/overview/calibrate.py",
+    "summary": "The charge injection data is a small cut-out of 30 x 30 pixels, to make CTI calibration run fast for the overview script that this data is used for.",
+    "title": "Simulator: Uniform Charge Injection With Cosmic Rays"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/overview/non_uniform_cosmic_rays.ipynb",
+    "path": "scripts/imaging_ci/simulators/overview/non_uniform_cosmic_rays.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Simulator: Uniform Charge Injection With Cosmic Rays"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "simulators/start_here.ipynb"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/overview/uniform.ipynb",
+    "path": "scripts/imaging_ci/simulators/overview/uniform.py",
+    "summary": "(no summary in script docstring)",
+    "title": "Simulator: Uniform Charge Injection With Cosmic Rays"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "/plot/start_here.py"
+    ],
+    "notebook": "notebooks/imaging_ci/simulators/start_here.ipynb",
+    "path": "scripts/imaging_ci/simulators/start_here.py",
+    "summary": "This script is the starting point for simulating a 2D charge injection CTI dataset and it provides an overview of the simulation API.",
+    "title": "Simulator: Uniform Charge Injection With Cosmic Rays"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/overview/overview_1_what_is_cti.ipynb",
+    "path": "scripts/overview/overview_1_what_is_cti.py",
+    "summary": "Charge Transfer Inefficiency, or CTI for short, is an effect that occurs when acquiring imaging data from Charge Coupled Devices (CCDs).",
+    "title": "Overview: What is CTI?"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/overview/overview_2_parallel_and_serial.ipynb",
+    "path": "scripts/overview/overview_2_parallel_and_serial.py",
+    "summary": "The descriptions and animations of the previous overview described CCD clocking as a 1D process, whereby electrons were trailed as they move in one direction towards read-out electronics.",
+    "title": "Overview: Parallel and Serial"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/overview/overview_3_cti_features.ipynb",
+    "path": "scripts/overview/overview_3_cti_features.py",
+    "summary": "To illustrate **PyAutoCTI** we have assumed different CTI models, which allowed us to add and correct CTI from 1D and 2D data. This model included the properties of the traps on CCD's silicon lattice and described how electron clouds filled up pixels.",
+    "title": "Overview: CTI Features"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "scripts/imaging_ci/simulators/overview/calibrate.py",
+      "scripts/imaging_ci/simulators/overview/non_uniform_cosmic_rays.py",
+      "scripts/imaging_ci/simulators/overview/uniform.py"
+    ],
+    "notebook": "notebooks/overview/overview_4_charge_injection_data.ipynb",
+    "path": "scripts/overview/overview_4_charge_injection_data.py",
+    "summary": "In overview 2, we inspected charge injection data to understand how 2D CCD clocking works.",
+    "title": "Overview: Charge Injection Data"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/overview/overview_5_fitting.ipynb",
+    "path": "scripts/overview/overview_5_fitting.py",
+    "summary": "CTI calibration is the process of determining the CTI model of a given CCD, including the total density of traps on the CCD, the average release times of these traps and the CCD filling behaviour.",
+    "title": "Overview: Fitting"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/overview/overview_6_cti_calibration.ipynb",
+    "path": "scripts/overview/overview_6_cti_calibration.py",
+    "summary": "In the previous overview, we learnt how to fit a CTI model to a dataset and quantify its goodness-of-fit via a log likelihood.",
+    "title": "Overview: CTI Calibration"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "plot/ccd/dataset_1d/fit.py"
+    ],
+    "notebook": "notebooks/plot/ccd/dataset_1d/database.ipynb",
+    "path": "scripts/plot/ccd/dataset_1d/database.py",
+    "summary": "CTI calibration is typically performed on a CCD using many images (8-32 or more), where the images vary in the level of charge injected into the CCD (the charge injection level).",
+    "title": "Plots CCD: Database"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "modeling/start_here.py",
+      "plot/ccd/dataset_1d/database.py",
+      "plot/ccd/dataset_1d/simulator.py"
+    ],
+    "notebook": "notebooks/plot/ccd/dataset_1d/fit.ipynb",
+    "path": "scripts/plot/ccd/dataset_1d/fit.py",
+    "summary": "CTI calibration is typically performed on a CCD using many images (8-32 or more), where the images vary in the level of charge injected into the CCD (the charge injection level).",
+    "title": "Plots CCD: Fit"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "dataset_1d/simulators/start_here.py"
+    ],
+    "notebook": "notebooks/plot/ccd/dataset_1d/simulator.ipynb",
+    "path": "scripts/plot/ccd/dataset_1d/simulator.py",
+    "summary": "CTI calibration is typically performed on a CCD using many images (8-32 or more), where the images vary in the level of charge injected into the CCD (the charge injection level).",
+    "title": "Plots CCD: Simulator"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "plot/ccd/imaging_ci/fit.py"
+    ],
+    "notebook": "notebooks/plot/ccd/imaging_ci/database.ipynb",
+    "path": "scripts/plot/ccd/imaging_ci/database.py",
+    "summary": "CTI calibration is typically performed on a CCD using many images (8-32 or more), where the images vary in the level of charge injected into the CCD (the charge injection level).",
+    "title": "Plots CCD: Database"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "modeling/start_here.py",
+      "plot/ccd/imaging_ci/database.py",
+      "plot/ccd/imaging_ci/simulator.py"
+    ],
+    "notebook": "notebooks/plot/ccd/imaging_ci/fit.ipynb",
+    "path": "scripts/plot/ccd/imaging_ci/fit.py",
+    "summary": "CTI calibration is typically performed on a CCD using many images (8-32 or more), where the images vary in the level of charge injected into the CCD (the charge injection level).",
+    "title": "Plots CCD: Fit"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "dataset/simulators/start_here.py"
+    ],
+    "notebook": "notebooks/plot/ccd/imaging_ci/simulator.ipynb",
+    "path": "scripts/plot/ccd/imaging_ci/simulator.py",
+    "summary": "CTI calibration is typically performed on a CCD using many images (8-32 or more), where the images vary in the level of charge injected into the CCD (the charge injection level).",
+    "title": "Plots CCD: Simulator"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "database.py",
+      "plot/ccd/imaging_ci/database.py",
+      "plot/fpa/imaging_ci/simulator.py"
+    ],
+    "notebook": "notebooks/plot/diagnostics/imaging_ci/fpa_quad_grid.ipynb",
+    "path": "scripts/plot/diagnostics/imaging_ci/fpa_quad_grid.py",
+    "summary": "CTI calibration is typically performed independently on many CCD's over a telescope's focal plane array (FPA). For example, for Euclid, the FPA is a 6x6 grid of CCDs.",
+    "title": "Plots FPA: Fit"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "database.py",
+      "plot/ccd/imaging_ci/database.py",
+      "plot/fpa/imaging_ci/simulator.py"
+    ],
+    "notebook": "notebooks/plot/diagnostics/imaging_ci/fpr_vs_eper.ipynb",
+    "path": "scripts/plot/diagnostics/imaging_ci/fpr_vs_eper.py",
+    "summary": "CTI calibration is typically performed independently on many CCD's over a telescope's focal plane array (FPA). For example, for Euclid, the FPA is a 6x6 grid of CCDs.",
+    "title": "Plots FPA: Fit"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "imaging_ci/simulators/start_here.py"
+    ],
+    "notebook": "notebooks/plot/diagnostics/imaging_ci/simulator.ipynb",
+    "path": "scripts/plot/diagnostics/imaging_ci/simulator.py",
+    "summary": "CTI calibration is typically performed independently on many CCD's over a telescope's focal plane array (FPA). For example, for Euclid, the FPA is a 6x6 grid of CCDs.",
+    "title": "Plots FPA: Simulator"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/plot/diagnostics/imaging_ci/well_filling.ipynb",
+    "path": "scripts/plot/diagnostics/imaging_ci/well_filling.py",
+    "summary": "The well filling behaviour of a CCD is fitted for in a CTI model fit.",
+    "title": "Plots: Well Filling"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "plot/ccd/dataset_1d/fit.py",
+      "plot/fpa/dataset_1d/fit.py"
+    ],
+    "notebook": "notebooks/plot/fpa/dataset_1d/database.ipynb",
+    "path": "scripts/plot/fpa/dataset_1d/database.py",
+    "summary": "CTI calibration is typically performed independently on many CCD's over a telescope's focal plane array (FPA). For example, for Euclid, the FPA is a 6x6 grid of CCDs.",
+    "title": "Plots FPA: Database"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "database.py",
+      "plot/ccd/dataset_1d/database.py",
+      "plot/fpa/dataset_1d/database.py",
+      "plot/fpa/dataset_1d/simulator.py"
+    ],
+    "notebook": "notebooks/plot/fpa/dataset_1d/fit.ipynb",
+    "path": "scripts/plot/fpa/dataset_1d/fit.py",
+    "summary": "CTI calibration is typically performed independently on many CCD's over a telescope's focal plane array (FPA). For example, for Euclid, the FPA is a 6x6 grid of CCDs.",
+    "title": "Plots FPA: Fit"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "dataset_1d/simulators/start_here.py"
+    ],
+    "notebook": "notebooks/plot/fpa/dataset_1d/simulator.ipynb",
+    "path": "scripts/plot/fpa/dataset_1d/simulator.py",
+    "summary": "CTI calibration is typically performed independently on many CCD's over a telescope's focal plane array (FPA). For example, for Euclid, the FPA is a 6x6 grid of CCDs.",
+    "title": "Plots FPA: Simulator"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "plot/ccd/dataset_1d/fit.py",
+      "plot/fpa/imaging_ci/fit.py"
+    ],
+    "notebook": "notebooks/plot/fpa/imaging_ci/database.ipynb",
+    "path": "scripts/plot/fpa/imaging_ci/database.py",
+    "summary": "CTI calibration is typically performed independently on many CCD's over a telescope's focal plane array (FPA). For example, for Euclid, the FPA is a 6x6 grid of CCDs.",
+    "title": "Plots FPA: Database"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "database.py",
+      "plot/ccd/imaging_ci/database.py",
+      "plot/fpa/imaging_ci/database.py",
+      "plot/fpa/imaging_ci/simulator.py"
+    ],
+    "notebook": "notebooks/plot/fpa/imaging_ci/fit.ipynb",
+    "path": "scripts/plot/fpa/imaging_ci/fit.py",
+    "summary": "CTI calibration is typically performed independently on many CCD's over a telescope's focal plane array (FPA). For example, for Euclid, the FPA is a 6x6 grid of CCDs.",
+    "title": "Plots FPA: Fit"
+  },
+  {
+    "contents": [],
+    "cross_refs": [
+      "imaging_ci/simulators/start_here.py"
+    ],
+    "notebook": "notebooks/plot/fpa/imaging_ci/simulator.ipynb",
+    "path": "scripts/plot/fpa/imaging_ci/simulator.py",
+    "summary": "CTI calibration is typically performed independently on many CCD's over a telescope's focal plane array (FPA). For example, for Euclid, the FPA is a 6x6 grid of CCDs.",
+    "title": "Plots FPA: Simulator"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/plot/plotters/Dataset1dPlotter.ipynb",
+    "path": "scripts/plot/plotters/Dataset1dPlotter.py",
+    "summary": "This example illustrates how to plot a `Dataset1D` dataset using the plotting functions in `autocti.plot`.",
+    "title": "Plots: Dataset1D"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/plot/plotters/FitDataset1dPlotter.ipynb",
+    "path": "scripts/plot/plotters/FitDataset1dPlotter.py",
+    "summary": "This example illustrates how to plot a `FitDataset1D` fit using the plotting functions in `autocti.plot`.",
+    "title": "Plots: FitDataset1D"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/plot/plotters/FitImagingCIPlotter.ipynb",
+    "path": "scripts/plot/plotters/FitImagingCIPlotter.py",
+    "summary": "This example illustrates how to plot a `FitImagingCI` fit using the plotting functions in `autocti.plot`.",
+    "title": "Plots: FitImagingCI"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/plot/plotters/ImagingCIPlotter.ipynb",
+    "path": "scripts/plot/plotters/ImagingCIPlotter.py",
+    "summary": "This example illustrates how to plot an `ImagingCI` dataset using the plotting functions in `autocti.plot`.",
+    "title": "Plots: ImagingCI"
+  },
+  {
+    "contents": [],
+    "cross_refs": [],
+    "notebook": "notebooks/plot/plotters/MultiFigurePlotter.ipynb",
+    "path": "scripts/plot/plotters/MultiFigurePlotter.py",
+    "summary": "This example illustrates how to plot the same figure from multiple datasets on the same subplot.",
+    "title": "Plots: MultiFigurePlotter"
+  },
+  {
+    "contents": [
+      "Dataset",
+      "Regions",
+      "Customization",
+      "Config Defaults",
+      "Charge Injection"
+    ],
+    "cross_refs": [
+      "modeling/start_here.py"
+    ],
+    "notebook": "notebooks/plot/start_here.ipynb",
+    "path": "scripts/plot/start_here.py",
+    "summary": "This example introduces the plotting API in PyAutoCTI.",
+    "title": "Plots: Start Here"
+  }
+]

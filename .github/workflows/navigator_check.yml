@@ -1,0 +1,38 @@
+name: Navigator Check
+
+# Thin caller for PyAutoHands's reusable navigator-catalogue check. The check
+# logic (path/banner lint, the unbatched multi-start guard, catalogue staleness)
+# and its entrypoints live in PyAutoHands/autohands; this workspace only declares
+# which generator project to run. See
+# PyAutoLabs/PyAutoHands/.github/workflows/navigator_check.yml.
+#
+# `Navigator Check` is the second of the two workflows PyAutoHeart's
+# config/repos.yaml requires of the `workspaces` group (the other is
+# `Smoke Tests`). Heart's roll-up never satisfies `all_green` while a required
+# workflow has no runs, so until this existed the repo could go red but never
+# green — see autocti_workspace#29.
+#
+# The staleness job regenerates `llms-full.txt` + `workspace_index.json` and
+# fails on drift. Both are committed at the repo root: on an untracked pair
+# `git diff --exit-code` exits 0 and the job would pass while checking nothing.
+
+# One run per commit: PR events carry the CI; pushes only build main
+# (Heart's ws_ci gate reads main-HEAD conclusions). Superseded runs are
+# cancelled on PR refs only — a cancelled main run would read as red CI
+# (cancelled is in Heart's FAILURE_CONCLUSIONS).
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: navigator_check-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+permissions:
+  contents: read
+
+jobs:
+  navigator:
+    uses: PyAutoLabs/PyAutoHands/.github/workflows/navigator_check.yml@main
+    with:
+      project: autocti

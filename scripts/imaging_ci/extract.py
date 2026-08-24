@@ -1,6 +1,6 @@
 """
 Extract
--------
+=======
 
 **PyAutoCTI** has numerous methods for extracting subsets of data from a charge injection dataset.
 

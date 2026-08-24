@@ -1,6 +1,6 @@
 """
 Overview: Fitting
------------------
+=================
 
 CTI calibration is the process of determining the CTI model of a given CCD, including the total density of traps
 on the CCD, the average release times of these traps and the CCD filling behaviour.

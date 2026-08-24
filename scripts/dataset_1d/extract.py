@@ -1,6 +1,6 @@
 """
 Extract
--------
+=======
 
 **PyAutoCTI** has numerous methods for extracting subsets of data from a 1D CTI dataset.
 
