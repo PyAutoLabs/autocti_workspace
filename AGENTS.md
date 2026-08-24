@@ -41,14 +41,31 @@ import autocti.plot as aplt
 ### arcticpy
 
 `import autocti` requires **arcticpy** (the C++ arctic clocking code). It is not a pip
-dependency of `autocti` — install it after numpy with:
+dependency of `autocti` — it is a source-only C++ sdist, and a naive `pip install arcticpy`
+downgrades numpy below 2.0. Install it with:
 
 ```bash
+sudo apt-get update && sudo apt-get install -y libgsl-dev
+pip install --upgrade pip setuptools wheel   # BUILD deps — --no-build-isolation
+pip install numpy cython                     #   will not supply these
+pip install scipy matplotlib                 # RUNTIME deps --no-deps suppresses
 pip install arcticpy==2.6 --no-build-isolation --no-deps
 ```
 
-(It needs `libgsl-dev` and a C++ toolchain to build; see `PyAutoCTI/AGENTS.md` for the no-root
-header workaround, and note a naive `pip install arcticpy` downgrades numpy below 2.0.)
+Both flags have to be paid back by hand, which is where installs go wrong:
+`--no-build-isolation` means pip does not read arcticpy's `build-system.requires`, so build
+deps must already be present (without `setuptools` the build fails with `BackendUnavailable:
+Cannot import 'setuptools.build_meta'`, and Python 3.12+ venvs no longer ship it);
+`--no-deps` means `arcticpy/__init__.py`'s import of `read_noise` — which imports `scipy` and
+`matplotlib` — has nothing to import, so a successful build still fails at `import arcticpy`.
+
+Verify with `python -c "import arcticpy; from importlib.metadata import version;
+print(version('arcticpy'))"`. Note arcticpy exposes **no** `__version__` attribute, so
+`arcticpy.__version__` raises `AttributeError` even on a healthy install.
+
+The full note — including the no-root header workaround — is `PyAutoCTI/AGENTS.md`
+§arcticpy. The recipe's single owner, and the single `arcticpy==2.6` pin, is
+`PyAutoHeart/.github/actions/install-arcticpy`, the action every CTI repo's CI runs.
 
 ## Testing / validation
 
