@@ -1,6 +1,6 @@
 """
 Data Preparation: Pre CTI
--------------------------
+=========================
 
 Throughout the `autocti_workspace/imaging_ci` package, the charge injection imaging `pre_cti_data` is output to .fits
 format when data is simulated and loaded from .fits for modeling scripts.

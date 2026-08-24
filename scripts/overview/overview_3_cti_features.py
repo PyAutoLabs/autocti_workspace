@@ -1,6 +1,6 @@
 """
 Overview: CTI Features
-----------------------
+======================
 
 To illustrate **PyAutoCTI** we have assumed different CTI models, which allowed us to add and correct CTI from
 1D and 2D data. This model included the properties of the traps on CCD's silicon lattice and described how electron

@@ -1,6 +1,6 @@
 """
 Data Preparation: Serial CTI
-----------------------------
+============================
 
 The `preprocess_1_serial_cti.py` script shows how to estimate the pre-CTI charge injection images from an observed
 charge injection data which includes parallel CTI.

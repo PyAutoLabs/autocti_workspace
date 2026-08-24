@@ -1,6 +1,6 @@
 """
 Data Preparation: Pre-CTI and Cosmics (Optional)
-------------------------------------------------
+================================================
 
 We have seen how to estimate the pre-CTI image from charge injection data (including accounting for serial CTI)
 and how to flag cosmic rays in that data.

@@ -1,6 +1,6 @@
 """
 Overview: Parallel and Serial
------------------------------
+=============================
 
 The descriptions and animations of the previous overview described CCD clocking as a 1D process, whereby electrons were
 trailed as they move in one direction towards read-out electronics.

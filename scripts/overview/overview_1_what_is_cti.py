@@ -1,6 +1,6 @@
 """
 Overview: What is CTI?
-----------------------
+======================
 
 Charge Transfer Inefficiency, or CTI for short, is an effect that occurs when acquiring imaging data from Charge
 Coupled Devices (CCDs).

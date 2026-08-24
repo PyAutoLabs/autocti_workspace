@@ -1,6 +1,6 @@
 """
 Overview: Charge Injection Data
--------------------------------
+===============================
 
 In overview 2, we inspected charge injection data to understand how 2D CCD clocking works.
 

@@ -1,6 +1,6 @@
 """
 Data Preparation: Bias Subtraction
-----------------------------------
+==================================
 
 Throughout the `autocti_workspace/imaging_ci` package, the charge injection imaging is assumed to already be
 bias subtracted, which may not be the case for real data.
