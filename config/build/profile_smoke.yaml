@@ -1,0 +1,16 @@
+# Per-script environment variable configuration for automated runs
+# (smoke tests, pre-release checks, CI). Same schema as the *_workspace_test
+# repos — see autocti_workspace_test/config/build/profile_smoke.yaml.
+#
+# PYAUTO_TEST_MODE=2 bypasses sampling entirely, so a script's search returns a
+# deterministic assertion-valid point instead of fitting. That is what makes the
+# modeling/start_here.py-class scripts smokeable at all: they build ordered trap
+# models whose identical priors tie at the prior medians, which used to make the
+# bypass hard-fail until PyAutoFit#1520 (438f56fac).
+defaults:
+  PYAUTO_TEST_MODE: "2"
+  PYAUTO_SKIP_WORKSPACE_VERSION_CHECK: "1"
+  MPLBACKEND: "Agg"
+  NUMBA_CACHE_DIR: "/tmp/numba_cache"
+  MPLCONFIGDIR: "/tmp/matplotlib"
+overrides: {}

@@ -78,6 +78,53 @@ PYAUTO_TEST_MODE=2 python scripts/dataset_1d/modeling/start_here.py
 (`2` bypasses sampling entirely; `1` runs a reduced-iteration search; the variable is
 `PYAUTO_TEST_MODE`, not `PYAUTOFIT_TEST_MODE`.)
 
+### Smoke tests (CI)
+
+`smoke_tests.txt` is the curated allowlist run by CI on every PR, through
+PyAutoHeart's reusable smoke workflow (thin caller in
+`.github/workflows/smoke_tests.yml`, chain
+`PyAutoNerves PyAutoFit PyAutoArray PyAutoCTI`). Run it locally with:
+
+```bash
+python .github/scripts/run_smoke.py
+```
+
+Per-script environment comes from `config/build/profile_smoke.yaml`
+(`PYAUTO_TEST_MODE=2` by default). arcticpy is **not** installed by this repo's
+epilogue — the caller passes `arcticpy: true` and Heart runs its own
+`install-arcticpy` action first, so the recipe has one owner across every CTI
+repo.
+
+**Keep the list a small curated subset — do not mass-promote scripts.** The
+`modeling/start_here.py`-class scripts became smokeable only once PyAutoFit#1520
+(`438f56fac`) made the `PYAUTO_TEST_MODE=2/3` bypass pick a deterministic
+assertion-valid point: before it, ordered trap models with identical priors tied
+at the prior medians and the bypass hard-failed. All nine now run bypassed, but
+they are not all cheap. Measured 2026-08-24 (Python 3.12, PyAutoFit at
+`438f56fac`):
+
+| script | time | promoted |
+|---|---|---|
+| `dataset_1d/modeling/start_here.py` | 13 s | yes |
+| `dataset_1d/modeling/customize/priors.py` | 12 s | no |
+| `dataset_1d/modeling/features/species_x3.py` | 18 s | yes |
+| `dataset_1d/modeling/features/visualize_full.py` | 20 s | no |
+| `imaging_ci/modeling/start_here.py` | 96 s | yes |
+| `imaging_ci/modeling/features/cosmic_rays.py` | 120 s | no |
+| `imaging_ci/modeling/features/non_uniform.py` | 53 s | no |
+| `imaging_ci/modeling/features/serial_cti.py` | 94 s | no |
+| `imaging_ci/modeling/features/visualize_full.py` | 96 s | no |
+
+All nine pass. The three promoted cover both dataset geometries and the
+multi-species ordered-trap case — the surface the bypass fix unblocked — and run
+in **132 s** measured cold, i.e. with `dataset/` wiped to its committed state so
+every dataset is simulated first, which is what CI does on a fresh checkout. The
+full set of nine would cost ~522 s. Promote further scripts deliberately, with a
+timing, rather than in bulk.
+
+(Per-script times above are each script's own cold cost. They do not sum to the
+suite total: consecutive scripts sharing a dataset only simulate it once.)
+
 In a sandboxed / restricted environment, point caches at writable directories:
 
 ```bash

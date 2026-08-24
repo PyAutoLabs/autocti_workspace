@@ -1,0 +1,41 @@
+name: Smoke Tests
+
+# Thin caller for PyAutoHeart's reusable smoke-test workflow. The ceremony
+# (chain checkout, branch matching, runner, Slack) lives centrally; this
+# workspace declares its dependency chain and owns its install epilogue
+# (.github/scripts/smoke_install.sh) and runner (.github/scripts/run_smoke.py).
+#
+# This is the FIRST CI in autocti_workspace. Heart's config/repos.yaml has
+# listed this repo under `workspaces` — whose required checks are "Smoke Tests"
+# + "Navigator Check" — with no workflow here to satisfy either, so the gate has
+# been vacuous. This closes the smoke half. (Navigator Check is still absent and
+# is deliberately out of scope for this task.)
+#
+# Scope is deliberately small. AGENTS.md across the CTI repos says to keep the
+# smoke list a small curated subset and not to mass-promote scripts; the
+# modeling/start_here.py-class scripts alone cost ~522 s if all nine are run.
+# See smoke_tests.txt for what is promoted and why.
+
+# One run per commit: PR events carry the CI; pushes only build main
+# (Heart's ws_ci gate reads main-HEAD conclusions). Superseded runs are
+# cancelled on PR refs only — a cancelled main run would read as red CI
+# (cancelled is in Heart's FAILURE_CONCLUSIONS).
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: smoke_tests-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  smoke:
+    uses: PyAutoLabs/PyAutoHeart/.github/workflows/smoke-tests.yml@main
+    with:
+      chain: "PyAutoNerves PyAutoFit PyAutoArray PyAutoCTI"
+      # `import autocti` needs arcticpy, whose install recipe is owned centrally
+      # by PyAutoHeart/.github/actions/install-arcticpy rather than copied into
+      # this workspace's epilogue. Heart runs it before smoke_install.sh.
+      arcticpy: true
+    secrets: inherit
