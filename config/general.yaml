@@ -1,6 +1,3 @@
-analysis:
-  n_cores: 1                        # The number of cores a parallelized sum of Analysis classes uses by default.
-  preload_attempts: 250
 fits:
   flip_for_ds9: false
 hpc:
@@ -27,14 +24,10 @@ parallel:
 
 profiling:
   parallel_profile: false           # If True, the parallelization of the fit is profiled outputting a cPython graph.
-  should_profile: false             # If True, the ``profile_log_likelihood_function()`` function of an analysis class is called throughout a model-fit, profiling run times.
   repeats: 1                        # The number of repeat function calls used to measure run-times when profiling.
 structures:
   native_binned_only: false           # If True, data structures are only stored in their native and binned format. This is used to reduce memory usage in autocti.
 test:
   check_likelihood_function: true   # if True, when a search is resumed the likelihood of a previous sample is recalculated to ensure it is consistent with the previous run.
-  check_preloads: false
   exception_override: false
   lh_timeout_seconds:               # If a float is input, the log_likelihood_function call is timed out after this many seconds, to diagnose infinite loops. Default is None, meaning no timeout.
-  preloads_check_threshold: 1.0     # If the figure of merit of a fit with and without preloads is greater than this threshold, the check preload test fails and an exception raised for a model-fit. 
-  disable_positions_lh_inversion_check: false
