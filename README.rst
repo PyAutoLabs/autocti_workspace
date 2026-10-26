@@ -91,6 +91,12 @@ Contribution
 To make changes in the tutorial notebooks, please make changes in the corresponding python files(.py) present in the
 ``scripts`` folder of each chapter. Please note that  marker ``# %%`` alternates between code cells and markdown cells.
 
+The notebooks also carry Colab Gemini instructions in their metadata, built from the skills mapped in
+`autocti_assistant <https://github.com/PyAutoLabs/autocti_assistant>`_ ``colab/contexts.yaml``. After regenerating
+or adding notebooks, re-apply them from this workspace's root with
+``<PyAutoHands checkout>/bin/autohands gemini_context apply notebooks --project autocti --assistant-root <autocti_assistant checkout>``.
+It reports how many notebooks it stamped; ``Stamped 0 notebooks`` means it was run from the wrong folder.
+
 
 Support
 -------
