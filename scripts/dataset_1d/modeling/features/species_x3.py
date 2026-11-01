@@ -36,14 +36,9 @@ __Dataset Auto-Simulation__
 If the dataset does not already exist on your system, it will be created by running the corresponding
 simulator script. This ensures that all example scripts can be run without manually simulating data first.
 """
-if ac.util.dataset.should_simulate(dataset_path):
-    import subprocess
-    import sys
-
-    subprocess.run(
-        [sys.executable, "scripts/dataset_1d/simulators/examples/species_x3.py"],
-        check=True,
-    )
+ac.util.dataset.simulate_if_needed(
+    dataset_path, simulator="scripts/dataset_1d/simulators/examples/species_x3.py"
+)
 
 """
 __Shape__

@@ -72,14 +72,9 @@ __Dataset Auto-Simulation__
 If the dataset does not already exist on your system, it will be created by running the corresponding
 simulator script. This ensures that all example scripts can be run without manually simulating data first.
 """
-if ac.util.dataset.should_simulate(dataset_path):
-    import subprocess
-    import sys
-
-    subprocess.run(
-        [sys.executable, "scripts/imaging_ci/simulators/overview/calibrate.py"],
-        check=True,
-    )
+ac.util.dataset.simulate_if_needed(
+    dataset_path, simulator="scripts/imaging_ci/simulators/overview/calibrate.py"
+)
 
 dataset_list = [
     ac.ImagingCI.from_fits(
@@ -263,14 +258,9 @@ __Dataset Auto-Simulation__
 If the dataset does not already exist on your system, it will be created by running the corresponding
 simulator script. This ensures that all example scripts can be run without manually simulating data first.
 """
-if ac.util.dataset.should_simulate(dataset_path):
-    import subprocess
-    import sys
-
-    subprocess.run(
-        [sys.executable, "scripts/dataset_1d/simulators/examples/overview.py"],
-        check=True,
-    )
+ac.util.dataset.simulate_if_needed(
+    dataset_path, simulator="scripts/dataset_1d/simulators/examples/overview.py"
+)
 
 dataset_list = [
     ac.Dataset1D.from_fits(
