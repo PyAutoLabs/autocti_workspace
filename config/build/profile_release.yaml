@@ -1,0 +1,31 @@
+# Per-script environment variable configuration for the RELEASE smoke run
+# (PyAutoHands release.yml `run_smoke_tests`: workspace main against the
+# TestPyPI wheels, scripts listed in smoke_tests.txt). Distinct from
+# profile_smoke.yaml, the per-PR CI profile.
+#
+# The `release` profile trades speed for fidelity: a reduced (not bypassed)
+# sampler with real fit output and visualization. Every variable is given an
+# explicit value because the runner only ever *sets* keys, never clears
+# inherited ones (see autolens_workspace/config/build/profile_release.yaml).
+#
+# autocti has no JAX likelihood path and no PYAUTO_SMALL_DATASETS handling, so
+# those autolens keys are deliberately absent.
+
+defaults:
+  PYAUTO_TEST_MODE: "1"                     # reduced iterations (real sampler), not bypassed
+  PYAUTO_SKIP_FIT_OUTPUT: "0"               # real fit output (release fidelity, not smoke)
+  PYAUTO_SKIP_VISUALIZATION: "0"            # real visualization (release fidelity, not smoke)
+  PYAUTO_SKIP_CHECKS: "0"                   # real checks (release fidelity)
+  # FAST_PLOTS stays OFF: with it on, subplot_save short-circuits before creating
+  # image/fit_dataset/, and fits_fit then writes fit.fits into a missing directory
+  # (FileNotFoundError in all 3 smoke scripts, found 2026-11-05). Off, the 3 scripts
+  # take ~13s / ~60s / ~137s locally. The library fix is filed separately
+  # (draft/bug/autocti/fits_fit_missing_output_dir_under_fast_plots.md); once it
+  # ships this can flip to "1".
+  PYAUTO_FAST_PLOTS: "0"
+  PYAUTO_SKIP_WORKSPACE_VERSION_CHECK: "1"  # TestPyPI dev version won't match the workspace pin
+  MPLBACKEND: "Agg"
+  NUMBA_CACHE_DIR: "/tmp/numba_cache"       # writable cache dir for numba
+  MPLCONFIGDIR: "/tmp/matplotlib"           # writable config dir for matplotlib
+
+overrides: []

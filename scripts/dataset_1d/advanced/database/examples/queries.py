@@ -16,7 +16,6 @@ from os import path
 import autofit as af
 import autocti as ac
 
-
 """
 __Database File__
 

@@ -27,7 +27,6 @@ import autofit as af
 import autocti as ac
 import autocti.plot as aplt
 
-
 """
 __Dataset + Layout__
 

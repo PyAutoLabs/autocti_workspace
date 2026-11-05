@@ -163,17 +163,20 @@ Two things to know before editing a script header:
   `(no summary in script docstring)`. That is a documentation gap, not a CI
   failure; the check does not gate on it.
 
-**Notebook regeneration is a separate thing and is currently blocked for this
-workspace:** `autohands/generate.py` rejects any project absent from
-`build_util.COLAB_PROJECTS`, and `autocti` is not registered there (nor in
-PyAutoNerves' `setup_colab.py`). `regenerate_navigator.py` is unaffected — it
-never touches that registry.
-
 ## Notebooks vs Scripts
 
 Notebooks in `notebooks/` are **generated** from the `.py` files in `scripts/`. **Always edit the
-`.py` scripts, never the `.ipynb` notebooks directly.** Notebook regeneration runs through the
-PyAutoHands pipeline at release time.
+`.py` scripts, never the `.ipynb` notebooks directly.** The `# %%` marker alternates between code
+and markdown cells. The release pipeline (PyAutoHands `pre_build.sh`) regenerates them, and you can
+regenerate them yourself from the workspace root:
+
+```bash
+pip install ipynb-py-convert
+git clone https://github.com/PyAutoLabs/PyAutoHands.git ../PyAutoHands
+PYTHONPATH=../PyAutoHands/autohands python3 ../PyAutoHands/autohands/generate.py autocti
+```
+
+Commit the regenerated notebooks alongside the script changes.
 
 ## Multi-dataset fits
 
