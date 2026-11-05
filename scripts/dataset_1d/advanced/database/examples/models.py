@@ -38,16 +38,21 @@ generators for us. Explicit examples of how to do this via generators is given i
 tutorial.
 
 We get a CTI generator via the `ac.agg.CTIAgg` object, where this `cti_gen` contains the maximum log
-likelihood `CTI `object of every model-fit.
+likelihood `CTI` model of every model-fit.
+
+Each fit in this database fitted several 1D datasets at once (one per charge injection level) with a
+`FactorGraphModel`, so for each fit the generator gives a list with one `CTI` object per dataset. The CTI model
+is shared across the datasets, so every entry is the same model and we use the first, `[0]`. (A fit to a single
+dataset gives one `CTI` object instead of a list.)
 """
 cti_agg = ac.agg.CTIAgg(aggregator=agg)
 cti_gen = cti_agg.max_log_likelihood_gen_from()
 
 """
-We can now iterate over our `CTI `object generator to make the plots we desire.
+We can now iterate over our `CTI` object generator to make the plots we desire.
 """
-for cti in cti_gen:
-    print(cti)
+for cti_list in cti_gen:
+    print(cti_list[0])
 
 """
 __CTI Delta Ellipticity Requirement__
@@ -59,8 +64,8 @@ cti_gen = cti_agg.max_log_likelihood_gen_from()
 
 print("Maximum Log Likelihood Spurious Ellipticity:")
 
-for cti in cti_gen:
-    delta_ellipticity = cti.delta_ellipticity
+for cti_list in cti_gen:
+    delta_ellipticity = cti_list[0].delta_ellipticity
 
     print("Delta Ellipticity = ", delta_ellipticity)
 
@@ -101,8 +106,8 @@ weight_list_gen = cti_agg.weights_above_gen_from(minimum_weight=1e-4)
 for cti_gen, weight_gen in zip(cti_list_gen, weight_list_gen):
     delta_ellipticity_list = []
 
-    for cti in cti_gen:
-        delta_ellipticity = cti.delta_ellipticity
+    for cti_list in cti_gen:
+        delta_ellipticity = cti_list[0].delta_ellipticity
 
         delta_ellipticity_list.append(delta_ellipticity)
 
@@ -139,8 +144,8 @@ cti_list_gen = cti_agg.randomly_drawn_via_pdf_gen_from(total_samples=2)
 for cti_gen in cti_list_gen:
     delta_ellipticity_list = []
 
-    for cti in cti_gen:
-        delta_ellipticity = cti.delta_ellipticity
+    for cti_list in cti_gen:
+        delta_ellipticity = cti_list[0].delta_ellipticity
 
         delta_ellipticity_list.append(delta_ellipticity)
 
