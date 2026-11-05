@@ -1,6 +1,51 @@
+# Smoke tests: run by CI on every PR (PyAutoHeart's reusable smoke workflow) under
+# config/build/profile_smoke.yaml, and by PyAutoHands release.yml under
+# config/build/profile_release.yaml as a release gate. Scripts run in this file's
+# order, so each group lists its simulator before the scripts that load its data,
+# and a fit before the database/plot scripts that read its results.
+# Coverage and timings: AGENTS.md, "Smoke tests (CI)".
+
+# Overview (the Colab front door)
+overview/overview_1_what_is_cti.py
+overview/overview_2_parallel_and_serial.py
+overview/overview_3_cti_features.py
+# overview/overview_4_charge_injection_data.py  # off: simulates non_uniform_cosmic_rays (~200-430 s) on a fresh clone
+overview/overview_5_fitting.py
+overview/overview_6_cti_calibration.py
+
+# dataset_1d: simulate, model, results, database, correction, extract
+dataset_1d/simulators/start_here.py
 dataset_1d/modeling/start_here.py
 dataset_1d/modeling/features/species_x3.py
-imaging_ci/modeling/start_here.py
+dataset_1d/modeling/customize/priors.py
+dataset_1d/results/start_here.py
+dataset_1d/results/examples/samples.py
+dataset_1d/results/examples/fits.py
+dataset_1d/results/examples/cti.py
 dataset_1d/advanced/database/start_here.py
 dataset_1d/advanced/database/examples/samples.py
-dataset_1d/results/examples/samples.py
+dataset_1d/advanced/database/examples/models.py
+dataset_1d/correction/start_here.py
+dataset_1d/extract.py
+dataset_1d/simulators/examples/temporal.py
+dataset_1d/advanced/temporal/fit.py
+
+# imaging_ci: simulate, model, data preparation, correction, extract, chaining
+imaging_ci/simulators/start_here.py
+imaging_ci/modeling/start_here.py
+imaging_ci/modeling/features/cosmic_rays.py
+imaging_ci/data_preparation/start_here.py
+imaging_ci/data_preparation/examples/cosmic_ray_flagging.py
+imaging_ci/correction/start_here.py
+imaging_ci/extract.py
+imaging_ci/advanced/chaining/pipelines/parallel.py
+
+# plot: plotters, one CCD chain (simulate, fit, database), diagnostics
+plot/start_here.py
+plot/plotters/Dataset1dPlotter.py
+plot/plotters/FitImagingCIPlotter.py
+plot/ccd/dataset_1d/simulator.py
+plot/ccd/dataset_1d/fit.py
+plot/ccd/dataset_1d/database.py
+plot/diagnostics/imaging_ci/simulator.py
+plot/diagnostics/imaging_ci/fpr_vs_eper.py

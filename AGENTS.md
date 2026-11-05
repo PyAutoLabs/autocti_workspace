@@ -95,35 +95,40 @@ epilogue — the caller passes `arcticpy: true` and Heart runs its own
 `install-arcticpy` action first, so the recipe has one owner across every CTI
 repo.
 
-**Keep the list a small curated subset — do not mass-promote scripts.** The
-`modeling/start_here.py`-class scripts became smokeable only once PyAutoFit#1520
+**The list is a representative set, ordered by dependency.** Since 2026-11-05
+(cti-upkeep 3a, autocti_workspace#43) it covers every area — `overview/`,
+`dataset_1d/`, `imaging_ci/`, `plot/` — with 36 scripts. Scripts run in the file's
+order, so each group lists its simulator before the scripts that load its data,
+and a fit before the database and plot scripts that read its results. Add a new
+entry in its group, after anything it depends on, and time it from a fresh clone
+before promoting it. The same list is a **release gate**: PyAutoHands
+`release.yml` runs it under `config/build/profile_release.yaml` (reduced real
+sampler), so check both profiles.
+
+Measured 2026-11-05 from a fresh clone (Python 3.13, run one after the other):
+
+| group | scripts | `profile_smoke` | `profile_release` |
+|---|---|---|---|
+| `overview/` | 5 | 20 s | 26 s |
+| `dataset_1d/` | 15 | 67 s | 98 s |
+| `imaging_ci/` | 8 | 79 s | 127 s |
+| `plot/` | 8 | 47 s | 67 s |
+| **total** | **36** | **213 s** | **317 s** |
+
+Left out on purpose, with the reason in `smoke_tests.txt` or the triage below:
+
+- `overview/overview_4_charge_injection_data.py` and
+  `imaging_ci/simulators/overview/non_uniform_cosmic_rays.py`: the
+  non-uniform cosmic-ray simulation takes ~200–430 s on a fresh clone.
+- Five scripts that currently fail (a triage of all 79 on 2026-11-05):
+  `plot/fpa/imaging_ci/database.py`, `plot/diagnostics/imaging_ci/well_filling.py`,
+  `dataset_1d/advanced/temporal/database.py`, `dataset_1d/advanced/temporal/plot.py`
+  and `imaging_ci/advanced/chaining/noise_scaling.py`. They are tracked as their
+  own bug; promote each once it is fixed.
+
+The `modeling/start_here.py`-class scripts are smokeable because PyAutoFit#1520
 (`438f56fac`) made the `PYAUTO_TEST_MODE=2/3` bypass pick a deterministic
-assertion-valid point: before it, ordered trap models with identical priors tied
-at the prior medians and the bypass hard-failed. All nine now run bypassed, but
-they are not all cheap. Measured 2026-08-24 (Python 3.12, PyAutoFit at
-`438f56fac`):
-
-| script | time | promoted |
-|---|---|---|
-| `dataset_1d/modeling/start_here.py` | 13 s | yes |
-| `dataset_1d/modeling/customize/priors.py` | 12 s | no |
-| `dataset_1d/modeling/features/species_x3.py` | 18 s | yes |
-| `dataset_1d/modeling/features/visualize_full.py` | 20 s | no |
-| `imaging_ci/modeling/start_here.py` | 96 s | yes |
-| `imaging_ci/modeling/features/cosmic_rays.py` | 120 s | no |
-| `imaging_ci/modeling/features/non_uniform.py` | 53 s | no |
-| `imaging_ci/modeling/features/serial_cti.py` | 94 s | no |
-| `imaging_ci/modeling/features/visualize_full.py` | 96 s | no |
-
-All nine pass. The three promoted cover both dataset geometries and the
-multi-species ordered-trap case — the surface the bypass fix unblocked — and run
-in **132 s** measured cold, i.e. with `dataset/` wiped to its committed state so
-every dataset is simulated first, which is what CI does on a fresh checkout. The
-full set of nine would cost ~522 s. Promote further scripts deliberately, with a
-timing, rather than in bulk.
-
-(Per-script times above are each script's own cold cost. They do not sum to the
-suite total: consecutive scripts sharing a dataset only simulate it once.)
+assertion-valid point for ordered trap models with identical priors.
 
 In a sandboxed / restricted environment, point caches at writable directories:
 
