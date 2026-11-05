@@ -11,10 +11,9 @@ name: Smoke Tests
 # been vacuous. This closes the smoke half. (Navigator Check is still absent and
 # is deliberately out of scope for this task.)
 #
-# Scope is deliberately small. AGENTS.md across the CTI repos says to keep the
-# smoke list a small curated subset and not to mass-promote scripts; the
-# modeling/start_here.py-class scripts alone cost ~522 s if all nine are run.
-# See smoke_tests.txt for what is promoted and why.
+# smoke_tests.txt is a representative, dependency-ordered set across every area
+# (36 scripts, ~3.5 min locally under profile_smoke). AGENTS.md "Smoke tests
+# (CI)" lists what is covered, what is left out and why, and the timings.
 
 # One run per commit: PR events carry the CI; pushes only build main
 # (Heart's ws_ci gate reads main-HEAD conclusions). Superseded runs are
