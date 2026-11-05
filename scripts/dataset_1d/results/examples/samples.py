@@ -281,14 +281,16 @@ print(instance_upper_sigma.cti.trap_list, "\n")
 print(instance_lower_sigma.cti.trap_list, "\n")
 
 """
-They can also be returned at the values of the parameters at their error values.
+The size of each parameter's error can also be returned. These are error sizes, not parameter values, so they
+are returned as lists (`as_instance=False`): as a model instance they could break the model's rules (for example,
+that the release timescales of the trap species are in increasing order).
 """
-instance_upper_values = samples.errors_at_upper_sigma(sigma=3.0)
-instance_lower_values = samples.errors_at_lower_sigma(sigma=3.0)
+errors_upper_list = samples.errors_at_upper_sigma(sigma=3.0, as_instance=False)
+errors_lower_list = samples.errors_at_lower_sigma(sigma=3.0, as_instance=False)
 
-print("Errors Instances: \n")
-print(instance.cti.trap_list, "\n")
-print(instance.cti.trap_list, "\n")
+print("Errors Lists: \n")
+print(errors_upper_list, "\n")
+print(errors_lower_list, "\n")
 
 """
 __Sample Instance__

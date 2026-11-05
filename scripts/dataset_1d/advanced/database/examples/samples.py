@@ -191,23 +191,28 @@ We can use the `Aggregator` to create a list of instances of the model, using th
 model composition.
 
 For example, we can return a list of the model instances corresponding to the maximum log likelihood sample.
+
+Each fit in this database fitted several 1D datasets at once (one per charge injection level) with a
+`FactorGraphModel`. Its instance therefore holds one entry per dataset, indexed `[0]`, `[1]`, ..., and the CTI
+model of a dataset is that entry's `cti`. The model is shared across the datasets, so every entry carries the same
+CTI model and we use the first, `[0]`.
 """
-print(ml_instances[0].cti)
-print(ml_instances[1].cti)
-print(ml_instances[2].cti)
+print(ml_instances[0][0].cti)
+print(ml_instances[1][0].cti)
+print(ml_instances[2][0].cti)
 
 """
-These galaxies will be named according to the model composed and fitted by the search (in this case, only `cti`).
+The model components are named according to the model composed and fitted by the search (in this case, only `cti`).
 """
-print(ml_instances[0].cti.trap_list)
+print(ml_instances[0][0].cti.trap_list)
 print()
-print(ml_instances[1].cti.ccd)
+print(ml_instances[1][0].cti.ccd)
 
 """
 Their individual parameters can be printed.
 """
-print(ml_instances[0].cti.trap_list[0].density)
-print(ml_instances[1].cti.ccd.well_fill_power)
+print(ml_instances[0][0].cti.trap_list[0].density)
+print(ml_instances[1][0].cti.ccd.well_fill_power)
 
 """
 __Posterior / PDF__
@@ -224,7 +229,7 @@ mp_instances = [samps.median_pdf() for samps in agg.values("samples")]
 
 print("Median PDF Model Instances: \n")
 print(mp_instances, "\n")
-print(mp_instances[0].cti.trap_list[0])
+print(mp_instances[0][0].cti.trap_list[0])
 print()
 
 """
@@ -296,7 +301,7 @@ We can create an instance of any model -- below we create an instance of the las
 for samples in agg.values("samples"):
     instance = samples.from_sample_index(sample_index=-1)
 
-    print(instance.cti.trap_list)
+    print(instance[0].cti.trap_list)
 
 """
 __Search Plots__
@@ -497,11 +502,15 @@ print(samples.model.prior_count)
 
 """
 We can keep and remove entire paths of the samples, for example keeping only the parameters of the trap list.
+
+The paths printed above start with the dataset index (`0`, `1`, ...), because each fit used a `FactorGraphModel`
+with one entry per dataset. Filtering these multi-dataset samples by path does not work yet (a PyAutoFit bug with
+parameters shared across datasets), so this example is switched off until it is fixed.
 """
-samples = list(agg.values("samples"))[0]
-samples = samples.with_paths(["cti.trap_list"])
-print("Parameters of the first sample of CTI trap list")
-print(samples.parameter_lists[0])
+# samples = list(agg.values("samples"))[0]
+# samples = samples.with_paths(["0.cti.trap_list"])
+# print("Parameters of the first sample of CTI trap list")
+# print(samples.parameter_lists[0])
 
 
 """
