@@ -47,17 +47,20 @@ space mission.
 
 We produce this plot by extracting the trap density from the median PDF model, with errors at the 3.0 sigma confidence
 level. We also extract the time at which each dataset was acquired.
+
+Each fit is a `FactorGraphModel` over the datasets taken at one time, so every instance holds one entry per dataset
+plus the shared `factor`. Every entry carries the same `cti` model and `time`, so we take the first, `[0]`.
 """
-mp_instances_list = [samps.median_pdf() for samps in agg.values("samples")]
+mp_instances_list = [samps.median_pdf()[0] for samps in agg.values("samples")]
 density_mp_list = [instance.cti.trap_list[0].density for instance in mp_instances_list]
 
 ue3_instance_list = [
-    samps.errors_at_upper_sigma(sigma=3.0) for samps in agg.values("samples")
+    samps.errors_at_upper_sigma(sigma=3.0)[0] for samps in agg.values("samples")
 ]
 density_ue3_list = [instance.cti.trap_list[0].density for instance in ue3_instance_list]
 
 le3_instance_list = [
-    samps.errors_at_lower_sigma(sigma=3.0) for samps in agg.values("samples")
+    samps.errors_at_lower_sigma(sigma=3.0)[0] for samps in agg.values("samples")
 ]
 density_le3_list = [instance.cti.trap_list[0].density for instance in le3_instance_list]
 

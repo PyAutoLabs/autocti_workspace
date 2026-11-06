@@ -95,7 +95,7 @@ eper_list = [
         layout.extract.parallel_eper.binned_array_1d_from(
             array=dataset.data,
             settings=ac.SettingsExtract(pixels=(0, 1)),
-        )
+        )[0]
     )
     for dataset, layout in zip(dataset_list, layout_list)
 ]

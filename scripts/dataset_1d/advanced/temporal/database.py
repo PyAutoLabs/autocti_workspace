@@ -46,8 +46,12 @@ Interpolation uses the maximum log likelihood model of each fit to build an inte
 function of time. 
 
 We therefore first create a list of instances of these maximum log likelihood models via the database.
+
+Each fit in `fit.py` is a `FactorGraphModel` over the charge injection datasets taken at one time, so its instance
+holds one entry per dataset (`instance[0]`, `instance[1]`, ...) plus the shared `factor`. Every entry carries the
+same `cti` model and `time`, so we take the first, `[0]`, which is what `fit.py` does via `result_list[0].instance`.
 """
-ml_instances_list = [samps.max_log_likelihood() for samps in agg.values("samples")]
+ml_instances_list = [samps.max_log_likelihood()[0] for samps in agg.values("samples")]
 
 """
 __Interpolation__
