@@ -38,8 +38,8 @@ __Dataset__
 
 The paths pointing to the dataset we will use for CTI modeling.
 """
-dataset_name = "simple"
-dataset_path = path.join("dataset", "imaging_ci", "poisson", dataset_name)
+dataset_name = "poisson"
+dataset_path = path.join("dataset", "imaging_ci", dataset_name)
 
 """
 __Layout__
@@ -183,7 +183,8 @@ You may wish to inspect the results of the search 1 model-fit to ensure a fast n
 provides a reasonably accurate CTI model.
 """
 analysis_1_list = [
-    ac.AnalysisImagingCI(dataset=dataset, clocker=clocker) for dataset in dataset_list
+    ac.AnalysisImagingCI(dataset=dataset, clocker=clocker, dataset_full=dataset_full)
+    for dataset, dataset_full in zip(dataset_list, imaging_ci_full_list)
 ]
 
 """
@@ -219,12 +220,8 @@ chi-squared values of different regions of the image.
 
 For this script we only perform noise map scaling in one region of the data, the parallel EPERs.
 """
-[
-    imaging_ci.set_noise_scaling_map_dict(
-        noise_scaling_map_dict=result_1.noise_scaling_map_dict
-    )
-    for dataset, result_1 in zip(dataset_list, result_1_list)
-]
+for dataset, result_1 in zip(dataset_list, result_1_list):
+    dataset.noise_scaling_map_dict = result_1.noise_scaling_map_dict
 
 """
 __Model (Search 2)__
@@ -258,7 +255,8 @@ chaining we can increase this in the second search. The run times will slow down
 more accurate and precise.
 """
 analysis_2_list = [
-    ac.AnalysisImagingCI(dataset=dataset, clocker=clocker) for dataset in dataset_list
+    ac.AnalysisImagingCI(dataset=dataset, clocker=clocker, dataset_full=dataset_full)
+    for dataset, dataset_full in zip(dataset_list, imaging_ci_full_list)
 ]
 
 """
@@ -349,7 +347,8 @@ chaining we can increase this in the second search. The run times will slow down
 more accurate and precise.
 """
 analysis_3_list = [
-    ac.AnalysisImagingCI(dataset=dataset, clocker=clocker) for dataset in dataset_list
+    ac.AnalysisImagingCI(dataset=dataset, clocker=clocker, dataset_full=dataset_full)
+    for dataset, dataset_full in zip(dataset_list, imaging_ci_full_list)
 ]
 
 """

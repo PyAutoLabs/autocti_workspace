@@ -29,6 +29,8 @@ dataset_1d/correction/start_here.py
 dataset_1d/extract.py
 dataset_1d/simulators/examples/temporal.py
 dataset_1d/advanced/temporal/fit.py
+dataset_1d/advanced/temporal/database.py
+dataset_1d/advanced/temporal/plot.py
 
 # imaging_ci: simulate, model, data preparation, correction, extract, chaining
 imaging_ci/simulators/start_here.py
@@ -39,6 +41,8 @@ imaging_ci/data_preparation/examples/cosmic_ray_flagging.py
 imaging_ci/correction/start_here.py
 imaging_ci/extract.py
 imaging_ci/advanced/chaining/pipelines/parallel.py
+imaging_ci/simulators/examples/poisson_traps.py
+imaging_ci/advanced/chaining/noise_scaling.py
 
 # plot: plotters, one CCD chain (simulate, fit, database), diagnostics
 plot/start_here.py
@@ -47,5 +51,9 @@ plot/plotters/FitImagingCIPlotter.py
 plot/ccd/dataset_1d/simulator.py
 plot/ccd/dataset_1d/fit.py
 plot/ccd/dataset_1d/database.py
+plot/fpa/imaging_ci/simulator.py
+plot/fpa/imaging_ci/fit.py
+plot/fpa/imaging_ci/database.py
 plot/diagnostics/imaging_ci/simulator.py
+plot/diagnostics/imaging_ci/well_filling.py
 plot/diagnostics/imaging_ci/fpr_vs_eper.py

@@ -97,7 +97,7 @@ repo.
 
 **The list is a representative set, ordered by dependency.** Since 2026-11-05
 (cti-upkeep 3a, autocti_workspace#43) it covers every area — `overview/`,
-`dataset_1d/`, `imaging_ci/`, `plot/` — with 36 scripts. Scripts run in the file's
+`dataset_1d/`, `imaging_ci/`, `plot/` — with 44 scripts. Scripts run in the file's
 order, so each group lists its simulator before the scripts that load its data,
 and a fit before the database and plot scripts that read its results. Add a new
 entry in its group, after anything it depends on, and time it from a fresh clone
