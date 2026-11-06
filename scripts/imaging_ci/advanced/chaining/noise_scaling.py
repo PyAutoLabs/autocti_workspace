@@ -219,9 +219,16 @@ We now set each charge injection imaging dataset with a noise scaling map, where
 chi-squared values of different regions of the image.
 
 For this script we only perform noise map scaling in one region of the data, the parallel EPERs.
+
+The full (unmasked) copy of each dataset gets the same noise scaling maps, because visualization of the model-fit
+also fits the full dataset and scales its noise in the same way.
 """
-for dataset, result_1 in zip(dataset_list, result_1_list):
-    dataset.noise_scaling_map_dict = result_1.noise_scaling_map_dict
+for dataset, dataset_full, result_1 in zip(
+    dataset_list, imaging_ci_full_list, result_1_list
+):
+    noise_scaling_map_dict = result_1.noise_scaling_map_dict
+    dataset.noise_scaling_map_dict = noise_scaling_map_dict
+    dataset_full.noise_scaling_map_dict = noise_scaling_map_dict
 
 """
 __Model (Search 2)__
