@@ -18,6 +18,16 @@ defaults:
   # 2026-09-08): ~17s of image rasterisation + ~20-40s of per-figure mask-edge
   # derivation on the 2000x100 frame, across ~100 on-the-fly figures per run.
   PYAUTO_FAST_PLOTS: "1"
+  # Skip the in-search fit visualization (pre-fit, per-update and combined
+  # subplots), as the autolens / autogalaxy smoke profiles do. Explicit plot
+  # calls in scripts are unaffected. This supersedes the 2026-09-08 choice to
+  # keep exercising every in-search plot call in smoke: the release profile
+  # keeps real visualization (PYAUTO_SKIP_VISUALIZATION: "0"), so the release
+  # run still covers it. Measured locally (py3.12, PyAutoBrain /ci_speedup,
+  # 2026-11-08), whole smoke leg 311s -> 211s with all 44 scripts passing;
+  # plot/fpa/imaging_ci/fit.py 40.0s -> 9.7s, cosmic_rays 21.5s -> 13.3s,
+  # chaining/pipelines/parallel 14.9s -> 5.6s.
+  PYAUTO_SKIP_VISUALIZATION: "1"
   MPLBACKEND: "Agg"
   NUMBA_CACHE_DIR: "/tmp/numba_cache"
   MPLCONFIGDIR: "/tmp/matplotlib"
