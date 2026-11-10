@@ -1,110 +1,71 @@
 PyAutoCTI Workspace
-====================
+===================
 
-.. |binder| image:: https://mybinder.org/badge_logo.svg
-   :target: https://mybinder.org/v2/gh/Jammy2211/autocti_workspace/HEAD
-
-|binder|
-
-`Installation Guide <https://pyautocti.readthedocs.io/en/latest/installation/overview.html>`_ |
-`readthedocs <https://pyautocti.readthedocs.io/en/latest/index.html>`_ |
-
-Welcome to the **PyAutoCTI** Workspace. You can get started right away by going to the `autocti workspace
-Binder <https://mybinder.org/v2/gh/Jammy2211/autocti_workspace/HEAD>`_.
-Alternatively, you can get set up by following the installation guide on our `readthedocs <https://pyautocti.readthedocs.io/>`_.
+Example scripts and notebooks for simulating, calibrating and correcting charge transfer inefficiency (CTI) in CCD detectors with **PyAutoCTI**. Start with an introduction to CTI, then explore the tools for your own calibration data.
 
 Getting Started
 ---------------
 
-We recommend new users begin by looking at the following notebooks: 
+Explore It Yourself
+~~~~~~~~~~~~~~~~~~~
 
-- ``notebooks/overview``: Examples giving an overview of **PyAutoCTI**'s core features.
+- `Start with the introduction <https://github.com/PyAutoLabs/autocti_workspace/blob/main/notebooks/overview/overview_1_what_is_cti.ipynb>`_ — learn what CTI is and how it affects CCD images.
+- `Run it locally <https://pyautocti.readthedocs.io/en/latest/installation/overview.html>`_ — follow the installation guide, then open ``notebooks/overview/overview_1_what_is_cti.ipynb``.
+- `Read the documentation <https://pyautocti.readthedocs.io/en/latest/index.html>`_ — explore the concepts and examples in your browser.
 
-Installation
-------------
+See `Find Your Examples`_ below to choose where to start.
 
-If you haven't already, install `PyAutoCTI via pip or conda <https://pyautocti.readthedocs.io/en/latest/installation/overview.html>`_.
+Explore with AI
+~~~~~~~~~~~~~~~
 
-Next, clone the ``autocti workspace`` (the line ``--depth 1`` clones only the most recent branch on
-the ``autocti_workspace``, reducing the download size):
+The `PyAutoCTI AI Assistant <https://github.com/PyAutoLabs/autocti_assistant>`_ helps you learn about CTI and work through calibration examples through conversation. Visit its README for setup instructions and a starting prompt.
 
-.. code-block:: bash
+Find Your Examples
+------------------
 
-   cd /path/on/your/computer/you/want/to/put/the/autocti_workspace
-   git clone https://github.com/Jammy2211/autocti_workspace --depth 1
-   cd autocti_workspace
+Examples are available as Python scripts in ``scripts/`` and Jupyter notebooks in ``notebooks/``.
 
-Run the ``welcome.py`` script to get started!
+.. list-table::
+   :header-rows: 1
+   :widths: 55 45
 
-.. code-block:: bash
+   * - I want to…
+     - Start here
+   * - Learn about CTI and how calibration works
+     - `Overview <https://github.com/PyAutoLabs/autocti_workspace/tree/main/scripts/overview>`_
+   * - Simulate or fit one-dimensional CTI data
+     - `1D datasets <https://github.com/PyAutoLabs/autocti_workspace/tree/main/scripts/dataset_1d>`_
+   * - Simulate or fit charge injection images
+     - `Charge injection imaging <https://github.com/PyAutoLabs/autocti_workspace/tree/main/scripts/imaging_ci>`_
+   * - Correct data using a CTI model
+     - `1D correction <https://github.com/PyAutoLabs/autocti_workspace/tree/main/scripts/dataset_1d/correction>`_ · `Imaging correction <https://github.com/PyAutoLabs/autocti_workspace/tree/main/scripts/imaging_ci/correction>`_
+   * - Inspect calibration results
+     - `Results <https://github.com/PyAutoLabs/autocti_workspace/tree/main/scripts/dataset_1d/results>`_
+   * - Visualise datasets and models
+     - `Plotting <https://github.com/PyAutoLabs/autocti_workspace/tree/main/scripts/plot>`_
 
-   python3 welcome.py
+Each folder has a README explaining its examples. You’ll find sample data in ``dataset/``; analysis results are written to ``output/``.
 
-Workspace Structure
--------------------
-
-The workspace includes the following main directories:
-
-- ``notebooks``: **PyAutoCTI** examples written as Jupyter notebooks.
-- ``scripts``: **PyAutoCTI** examples written as Python scripts.
-- ``config``: Configuration files which customize **PyAutoCTI**'s behaviour.
-- ``dataset``: Where data is stored, including example datasets distributed.
-- ``output``: Where the **PyAutoCTI** analysis and visualization are output.
-
-The examples in the ``notebooks`` and ``scripts`` folders are structured as follows:
-
-- ``overview``: Examples giving an overview of **PyAutoCTI**'s core features.
-
-- ``dataset_1d``: Examples for analysing and simulating 1D CTI datasets (e.g. warm pixels).
-- ``imaging_ci``: Examples for analysing and simulating CCD charge injection imaging data (e.g. Euclid).
-
-- ``results``: Examples using the results of a model-fit, including database tools which loads results from hard-disk.
-- ``plot``: An API reference guide for **PyAutoCTI**'s plotting tools.
-- ``misc``: Miscellaneous scripts for specific cti analysis.
-
-Inside these packages are packages titled ``advanced`` which only users familiar **PyAutoCTI** should check out.
-
-In the ``dataset_1d`` and ``imaging_ci`` folders you'll find the following packages:
-
-- ``correction``: Examples of how to correct data with a CTI model.
-- ``modeling``: Examples of how to fit a CTI model to data via a non-linear search.
-- ``simulators``: Scripts for simulating realistic CTI calibration datasets.
-- ``data_preparation``: Tools to preprocess CTI calibration data before an analysis (e.g. cosmic ray flagging).
-
-- ``advanced/chaining``: Advanced modeling scripts which chain together multiple non-linear searches.
-
-The files ``README.rst`` distributed throughout the workspace describe what is in each folder.
-
-Getting Started
+Learn About CTI
 ---------------
 
-We recommend new users begin with the example notebooks / scripts in the *overview* folder and the **HowToCTI**
-tutorials.
+The `overview examples <https://github.com/PyAutoLabs/autocti_workspace/tree/main/scripts/overview>`_ introduce parallel and serial charge transfer, the features CTI leaves in data, and how to fit and calibrate a CTI model.
 
-Workspace Version
------------------
+For help alongside the examples, ask the PyAutoCTI AI Assistant to explain the detector physics or walk you through a calibration.
 
-This version of the workspace is built and tested for using **PyAutoCTI v2024.5.16.0**.
+Community and Contributing
+--------------------------
 
-Contribution
-------------
-To make changes in the tutorial notebooks, please make changes in the corresponding python files(.py) present in the
-``scripts`` folder of each chapter. Please note that  marker ``# %%`` alternates between code cells and markdown cells.
+Ask questions, suggest improvements and share your work in `PyAutoLabs Discussions <https://github.com/orgs/PyAutoLabs/discussions>`_.
 
-The notebooks also carry Colab Gemini instructions in their metadata, built from the skills mapped in
-`autocti_assistant <https://github.com/PyAutoLabs/autocti_assistant>`_ ``colab/contexts.yaml``. After regenerating
-or adding notebooks, re-apply them from this workspace's root with
-``<PyAutoHands checkout>/bin/autohands gemini_context apply notebooks --project autocti --assistant-root <autocti_assistant checkout>``.
-It reports how many notebooks it stamped; ``Stamped 0 notebooks`` means it was run from the wrong folder.
+To contribute, see the `PyAutoCTI contribution guide <https://github.com/PyAutoLabs/PyAutoCTI/blob/main/CONTRIBUTING.md>`_.
 
+Citations
+---------
 
-Support
+If you use PyAutoCTI in your research, see the `citation guide <https://github.com/PyAutoLabs/PyAutoCTI/blob/main/CITATIONS.rst>`_.
+
+License
 -------
 
-Support for installation issues, help with cti modeling and using **PyAutoCTI** is available by
-`raising an issue on the autocti_workspace GitHub page <https://github.com/Jammy2211/autocti_workspace/issues>`_. or
-joining the **PyAutoCTI** `Slack channel <https://pyautocti.slack.com/>`_, where we also provide the latest updates on
-**PyAutoCTI**.
-
-Slack is invitation-only, so if you'd like to join send an `email <https://github.com/Jammy2211>`_ requesting an
-invite.
+See the `PyAutoCTI license <https://github.com/PyAutoLabs/PyAutoCTI/blob/main/LICENSE>`_.
