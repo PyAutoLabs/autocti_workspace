@@ -28,8 +28,8 @@ the `autocti_workspace/*/dataset_1d/advanced/database` package.
 # from autonerves import setup_notebook; setup_notebook()
 
 import copy
-import os
 from os import path
+from pathlib import Path
 import autofit as af
 import autocti as ac
 import autocti.plot as aplt
@@ -44,29 +44,16 @@ model-fit in this example script.
 """
 database_name = "plot_fpa"
 
-try:
-    os.remove(path.join("output", f"{database_name}.sqlite"))
-except FileNotFoundError:
-    pass
+output_root = ac.with_test_mode_segment(Path(ac.conf.instance.output_path))
+database_path = output_root / f"{database_name}.sqlite"
+database_path.unlink(missing_ok=True)
 
 agg = af.Aggregator.from_database(
-    filename=f"{database_name}.sqlite", completed_only=False
+    filename=database_path.name, completed_only=False
 )
 
-# `conf.instance.output_path` is used (rather than a literal "output") so the
-# scraped directory matches the fits, including under PYAUTO_TEST_MODE's
-# `output/test_mode` namespace.
-from pathlib import Path
-
-from autocti import conf
-from autocti import with_test_mode_segment
-
 agg.add_directory(
-    directory=path.join(
-        with_test_mode_segment(Path(conf.instance.output_path)),
-        database_name,
-        "dataset_1d",
-    )
+    directory=path.join(output_root, database_name, "dataset_1d")
 )
 
 """
@@ -193,9 +180,7 @@ The code below is purely for testing / legacy purposes and probably not of inter
 from autofit.aggregator import Aggregator as ClassicAggregator
 
 aggregator = ClassicAggregator.from_directory(
-    directory=path.join(
-        with_test_mode_segment(Path(conf.instance.output_path)), "plot_fpa"
-    )
+    directory=path.join(output_root, database_name)
 )
 
 fit_agg = ac.agg.FitDataset1DAgg(aggregator=agg, use_dataset_full=True)

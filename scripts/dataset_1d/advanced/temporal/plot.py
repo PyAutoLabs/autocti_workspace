@@ -13,7 +13,7 @@ as a function of time.
 
 import numpy as np
 from os import path
-import os
+from pathlib import Path
 import autofit as af
 import autocti as ac
 import autocti.plot as aplt
@@ -28,16 +28,15 @@ model-fit in this example script.
 """
 database_name = "temporal"
 
-try:
-    os.remove(path.join("output", f"{database_name}.sqlite"))
-except FileNotFoundError:
-    pass
+output_root = ac.with_test_mode_segment(Path(ac.conf.instance.output_path))
+database_path = output_root / f"{database_name}.sqlite"
+database_path.unlink(missing_ok=True)
 
 agg = af.Aggregator.from_database(
-    filename=f"{database_name}.sqlite", completed_only=False
+    filename=database_path.name, completed_only=False
 )
 
-agg.add_directory(directory=path.join("output", database_name))
+agg.add_directory(directory=path.join(output_root, database_name))
 
 """
 __Density Versus Time__
