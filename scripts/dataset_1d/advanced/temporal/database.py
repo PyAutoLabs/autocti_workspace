@@ -22,7 +22,9 @@ The fits performed in the `advanced/temporal/fit.py` script write their results 
 The directory aggregator reads those results directly.
 """
 output_root = ac.with_test_mode_segment(Path(ac.conf.instance.output_path))
-agg = Aggregator.from_directory(directory=output_root / "temporal", completed_only=False)
+agg = Aggregator.from_directory(
+    directory=output_root / "temporal", completed_only=False
+)
 
 """
 __Instances__

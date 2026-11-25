@@ -47,9 +47,7 @@ agg = af.Aggregator.from_database(
     filename=database_path.name, completed_only=False, top_level_only=True
 )
 
-agg.add_directory(
-    directory=path.join(output_root, database_name, "dataset_1d")
-)
+agg.add_directory(directory=path.join(output_root, database_name, "dataset_1d"))
 
 """
 __Output__

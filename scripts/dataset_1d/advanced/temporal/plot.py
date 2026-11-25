@@ -32,9 +32,7 @@ output_root = ac.with_test_mode_segment(Path(ac.conf.instance.output_path))
 database_path = output_root / f"{database_name}.sqlite"
 database_path.unlink(missing_ok=True)
 
-agg = af.Aggregator.from_database(
-    filename=database_path.name, completed_only=False
-)
+agg = af.Aggregator.from_database(filename=database_path.name, completed_only=False)
 
 agg.add_directory(directory=path.join(output_root, database_name))
 
